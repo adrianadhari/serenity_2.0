@@ -1,10 +1,7 @@
-import { useState } from "react";
 import NavLink from "./NavLink";
+import Dropdown from "./Dropdown";
 
 export default function SidebarMenu() {
-    const [isDropdownUnitOpen, setIsDropdownUnitOpen] = useState(false);
-    const [isDropdownLabOpen, setIsDropdownLabOpen] = useState(false);
-
     return (
         <div className="drawer-side">
             <label
@@ -54,15 +51,8 @@ export default function SidebarMenu() {
                         <span className="ml-4">Dashboard</span>
                     </NavLink>
 
-                    <li className="relative px-6 py-3">
-                        <button
-                            onClick={() =>
-                                setIsDropdownUnitOpen(
-                                    (previousState) => !previousState
-                                )
-                            }
-                            className="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
-                        >
+                    <Dropdown>
+                        <Dropdown.Trigger>
                             <span className="inline-flex items-center">
                                 <svg
                                     className="w-5 h-5"
@@ -78,135 +68,57 @@ export default function SidebarMenu() {
                                 </svg>
                                 <span className="ml-4">Unit</span>
                             </span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className={
-                                    !isDropdownUnitOpen
-                                        ? "flex w-4 h-4"
-                                        : "hidden"
-                                }
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
-                            </svg>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className={
-                                    !isDropdownUnitOpen
-                                        ? "hidden"
-                                        : "flex w-4 h-4"
-                                }
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M11.9999 10.8284L7.0502 15.7782L5.63599 14.364L11.9999 8L18.3639 14.364L16.9497 15.7782L11.9999 10.8284Z"></path>
-                            </svg>
-                        </button>
+                        </Dropdown.Trigger>
 
-                        <div
-                            className={!isDropdownUnitOpen ? "hidden" : "flex"}
-                        >
-                            <ul className="w-full bg-gray-50 p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner">
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Sekolah
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Institusi
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Siswa
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Magang
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Guru
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Peserta
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Publikasi
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                        <Dropdown.Content>
+                            <Dropdown.Link>Sekolah</Dropdown.Link>
+                            <Dropdown.Link>Institusi</Dropdown.Link>
+                            <Dropdown.Link>Siswa</Dropdown.Link>
+                            <Dropdown.Link>Magang</Dropdown.Link>
+                            <Dropdown.Link>Guru</Dropdown.Link>
+                            <Dropdown.Link>Peserta</Dropdown.Link>
+                            <Dropdown.Link>Publikasi</Dropdown.Link>
+                        </Dropdown.Content>
+                    </Dropdown>
 
-                    <li className="relative px-6 py-3">
-                        <a
-                            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
-                            href="modals.html"
+                    <NavLink>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            className="w-5 h-5"
+                            fill="currentColor"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                className="w-5 h-5"
-                                fill="currentColor"
-                            >
-                                <path d="M8 4H21V6H8V4ZM3 3.5H6V6.5H3V3.5ZM3 10.5H6V13.5H3V10.5ZM3 17.5H6V20.5H3V17.5ZM8 11H21V13H8V11ZM8 18H21V20H8V18Z"></path>
-                            </svg>
-                            <span className="ml-4">Kegiatan</span>
-                        </a>
-                    </li>
+                            <path d="M8 4H21V6H8V4ZM3 3.5H6V6.5H3V3.5ZM3 10.5H6V13.5H3V10.5ZM3 17.5H6V20.5H3V17.5ZM8 11H21V13H8V11ZM8 18H21V20H8V18Z"></path>
+                        </svg>
+                        <span className="ml-4">Kegiatan</span>
+                    </NavLink>
 
-                    <li className="relative px-6 py-3">
-                        <a
-                            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
-                            href="modals.html"
+                    <NavLink>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-5 h-5"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-5 h-5"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
-                            </svg>
-                            <span className="ml-4">Penelitian</span>
-                        </a>
-                    </li>
+                            <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                        </svg>
+                        <span className="ml-4">Penelitian</span>
+                    </NavLink>
 
-                    <li className="relative px-6 py-3">
-                        <a
-                            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
-                            href="modals.html"
+                    <NavLink>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-5 h-5"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-5 h-5"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M21 8V12H19V9H14V4H5V20H11V22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM13.7857 15.3269C13.8246 14.5997 14.3858 14.0083 15.11 13.9313L15.9807 13.8389C16.0841 13.8279 16.1815 13.7845 16.2589 13.715L16.9102 13.1299C17.4519 12.6431 18.2669 12.6218 18.8334 13.0795L19.5145 13.6298C19.5954 13.6951 19.6949 13.7333 19.7988 13.7389L20.6731 13.7857C21.4003 13.8246 21.9917 14.3858 22.0687 15.11L22.1611 15.9807C22.1721 16.0841 22.2155 16.1815 22.285 16.2589L22.8701 16.9102C23.3569 17.4519 23.3782 18.2669 22.9205 18.8334L22.3702 19.5145C22.3049 19.5954 22.2667 19.6949 22.2611 19.7988L22.2143 20.6731C22.1754 21.4003 21.6142 21.9917 20.89 22.0687L20.0193 22.1611C19.9159 22.1721 19.8185 22.2155 19.7411 22.285L19.0898 22.8701C18.5481 23.3569 17.7331 23.3782 17.1666 22.9205L16.4855 22.3702C16.4046 22.3049 16.3051 22.2667 16.2012 22.2611L15.3269 22.2143C14.5997 22.1754 14.0083 21.6142 13.9313 20.89L13.8389 20.0193C13.8279 19.9159 13.7845 19.8185 13.715 19.7411L13.1299 19.0898C12.6431 18.5481 12.6218 17.733 13.0795 17.1666L13.6298 16.4855C13.6951 16.4046 13.7333 16.3051 13.7389 16.2012L13.7857 15.3269ZM21.0303 17.0303L19.9697 15.9697L17.5 18.4393L16.0303 16.9697L14.9697 18.0303L17.5 20.5607L21.0303 17.0303Z"></path>
-                            </svg>
-                            <span className="ml-4">Kemitraan</span>
-                        </a>
-                    </li>
+                            <path d="M21 8V12H19V9H14V4H5V20H11V22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM13.7857 15.3269C13.8246 14.5997 14.3858 14.0083 15.11 13.9313L15.9807 13.8389C16.0841 13.8279 16.1815 13.7845 16.2589 13.715L16.9102 13.1299C17.4519 12.6431 18.2669 12.6218 18.8334 13.0795L19.5145 13.6298C19.5954 13.6951 19.6949 13.7333 19.7988 13.7389L20.6731 13.7857C21.4003 13.8246 21.9917 14.3858 22.0687 15.11L22.1611 15.9807C22.1721 16.0841 22.2155 16.1815 22.285 16.2589L22.8701 16.9102C23.3569 17.4519 23.3782 18.2669 22.9205 18.8334L22.3702 19.5145C22.3049 19.5954 22.2667 19.6949 22.2611 19.7988L22.2143 20.6731C22.1754 21.4003 21.6142 21.9917 20.89 22.0687L20.0193 22.1611C19.9159 22.1721 19.8185 22.2155 19.7411 22.285L19.0898 22.8701C18.5481 23.3569 17.7331 23.3782 17.1666 22.9205L16.4855 22.3702C16.4046 22.3049 16.3051 22.2667 16.2012 22.2611L15.3269 22.2143C14.5997 22.1754 14.0083 21.6142 13.9313 20.89L13.8389 20.0193C13.8279 19.9159 13.7845 19.8185 13.715 19.7411L13.1299 19.0898C12.6431 18.5481 12.6218 17.733 13.0795 17.1666L13.6298 16.4855C13.6951 16.4046 13.7333 16.3051 13.7389 16.2012L13.7857 15.3269ZM21.0303 17.0303L19.9697 15.9697L17.5 18.4393L16.0303 16.9697L14.9697 18.0303L17.5 20.5607L21.0303 17.0303Z"></path>
+                        </svg>
+                        <span className="ml-4">Kemitraan</span>
+                    </NavLink>
 
-                    <li className="relative px-6 py-3">
-                        <button
-                            onClick={() =>
-                                setIsDropdownLabOpen(
-                                    (previousState) => !previousState
-                                )
-                            }
-                            className="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
-                        >
+                    <Dropdown>
+                        <Dropdown.Trigger>
                             <span className="inline-flex items-center">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -220,106 +132,44 @@ export default function SidebarMenu() {
                                     Manajemen Laboratorium
                                 </span>
                             </span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className={
-                                    !isDropdownLabOpen
-                                        ? "flex w-4 h-4"
-                                        : "hidden"
-                                }
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
-                            </svg>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className={
-                                    !isDropdownLabOpen
-                                        ? "hidden"
-                                        : "flex w-4 h-4"
-                                }
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M11.9999 10.8284L7.0502 15.7782L5.63599 14.364L11.9999 8L18.3639 14.364L16.9497 15.7782L11.9999 10.8284Z"></path>
-                            </svg>
-                        </button>
+                        </Dropdown.Trigger>
 
-                        <div className={!isDropdownLabOpen ? "hidden" : "flex"}>
-                            <ul className="w-full bg-gray-50 p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner">
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Data Pelanggan
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Data Pegawai
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Data Alat Laboratorium
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Data Pra Analisa
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Data Analisis
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Data Pasca Analisa
-                                    </a>
-                                </li>
-                                <li className="px-2 py-1 transition-colors duration-150 hover:text-gray-800">
-                                    <a className="w-full" href="">
-                                        Peminjaman Alat
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                        <Dropdown.Content>
+                            <Dropdown.Link>Data Pelanggan</Dropdown.Link>
+                            <Dropdown.Link>Data Pegawai</Dropdown.Link>
+                            <Dropdown.Link>
+                                Data Alat Laboratorium
+                            </Dropdown.Link>
+                            <Dropdown.Link>Data Pra Analisa</Dropdown.Link>
+                            <Dropdown.Link>Data Analisis</Dropdown.Link>
+                            <Dropdown.Link>Data Pasca Analisa</Dropdown.Link>
+                            <Dropdown.Link>Peminjaman Alat</Dropdown.Link>
+                        </Dropdown.Content>
+                    </Dropdown>
 
-                    <li className="relative px-6 py-3">
-                        <a
-                            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
-                            href="modals.html"
+                    <NavLink>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-5 h-5"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-5 h-5"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M8 4C8 5.10457 7.10457 6 6 6 4.89543 6 4 5.10457 4 4 4 2.89543 4.89543 2 6 2 7.10457 2 8 2.89543 8 4ZM5 16V22H3V10C3 8.34315 4.34315 7 6 7 6.82059 7 7.56423 7.32946 8.10585 7.86333L10.4803 10.1057 12.7931 7.79289 14.2073 9.20711 10.5201 12.8943 9 11.4587V22H7V16H5ZM6 9C5.44772 9 5 9.44772 5 10V14H7V10C7 9.44772 6.55228 9 6 9ZM19 5H10V3H20C20.5523 3 21 3.44772 21 4V15C21 15.5523 20.5523 16 20 16H16.5758L19.3993 22H17.1889L14.3654 16H10V14H19V5Z"></path>
-                            </svg>
-                            <span className="ml-4">Pelatihan Pegawai</span>
-                        </a>
-                    </li>
+                            <path d="M8 4C8 5.10457 7.10457 6 6 6 4.89543 6 4 5.10457 4 4 4 2.89543 4.89543 2 6 2 7.10457 2 8 2.89543 8 4ZM5 16V22H3V10C3 8.34315 4.34315 7 6 7 6.82059 7 7.56423 7.32946 8.10585 7.86333L10.4803 10.1057 12.7931 7.79289 14.2073 9.20711 10.5201 12.8943 9 11.4587V22H7V16H5ZM6 9C5.44772 9 5 9.44772 5 10V14H7V10C7 9.44772 6.55228 9 6 9ZM19 5H10V3H20C20.5523 3 21 3.44772 21 4V15C21 15.5523 20.5523 16 20 16H16.5758L19.3993 22H17.1889L14.3654 16H10V14H19V5Z"></path>
+                        </svg>
+                        <span className="ml-4">Pelatihan Pegawai</span>
+                    </NavLink>
 
-                    <li className="relative px-6 py-3">
-                        <a
-                            className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
-                            href="modals.html"
+                    <NavLink>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-5 h-5"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-5 h-5"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"></path>
-                            </svg>
-                            <span className="ml-4">Kelola User</span>
-                        </a>
-                    </li>
+                            <path d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"></path>
+                        </svg>
+                        <span className="ml-4">Kelola User</span>
+                    </NavLink>
                 </ul>
             </div>
         </div>

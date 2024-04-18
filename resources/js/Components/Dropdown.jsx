@@ -1,6 +1,6 @@
-import { useState, createContext, useContext, Fragment } from 'react';
-import { Link } from '@inertiajs/react';
-import { Transition } from '@headlessui/react';
+import { useState, createContext, useContext, Fragment } from "react";
+import { Link } from "@inertiajs/react";
+import { Transition } from "@headlessui/react";
 
 const DropDownContext = createContext();
 
@@ -13,7 +13,7 @@ const Dropdown = ({ children }) => {
 
     return (
         <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
-            <div className="relative">{children}</div>
+            <li className="relative px-6">{children}</li>
         </DropDownContext.Provider>
     );
 };
@@ -23,59 +23,64 @@ const Trigger = ({ children }) => {
 
     return (
         <>
-            <div onClick={toggleOpen}>{children}</div>
+            <div
+                onClick={toggleOpen}
+                className="cursor-pointer py-3 inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800"
+            >
+                {children}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={!open ? "flex w-4 h-4" : "hidden"}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                >
+                    <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
+                </svg>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={!open ? "hidden" : "flex w-4 h-4"}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                >
+                    <path d="M11.9999 10.8284L7.0502 15.7782L5.63599 14.364L11.9999 8L18.3639 14.364L16.9497 15.7782L11.9999 10.8284Z"></path>
+                </svg>
+            </div>
 
-            {open && <div className="fixed inset-0 z-40" onClick={() => setOpen(false)}></div>}
+            {open && <div onClick={() => setOpen(false)}></div>}
         </>
     );
 };
 
-const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-white', children }) => {
+const Content = ({ children }) => {
     const { open, setOpen } = useContext(DropDownContext);
 
-    let alignmentClasses = 'origin-top';
-
-    if (align === 'left') {
-        alignmentClasses = 'ltr:origin-top-left rtl:origin-top-right start-0';
-    } else if (align === 'right') {
-        alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0';
-    }
-
-    let widthClasses = '';
-
-    if (width === '48') {
-        widthClasses = 'w-48';
-    }
-
     return (
-        <>
-            <Transition
-                as={Fragment}
-                show={open}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+        <Transition
+            as={Fragment}
+            show={open}
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+        >
+            <div
+                className="w-full bg-gray-50 p-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner"
+                onClick={() => setOpen(false)}
             >
-                <div
-                    className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
-                    onClick={() => setOpen(false)}
-                >
-                    <div className={`rounded-md ring-1 ring-black ring-opacity-5 ` + contentClasses}>{children}</div>
-                </div>
-            </Transition>
-        </>
+                {children}
+            </div>
+        </Transition>
     );
 };
 
-const DropdownLink = ({ className = '', children, ...props }) => {
+const DropdownLink = ({ className = "", children, ...props }) => {
     return (
         <Link
             {...props}
             className={
-                'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out ' +
+                "block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out " +
                 className
             }
         >
