@@ -1,42 +1,58 @@
 import { useState } from "react";
+import NavLink from "./NavLink";
 
-export default function Sidebar() {
-    const appName = import.meta.env.VITE_APP_NAME || "SERENITY";
+export default function SidebarMenu() {
     const [isDropdownUnitOpen, setIsDropdownUnitOpen] = useState(false);
     const [isDropdownLabOpen, setIsDropdownLabOpen] = useState(false);
 
     return (
-        <aside className="z-20 hidden w-72 overflow-y-auto bg-white md:block flex-shrink-0 min-h-screen">
-            <div className="py-4 text-gray-500">
-                <a className="ml-6 text-lg font-bold text-gray-800" href="#">
-                    {appName}
-                </a>
+        <div className="drawer-side">
+            <label
+                htmlFor="my-drawer-2"
+                aria-label="close sidebar"
+                className="drawer-overlay"
+            ></label>
+
+            <div className="py-4 text-gray-500 bg-white min-h-screen">
+                <div className="flex items-center justify-between px-6">
+                    <a className="text-xl font-bold text-gray-800" href="#">
+                        SERENITY
+                    </a>
+
+                    <label
+                        htmlFor="my-drawer-2"
+                        className="cursor-pointer lg:hidden"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-5 h-5"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                        >
+                            <path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path>
+                        </svg>
+                    </label>
+                </div>
 
                 <ul className="mt-6">
-                    <li className="relative px-6 py-3">
-                        <span
-                            className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                    <NavLink
+                        href={route("dashboard")}
+                        active={route().current("dashboard")}
+                    >
+                        <svg
+                            className="w-5 h-5"
                             aria-hidden="true"
-                        ></span>
-                        <a
-                            className="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800"
-                            href="index.html"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                         >
-                            <svg
-                                className="w-5 h-5"
-                                aria-hidden="true"
-                                fill="none"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                            </svg>
-                            <span className="ml-4">Dashboard</span>
-                        </a>
-                    </li>
+                            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span className="ml-4">Dashboard</span>
+                    </NavLink>
 
                     <li className="relative px-6 py-3">
                         <button
@@ -306,6 +322,6 @@ export default function Sidebar() {
                     </li>
                 </ul>
             </div>
-        </aside>
+        </div>
     );
 }

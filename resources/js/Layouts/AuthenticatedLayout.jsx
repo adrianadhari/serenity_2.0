@@ -1,19 +1,19 @@
-import Sidebar from "@/Components/Sidebar";
 import Navbar from "@/Components/Navbar";
+import SidebarMenu from "@/Components/SidebarMenu";
 
-export default function Authenticated({ children }) {
+export default function Authenticated({ children, user, titlePage }) {
     return (
-        <div className="flex h-screen bg-gray-50">
-            <Sidebar />
+        <div className="drawer lg:drawer-open">
+            <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
-            <div className="flex flex-col flex-1 w-full">
-                <Navbar />
-                <main className="h-full overflow-y-auto">
-                    <div className="container px-6 mx-auto grid">
-                        {children}
-                    </div>
+            <div className="drawer-content">
+                <Navbar user={user} titlePage={titlePage} />
+                <main className="container px-6 mx-auto bg-gray-50 min-h-screen">
+                    {children}
                 </main>
             </div>
+
+            <SidebarMenu />
         </div>
     );
 }
