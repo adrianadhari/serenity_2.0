@@ -6,7 +6,7 @@ export default function Guest({ children }) {
         <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <Link href="/">
-                    <img src={img} alt="" />
+                    <img src={img} alt="" className="w-48" />
                 </Link>
             </div>
 

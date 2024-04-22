@@ -21,7 +21,7 @@ class SekolahController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Sekolah/Create');
     }
 
     /**
