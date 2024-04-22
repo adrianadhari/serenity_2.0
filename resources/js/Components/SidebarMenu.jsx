@@ -3,7 +3,7 @@ import Dropdown from "./Dropdown";
 
 export default function SidebarMenu() {
     return (
-        <div className="drawer-side">
+        <div className="drawer-side z-20">
             <label
                 htmlFor="my-drawer-2"
                 aria-label="close sidebar"

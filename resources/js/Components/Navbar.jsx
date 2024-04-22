@@ -2,7 +2,7 @@ import { Link } from "@inertiajs/react";
 
 export default function Navbar({ user, titlePage }) {
     return (
-        <div className="navbar px-2 lg:px-6">
+        <div className="sticky top-0 z-10 bg-white navbar px-2 lg:px-6">
             <div className="flex-1 items-center gap-2">
                 <label
                     htmlFor="my-drawer-2"
