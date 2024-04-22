@@ -3,7 +3,7 @@ import Dropdown from "./Dropdown";
 
 export default function SidebarMenu() {
     return (
-        <div className="drawer-side z-20">
+        <div className="drawer-side">
             <label
                 htmlFor="my-drawer-2"
                 aria-label="close sidebar"
@@ -71,13 +71,27 @@ export default function SidebarMenu() {
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
-                            <Dropdown.Link>Sekolah</Dropdown.Link>
-                            <Dropdown.Link>Institusi</Dropdown.Link>
-                            <Dropdown.Link>Siswa</Dropdown.Link>
-                            <Dropdown.Link>Magang</Dropdown.Link>
-                            <Dropdown.Link>Guru</Dropdown.Link>
-                            <Dropdown.Link>Peserta</Dropdown.Link>
-                            <Dropdown.Link>Publikasi</Dropdown.Link>
+                            <Dropdown.Link href={route("sekolah.index")}>
+                                Sekolah
+                            </Dropdown.Link>
+                            <Dropdown.Link href={route("institusi.index")}>
+                                Institusi
+                            </Dropdown.Link>
+                            <Dropdown.Link href={route("siswa.index")}>
+                                Siswa
+                            </Dropdown.Link>
+                            <Dropdown.Link href={route("magang.index")}>
+                                Magang
+                            </Dropdown.Link>
+                            <Dropdown.Link href={route("guru.index")}>
+                                Guru
+                            </Dropdown.Link>
+                            <Dropdown.Link href={route("peserta.index")}>
+                                Peserta
+                            </Dropdown.Link>
+                            <Dropdown.Link href={route("publikasi.index")}>
+                                Publikasi
+                            </Dropdown.Link>
                         </Dropdown.Content>
                     </Dropdown>
 
