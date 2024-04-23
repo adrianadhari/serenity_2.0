@@ -1,17 +1,24 @@
-import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import Table from "@/Pages/Sekolah/Partials/Table";
 import ButtonDropdown from "@/Components/ButtonDropdown";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default function Sekolah({ auth }) {
+    const doc = new jsPDF();
+    const exportPdf = () => {
+        doc.autoTable({ html: ".p-datatable-table" });
+        doc.save("table.pdf");
+    };
+
     return (
         <AuthenticatedLayout user={auth.user} titlePage="Sekolah">
             <Head title="Sekolah" />
 
-            <div className="py-4">
+            <div className="pb-12">
                 <div className="max-w-7xl mx-auto">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between flex-wrap gap-2 my-4">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between flex-wrap gap-2 py-8">
                         <Link
                             href={route("sekolah.create")}
                             className="justify-center flex items-center px-4 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-rose-600 border border-transparent rounded-lg active:bg-rose-600 hover:bg-rose-700 focus:outline-none focus:shadow-outline-rose ease-in-out"
@@ -72,7 +79,7 @@ export default function Sekolah({ auth }) {
                                     <ButtonDropdown.Link>
                                         Excel
                                     </ButtonDropdown.Link>
-                                    <ButtonDropdown.Link>
+                                    <ButtonDropdown.Link onClick={exportPdf}>
                                         PDF
                                     </ButtonDropdown.Link>
                                     <ButtonDropdown.Link>

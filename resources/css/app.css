@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.p-checkbox-box {
+    border-width: 2px !important;
+}
