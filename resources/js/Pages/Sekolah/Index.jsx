@@ -2,16 +2,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import Table from "@/Pages/Sekolah/Partials/Table";
 import ButtonDropdown from "@/Components/ButtonDropdown";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
 
 export default function Sekolah({ auth }) {
-    const doc = new jsPDF();
-    const exportPdf = () => {
-        doc.autoTable({ html: ".p-datatable-table" });
-        doc.save("table.pdf");
-    };
-
     return (
         <AuthenticatedLayout user={auth.user} titlePage="Sekolah">
             <Head title="Sekolah" />
@@ -43,16 +35,20 @@ export default function Sekolah({ auth }) {
                                         viewBox="0 0 24 24"
                                         fill="currentColor"
                                     >
-                                        <path d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM13 9V16H11V9H6L12 3L18 9H13Z"></path>
+                                        <path d="M13 10H18L12 16L6 10H11V3H13V10ZM4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19Z"></path>
                                     </svg>
                                     <span>Import Data</span>
                                 </ButtonDropdown.Trigger>
                                 <ButtonDropdown.Content>
                                     <ButtonDropdown.Link>
-                                        Upload File
+                                        <button className="w-full text-start">
+                                            Upload File
+                                        </button>
                                     </ButtonDropdown.Link>
                                     <ButtonDropdown.Link>
-                                        Download Format
+                                        <button className="w-full text-start">
+                                            Download Format
+                                        </button>
                                     </ButtonDropdown.Link>
                                 </ButtonDropdown.Content>
                             </ButtonDropdown>
@@ -65,25 +61,20 @@ export default function Sekolah({ auth }) {
                                         viewBox="0 0 24 24"
                                         fill="currentColor"
                                     >
-                                        <path d="M13 10H18L12 16L6 10H11V3H13V10ZM4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19Z"></path>
+                                        <path d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM13 9V16H11V9H6L12 3L18 9H13Z"></path>
                                     </svg>
                                     <span>Export Data</span>
                                 </ButtonDropdown.Trigger>
                                 <ButtonDropdown.Content>
                                     <ButtonDropdown.Link>
-                                        Copy
+                                        <button className="w-full text-start">
+                                            Excel
+                                        </button>
                                     </ButtonDropdown.Link>
                                     <ButtonDropdown.Link>
-                                        CSV
-                                    </ButtonDropdown.Link>
-                                    <ButtonDropdown.Link>
-                                        Excel
-                                    </ButtonDropdown.Link>
-                                    <ButtonDropdown.Link onClick={exportPdf}>
-                                        PDF
-                                    </ButtonDropdown.Link>
-                                    <ButtonDropdown.Link>
-                                        Print
+                                        <button className="w-full text-start">
+                                            PDF
+                                        </button>
                                     </ButtonDropdown.Link>
                                 </ButtonDropdown.Content>
                             </ButtonDropdown>
