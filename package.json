@@ -21,8 +21,6 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "jspdf": "^2.5.1",
-        "jspdf-autotable": "^3.8.2",
         "primereact": "^10.6.3",
         "styled-components": "^6.1.8"
     }
