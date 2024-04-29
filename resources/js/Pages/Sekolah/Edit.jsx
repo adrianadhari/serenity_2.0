@@ -1,13 +1,13 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import React from "react";
-import CreateForm from "./Partials/CreateForm";
 import { SchoolProvider } from "./context/SchoolContext";
+import CreateForm from "./Partials/CreateForm";
 
-export default function CreateSekolah({ auth }) {
+export default function EditSekolah({ auth }) {
     return (
-        <AuthenticatedLayout user={auth.user} titlePage="Tambah Sekolah">
-            <Head title="Tambah Sekolah" />
+        <AuthenticatedLayout user={auth.user} titlePage="Edit Sekolah">
+            <Head title="Edit Sekolah" />
 
             <SchoolProvider>
                 <div className="py-4">

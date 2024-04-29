@@ -178,7 +178,7 @@ export default function Table() {
                     >
                         <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"></path>
                     </svg>
-                    Delete
+                    Hapus Data
                 </button>
                 <div className="flex items-center order-1 lg:order-2">
                     <svg
@@ -219,7 +219,10 @@ export default function Table() {
                     </svg>
                 </button>
 
-                <Link className="p-2 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green ease-in-out">
+                <Link
+                    href={route("sekolah.edit", "a")}
+                    className="p-2 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green ease-in-out"
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-4 h-4"
