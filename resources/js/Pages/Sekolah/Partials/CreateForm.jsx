@@ -5,26 +5,12 @@ import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { SchoolContext } from "../context/SchoolContext";
+import { useForm } from "@inertiajs/react";
 
-export default function CreateForm() {
-    let { state, handleFunctions, data } = useContext(SchoolContext);
+export default function CreateForm({ school, schoolCategory, schoolType }) {
+    let { state, handleFunctions } = useContext(SchoolContext);
 
-    let {
-        selectedProvince,
-        setSelectedProvince,
-        selectedCity,
-        setSelectedCity,
-        selectedSchool,
-        setSelectedSchool,
-        selectedSchoolCategory,
-        setSelectedSchoolCategory,
-        selectedSchoolType,
-        setSelectedSchoolType,
-        provinces,
-        setProvinces,
-        cities,
-        isLoading,
-    } = state;
+    let { provinces, setProvinces, cities, isLoading } = state;
 
     let {
         selectedProvinceTemplate,
@@ -39,8 +25,6 @@ export default function CreateForm() {
         schoolTypeOptionTemplate,
     } = handleFunctions;
 
-    let { school, schoolCategory, schoolType } = data;
-
     useEffect(() => {
         fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
             .then((res) => res.json())
@@ -49,31 +33,59 @@ export default function CreateForm() {
             });
     }, []);
 
+    const { data, setData, post, processing, errors } = useForm({
+        nama_sekolah: "",
+        kategori_sekolah: "",
+        jenis_sekolah: "",
+        nama_kontak: "",
+        tipe_sekolah: "",
+        provinsi: "",
+        kota: "",
+        email: "",
+        alamat_sekolah: "",
+        telp: "",
+        tgl_registrasi: "",
+    });
+
+    const storeSchool = async (e) => {
+        e.preventDefault();
+
+        post(route("sekolah.store"));
+    };
+
     return (
         <form
-            method="POST"
+            onSubmit={storeSchool}
             className="max-w-7xl mx-auto p-4 bg-white shadow-lg rounded border-t-4 border-t-rose-600"
         >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
-                    <InputLabel htmlFor="nama_sekolah" value="Nama Sekolah" />
+                    <InputLabel value="Nama Sekolah" />
 
                     <TextInput
-                        id="nama_sekolah"
                         type="text"
-                        name="nama_sekolah"
                         className="mt-1 block w-full"
                         placeholder="Masukkan nama sekolah"
+                        required
+                        value={data.nama_sekolah}
+                        onChange={(e) =>
+                            setData("nama_sekolah", e.target.value)
+                        }
                     />
 
-                    <InputError className="mt-2" />
+                    <InputError
+                        message={errors.nama_sekolah}
+                        className="mt-2"
+                    />
                 </div>
 
                 <div className="form-control">
                     <InputLabel value="Jenis Sekolah" />
+
                     <Dropdown
-                        value={selectedSchool}
-                        onChange={(e) => setSelectedSchool(e.value)}
+                        required
+                        value={data.jenis_sekolah}
+                        onChange={(e) => setData("jenis_sekolah", e.value)}
                         options={school}
                         optionLabel="name"
                         placeholder="-- Pilih Jenis --"
@@ -84,13 +96,20 @@ export default function CreateForm() {
                         itemTemplate={schoolOptionTemplate}
                         className="mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm"
                     />
+
+                    <InputError
+                        message={errors.jenis_sekolah}
+                        className="mt-2"
+                    />
                 </div>
 
                 <div className="form-control">
                     <InputLabel value="Kategori Sekolah" />
+
                     <Dropdown
-                        value={selectedSchoolCategory}
-                        onChange={(e) => setSelectedSchoolCategory(e.value)}
+                        required
+                        value={data.kategori_sekolah}
+                        onChange={(e) => setData("kategori_sekolah", e.value)}
                         options={schoolCategory}
                         optionLabel="name"
                         placeholder="-- Pilih Kategori Sekolah --"
@@ -101,13 +120,20 @@ export default function CreateForm() {
                         itemTemplate={schoolCategoryOptionTemplate}
                         className="mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm"
                     />
+
+                    <InputError
+                        message={errors.kategori_sekolah}
+                        className="mt-2"
+                    />
                 </div>
 
                 <div className="form-control">
                     <InputLabel value="Negeri / Swasta" />
+
                     <Dropdown
-                        value={selectedSchoolType}
-                        onChange={(e) => setSelectedSchoolType(e.value)}
+                        required
+                        value={data.tipe_sekolah}
+                        onChange={(e) => setData("tipe_sekolah", e.value)}
                         options={schoolType}
                         optionLabel="name"
                         placeholder="-- Pilih Negeri/Swasta --"
@@ -118,13 +144,20 @@ export default function CreateForm() {
                         itemTemplate={schoolTypeOptionTemplate}
                         className="mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm"
                     />
+
+                    <InputError
+                        message={errors.tipe_sekolah}
+                        className="mt-2"
+                    />
                 </div>
 
                 <div className="form-control">
                     <InputLabel value="Provinsi" />
+
                     <Dropdown
-                        value={selectedProvince}
-                        onChange={(e) => setSelectedProvince(e.value)}
+                        required
+                        value={data.provinsi}
+                        onChange={(e) => setData("provinsi", e.value)}
                         options={provinces}
                         optionLabel="name"
                         placeholder="-- Pilih Provinsi --"
@@ -135,13 +168,17 @@ export default function CreateForm() {
                         itemTemplate={provinceOptionTemplate}
                         className="mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm"
                     />
+
+                    <InputError message={errors.provinsi} className="mt-2" />
                 </div>
 
                 <div className={`${isLoading ? "" : "hidden"} form-control`}>
                     <InputLabel value="Kota / Kabupaten" />
+
                     <Dropdown
-                        value={selectedCity}
-                        onChange={(e) => setSelectedCity(e.value)}
+                        required
+                        value={data.kota}
+                        onChange={(e) => setData("kota", e.value)}
                         options={cities}
                         optionLabel="name"
                         placeholder="-- Pilih Kota/Kabupaten --"
@@ -152,6 +189,8 @@ export default function CreateForm() {
                         itemTemplate={cityOptionTemplate}
                         className="mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm"
                     />
+
+                    <InputError message={errors.kota} className="mt-2" />
                 </div>
             </div>
 
@@ -159,88 +198,107 @@ export default function CreateForm() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
-                    <InputLabel
-                        htmlFor="nama_kontak_sekolah"
-                        value="Nama Kontak Sekolah"
-                    />
+                    <InputLabel value="Nama Kontak Sekolah" />
 
                     <TextInput
-                        id="nama_kontak_sekolah"
                         type="text"
-                        name="nama_kontak_sekolah"
                         className="mt-1 block w-full"
                         placeholder="Masukkan nama kontak sekolah"
+                        value={data.nama_kontak}
+                        onChange={(e) => setData("nama_kontak", e.target.value)}
+                        required
                     />
 
-                    <InputError className="mt-2" />
+                    <InputError message={errors.nama_kontak} className="mt-2" />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="form-control">
-                        <InputLabel
-                            htmlFor="email_sekolah"
-                            value="Email Sekolah"
-                        />
+                        <InputLabel value="Email Sekolah" />
 
                         <TextInput
-                            id="email_sekolah"
                             type="email"
-                            name="email_sekolah"
                             className="mt-1 block w-full"
                             placeholder="Masukkan email sekolah"
+                            required
+                            value={data.email}
+                            onChange={(e) => setData("email", e.target.value)}
                         />
 
-                        <InputError className="mt-2" />
+                        <InputError message={errors.email} className="mt-2" />
                     </div>
 
                     <div className="form-control">
-                        <InputLabel
-                            htmlFor="telepon_sekolah"
-                            value="Telepon Sekolah"
-                        />
+                        <InputLabel value="Telepon Sekolah" />
 
                         <TextInput
-                            id="telepon_sekolah"
                             type="number"
-                            name="telepon_sekolah"
                             className="mt-1 block w-full"
                             placeholder="Masukkan telepon sekolah"
+                            required
+                            value={data.telp}
+                            onChange={(e) => setData("telp", e.target.value)}
                         />
 
-                        <InputError className="mt-2" />
+                        <InputError message={errors.telp} className="mt-2" />
                     </div>
                 </div>
 
                 <div className="form-control">
-                    <InputLabel htmlFor="alamat" value="Alamat" />
+                    <InputLabel value="Alamat" />
+
                     <textarea
                         className="textarea textarea-bordered h-24 mt-1"
                         placeholder="Masukkan alamat sekolah"
-                        name="alamat"
-                        id="alamat"
+                        required
+                        onChange={(e) =>
+                            setData("alamat_sekolah", e.target.value)
+                        }
+                        value={data.alamat_sekolah}
                     ></textarea>
+
+                    <InputError
+                        message={errors.alamat_sekolah}
+                        className="mt-2"
+                    />
                 </div>
 
                 <div className="form-control">
-                    <InputLabel
-                        htmlFor="tanggal_daftar"
-                        value="Tanggal Daftar"
-                    />
+                    <InputLabel value="Tanggal Daftar" />
 
                     <TextInput
-                        id="tanggal_daftar"
                         type="date"
-                        name="tanggal_daftar"
                         className="mt-1 block w-full"
+                        required
+                        value={data.tgl_registrasi}
+                        onChange={(e) =>
+                            setData("tgl_registrasi", e.target.value)
+                        }
                     />
 
-                    <InputError className="mt-2" />
+                    <InputError
+                        message={errors.tgl_registrasi}
+                        className="mt-2"
+                    />
                 </div>
             </div>
 
             <div className="flex justify-end">
-                <PrimaryButton className="mt-8 w-1/6 justify-center">
+                <PrimaryButton
+                    className="mt-8 w-1/6 justify-center"
+                    disabled={processing}
+                >
                     Simpan Data
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`${
+                            processing ? "" : "hidden"
+                        } animate-spin h-5 w-5 ml-2`}
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path d="M18.364 5.63604L16.9497 7.05025C15.683 5.7835 13.933 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12H21C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.4853 3 16.7353 4.00736 18.364 5.63604Z"></path>
+                    </svg>
                 </PrimaryButton>
             </div>
         </form>

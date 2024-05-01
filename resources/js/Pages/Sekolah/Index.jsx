@@ -2,13 +2,31 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import Table from "@/Pages/Sekolah/Partials/Table";
 import ButtonDropdown from "@/Components/ButtonDropdown";
+import { useRef } from "react";
+import { useMountEffect } from "primereact/hooks";
+import { Toast } from "primereact/toast";
 
-export default function Sekolah({ auth }) {
+export default function Sekolah({ auth, flash }) {
+    const toast = useRef(null);
+
+    useMountEffect(() => {
+        if (flash.message) {
+            toast.current.show([
+                {
+                    severity: "success",
+                    summary: flash.message,
+                },
+            ]);
+        }
+    });
+
     return (
         <AuthenticatedLayout user={auth.user} titlePage="Sekolah">
             <Head title="Sekolah" />
 
             <div className="pb-12">
+                <Toast ref={toast} />
+
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row md:items-center justify-between flex-wrap gap-2 py-8">
                         <Link
@@ -80,6 +98,7 @@ export default function Sekolah({ auth }) {
                             </ButtonDropdown>
                         </div>
                     </div>
+
                     <Table />
                 </div>
             </div>

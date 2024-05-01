@@ -12,32 +12,6 @@ export const SchoolProvider = (props) => {
     const [cities, setCities] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const school = [
-        { name: "KB (Kelompok Bermain)" },
-        { name: "PAUD" },
-        { name: "TK (Taman Kanak-Kanak)" },
-        { name: "SD" },
-        { name: "SMP" },
-        { name: "SMA" },
-        { name: "SMK" },
-        { name: "SPS" },
-        { name: "MI" },
-        { name: "MTS" },
-        { name: "MA" },
-        { name: "RA (Raudhatul Athfal)" },
-        { name: "DINAS" },
-        { name: "Universitas" },
-        { name: "Lainnya" },
-    ];
-
-    const schoolCategory = [
-        { name: "Madya" },
-        { name: "Utama" },
-        { name: "Pari Purna" },
-    ];
-
-    const schoolType = [{ name: "NEGERI" }, { name: "SWASTA" }];
-
     const selectedProvinceTemplate = (option, props) => {
         if (option) {
             fetch(
@@ -73,38 +47,38 @@ export const SchoolProvider = (props) => {
 
     const selectedSchoolTemplate = (option, props) => {
         if (option) {
-            return <div className="text-sm">{option.name}</div>;
+            return <div className="text-sm">{option}</div>;
         }
 
         return <span>{props.placeholder}</span>;
     };
 
     const schoolOptionTemplate = (option) => {
-        return <div className="text-sm">{option.name}</div>;
+        return <div className="text-sm">{option}</div>;
     };
 
     const selectedSchoolCategoryTemplate = (option, props) => {
         if (option) {
-            return <div className="text-sm">{option.name}</div>;
+            return <div className="text-sm">{option}</div>;
         }
 
         return <span>{props.placeholder}</span>;
     };
 
     const schoolCategoryOptionTemplate = (option) => {
-        return <div className="text-sm">{option.name}</div>;
+        return <div className="text-sm">{option}</div>;
     };
 
     const selectedSchoolTypeTemplate = (option, props) => {
         if (option) {
-            return <div className="text-sm">{option.name}</div>;
+            return <div className="text-sm">{option}</div>;
         }
 
         return <span>{props.placeholder}</span>;
     };
 
     const schoolTypeOptionTemplate = (option) => {
-        return <div className="text-sm">{option.name}</div>;
+        return <div className="text-sm">{option}</div>;
     };
 
     let state = {
@@ -139,18 +113,11 @@ export const SchoolProvider = (props) => {
         schoolTypeOptionTemplate,
     };
 
-    let data = {
-        school,
-        schoolCategory,
-        schoolType,
-    };
-
     return (
         <SchoolContext.Provider
             value={{
                 state,
                 handleFunctions,
-                data,
             }}
         >
             {props.children}

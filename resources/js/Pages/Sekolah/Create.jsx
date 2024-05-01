@@ -4,7 +4,12 @@ import React from "react";
 import CreateForm from "./Partials/CreateForm";
 import { SchoolProvider } from "./context/SchoolContext";
 
-export default function CreateSekolah({ auth }) {
+export default function CreateSekolah({
+    auth,
+    school,
+    schoolCategory,
+    schoolType,
+}) {
     return (
         <AuthenticatedLayout user={auth.user} titlePage="Tambah Sekolah">
             <Head title="Tambah Sekolah" />
@@ -28,7 +33,11 @@ export default function CreateSekolah({ auth }) {
                         </Link>
                     </div>
 
-                    <CreateForm />
+                    <CreateForm
+                        school={school}
+                        schoolCategory={schoolCategory}
+                        schoolType={schoolType}
+                    />
                 </div>
             </SchoolProvider>
         </AuthenticatedLayout>
