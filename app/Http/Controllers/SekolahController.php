@@ -21,7 +21,10 @@ class SekolahController extends Controller
 
     public function index()
     {
-        return Inertia::render('Sekolah/Index');
+        $schools = School::latest()->get();
+        return Inertia::render('Sekolah/Index', [
+            'schools' => $schools
+        ]);
     }
 
     /**

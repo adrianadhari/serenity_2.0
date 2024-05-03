@@ -1,12 +1,12 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
-import Table from "@/Pages/Sekolah/Partials/Table";
 import ButtonDropdown from "@/Components/ButtonDropdown";
 import { useRef } from "react";
 import { useMountEffect } from "primereact/hooks";
 import { Toast } from "primereact/toast";
+import SchoolsTable from "./Partials/SchoolsTable";
 
-export default function Sekolah({ auth, flash }) {
+export default function Sekolah({ auth, flash, schools }) {
     const toast = useRef(null);
 
     useMountEffect(() => {
@@ -99,7 +99,7 @@ export default function Sekolah({ auth, flash }) {
                         </div>
                     </div>
 
-                    <Table />
+                    <SchoolsTable schools={schools} />
                 </div>
             </div>
         </AuthenticatedLayout>
