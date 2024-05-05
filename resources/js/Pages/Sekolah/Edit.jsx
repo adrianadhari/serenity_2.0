@@ -2,9 +2,15 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import React from "react";
 import { SchoolProvider } from "./context/SchoolContext";
-import CreateForm from "./Partials/CreateForm";
+import EditForm from "./Partials/EditForm";
 
-export default function EditSekolah({ auth }) {
+export default function EditSekolah({
+    auth,
+    schoolDetail,
+    school,
+    schoolCategory,
+    schoolType,
+}) {
     return (
         <AuthenticatedLayout user={auth.user} titlePage="Edit Sekolah">
             <Head title="Edit Sekolah" />
@@ -28,7 +34,12 @@ export default function EditSekolah({ auth }) {
                         </Link>
                     </div>
 
-                    <CreateForm />
+                    <EditForm
+                        schoolDetail={schoolDetail}
+                        school={school}
+                        schoolCategory={schoolCategory}
+                        schoolType={schoolType}
+                    />
                 </div>
             </SchoolProvider>
         </AuthenticatedLayout>

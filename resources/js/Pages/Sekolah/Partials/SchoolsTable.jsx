@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import { Dialog } from "primereact/dialog";
+import DangerButton from "@/Components/DangerButton";
+import { Toast } from "primereact/toast";
 
 export default function SchoolsTable({ schools }) {
     const [datas, setDatas] = useState(null);
@@ -13,6 +15,7 @@ export default function SchoolsTable({ schools }) {
     const [data, setData] = useState(null);
     const [selectedDatas, setSelectedDatas] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
+    const toast = useRef(null);
 
     useEffect(() => {
         setDatas(schools);
@@ -30,6 +33,25 @@ export default function SchoolsTable({ schools }) {
     const confirmDetailData = (data) => {
         setData(data);
         setDetailDataModal(true);
+    };
+
+    const { delete: destroy, processing } = useForm();
+
+    const deleteSchool = (e) => {
+        e.preventDefault();
+        let _schools = datas.filter((val) => val.id !== data.id);
+
+        destroy(route("sekolah.destroy", data.kode_sekolah), {
+            preserveScroll: true,
+            onSuccess: () => setDeleteDataModal(false),
+            onFinish: () => {
+                setDatas(_schools);
+                toast.current.show({
+                    severity: "success",
+                    summary: "Sekolah Berhasil Dihapus",
+                });
+            },
+        });
     };
 
     const actionBodyTemplate = (rowData) => {
@@ -50,7 +72,7 @@ export default function SchoolsTable({ schools }) {
                 </button>
 
                 <Link
-                    href={route("sekolah.edit", "a")}
+                    href={route("sekolah.edit", rowData.kode_sekolah)}
                     className="p-2 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green ease-in-out"
                 >
                     <svg
@@ -125,6 +147,8 @@ export default function SchoolsTable({ schools }) {
 
     return (
         <>
+            <Toast ref={toast} />
+
             <div className="card shadow-lg">
                 <DataTable
                     value={datas}
@@ -138,7 +162,7 @@ export default function SchoolsTable({ schools }) {
                     removableSort
                     selection={selectedDatas}
                     onSelectionChange={(e) => setSelectedDatas(e.value)}
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} schools"
+                    currentPageReportTemplate="Menampilkan {first} sampai {last} dari {totalRecords} sekolah"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
                 >
                     <Column selectionMode="multiple" />
@@ -247,7 +271,10 @@ export default function SchoolsTable({ schools }) {
                 draggable={false}
             >
                 {data && (
-                    <div className="flex flex-col items-center gap-2">
+                    <form
+                        onSubmit={deleteSchool}
+                        className="flex flex-col items-center gap-2"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -256,6 +283,7 @@ export default function SchoolsTable({ schools }) {
                         >
                             <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 15H13V17H11V15ZM11 7H13V13H11V7Z"></path>
                         </svg>
+
                         <p className="font-medium text-lg">
                             Anda yakin ingin menghapus data{" "}
                             <span className="font-semibold">
@@ -263,13 +291,26 @@ export default function SchoolsTable({ schools }) {
                             </span>
                             ?
                         </p>
-                        <button
-                            onClick={() => confirmDeleteData(rowData)}
-                            className="py-1 w-1/3 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red ease-in-out"
-                        >
-                            Ya, Hapus
-                        </button>
-                    </div>
+
+                        <div className="flex items-center">
+                            <DangerButton
+                                className="mt-2"
+                                disabled={processing}
+                            >
+                                Ya, Hapus
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className={`${
+                                        processing ? "" : "hidden"
+                                    } animate-spin h-5 w-5 ml-2`}
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path d="M18.364 5.63604L16.9497 7.05025C15.683 5.7835 13.933 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12H21C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.4853 3 16.7353 4.00736 18.364 5.63604Z"></path>
+                                </svg>
+                            </DangerButton>
+                        </div>
+                    </form>
                 )}
             </Dialog>
 
@@ -291,10 +332,7 @@ export default function SchoolsTable({ schools }) {
                     <p className="font-medium text-lg">
                         Anda yakin ingin menghapus data yang dipilih?
                     </p>
-                    <button
-                        onClick={() => confirmDeleteData(rowData)}
-                        className="py-1 w-1/3 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red ease-in-out"
-                    >
+                    <button className="py-1 w-1/3 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red ease-in-out">
                         Ya, Hapus
                     </button>
                 </div>

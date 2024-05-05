@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SchoolRequest;
 use App\Models\School;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -42,24 +43,11 @@ class SekolahController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SchoolRequest $request)
     {
-        $school = $request->validate([
-            'nama_sekolah' => ['required', 'string', 'max:255', 'unique:' . School::class],
-            'kategori_sekolah' => ['required', Rule::in($this->schoolData['category'])],
-            'jenis_sekolah' => ['required', Rule::in($this->schoolData['school'])],
-            'tipe_sekolah' => ['required', Rule::in($this->schoolData['type'])],
-            'provinsi' => ['required', 'max:255'],
-            'kota' => ['required', 'max:255'],
-            'alamat_sekolah' => ['required', 'string'],
-            'nama_kontak' => ['required', 'max:255', 'string'],
-            'telp' => ['required', 'max:13', 'string'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
-            'tgl_registrasi' => ['required', 'date'],
-        ]);
+        $school = $request->all();
 
-        $kode_sekolah = 'S' . time();
-        $school['kode_sekolah'] = $kode_sekolah;
+        $school['kode_sekolah'] = 'S' . time();
         $school['provinsi'] = $school['provinsi']['name'];
         $school['kota'] = $school['kota']['name'];
 
@@ -68,34 +56,36 @@ class SekolahController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit($id)
     {
-        return Inertia::render('Sekolah/Edit');
+        $school = School::where('kode_sekolah', $id)->first();
+        return Inertia::render('Sekolah/Edit', [
+            'schoolDetail' => $school,
+            'school' => $this->schoolData['school'],
+            'schoolCategory' => $this->schoolData['category'],
+            'schoolType' => $this->schoolData['type']
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SchoolRequest $request, $id)
     {
-        //
+        $school = School::where('kode_sekolah', $id)->first();
+        $school->update($request->all());
+        return redirect()->route('sekolah.index')->with('message', 'Sekolah Berhasil Diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $school = School::where('kode_sekolah', $id)->first();
+        $school->delete();
+        return back();
     }
 }
