@@ -26,6 +26,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/sekolah', SekolahController::class);
+    Route::post('/sekolah/import', [SekolahController::class, 'import'])->name('sekolah.import');
+    Route::get('/sekolah/export', [SekolahController::class, 'export'])->name('sekolah.export');
+
     Route::resource('/institusi', InstitusiController::class);
     Route::resource('/siswa', SiswaController::class);
     Route::resource('/magang', MagangController::class);

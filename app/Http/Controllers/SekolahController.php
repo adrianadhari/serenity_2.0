@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SchoolExport;
 use App\Http\Requests\SchoolRequest;
+use App\Imports\SchoolImport;
 use App\Models\School;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SekolahController extends Controller
 {
@@ -20,7 +22,7 @@ class SekolahController extends Controller
         $this->schoolData = School::getSchoolData();
     }
 
-    public function index()
+    public function index(): Response
     {
         $schools = School::latest()->get();
         return Inertia::render('Sekolah/Index', [
@@ -31,7 +33,7 @@ class SekolahController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Sekolah/Create', [
             'school' => $this->schoolData['school'],
@@ -43,7 +45,7 @@ class SekolahController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SchoolRequest $request)
+    public function store(SchoolRequest $request): RedirectResponse
     {
         $school = $request->all();
 
@@ -58,7 +60,7 @@ class SekolahController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id): Response
     {
         $school = School::where('kode_sekolah', $id)->first();
         return Inertia::render('Sekolah/Edit', [
@@ -72,7 +74,7 @@ class SekolahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SchoolRequest $request, $id)
+    public function update(SchoolRequest $request, $id): RedirectResponse
     {
         $school = School::where('kode_sekolah', $id)->first();
         $school->update($request->all());
@@ -82,10 +84,30 @@ class SekolahController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         $school = School::where('kode_sekolah', $id)->first();
         $school->delete();
         return back();
+    }
+
+    public function import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'file' => ['required', 'mimes:csv,xls,xlsx']
+        ]);
+
+        $file = $request->file('file');
+        $nama_file = $file->hashName();
+        $file->storeAs('public/excel/', $nama_file);
+        Excel::import(new SchoolImport(), storage_path('app/public/excel/' . $nama_file));
+        Storage::delete('public/excel/' . $nama_file);
+
+        return redirect();
+    }
+
+    public function export()
+    {
+        return Excel::download(new SchoolExport(), 'users.xlsx');
     }
 }
