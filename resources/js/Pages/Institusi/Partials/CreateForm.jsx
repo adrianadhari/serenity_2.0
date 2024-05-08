@@ -6,6 +6,8 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { Dropdown } from "primereact/dropdown";
 import PrimaryButton from "@/Components/PrimaryButton";
+import TextArea from "@/Components/TextArea";
+import Spinner from "@/Components/Spinner";
 
 export default function CreateForm({ negara, jenis, grup }) {
     let { handleFunctions } = useContext(InstitutionContext);
@@ -37,19 +39,14 @@ export default function CreateForm({ negara, jenis, grup }) {
     };
 
     return (
-        <form
-            onSubmit={storeInstitution}
-            className="max-w-7xl mx-auto p-4 bg-white shadow-lg rounded border-t-4 border-t-rose-600"
-        >
+        <form onSubmit={storeInstitution} className="form-card">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
                     <InputLabel value="Nama Institusi" />
 
                     <TextInput
                         type="text"
-                        className="mt-1 block w-full"
                         placeholder="Masukkan nama institusi"
-                        required
                         value={data.nama}
                         onChange={(e) => setData("nama", e.target.value)}
                     />
@@ -72,7 +69,7 @@ export default function CreateForm({ negara, jenis, grup }) {
                         highlightOnSelect={false}
                         valueTemplate={selectedNegaraTemplate}
                         itemTemplate={negaraOptionTemplate}
-                        className="mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm"
+                        className="border-gray"
                     />
 
                     <InputError message={errors.negara} className="mt-2" />
@@ -93,7 +90,7 @@ export default function CreateForm({ negara, jenis, grup }) {
                         highlightOnSelect={false}
                         valueTemplate={selectedGrupTemplate}
                         itemTemplate={grupOptionTemplate}
-                        className="mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm"
+                        className="border-gray"
                     />
 
                     <InputError message={errors.grup} className="mt-2" />
@@ -114,7 +111,7 @@ export default function CreateForm({ negara, jenis, grup }) {
                         highlightOnSelect={false}
                         valueTemplate={selectedJenisTemplate}
                         itemTemplate={jenisOptionTemplate}
-                        className="mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm"
+                        className="border-gray"
                     />
 
                     <InputError message={errors.jenis} className="mt-2" />
@@ -129,9 +126,7 @@ export default function CreateForm({ negara, jenis, grup }) {
 
                     <TextInput
                         type="email"
-                        className="mt-1 block w-full"
                         placeholder="Masukkan email institusi"
-                        required
                         value={data.email}
                         onChange={(e) => setData("email", e.target.value)}
                     />
@@ -144,9 +139,7 @@ export default function CreateForm({ negara, jenis, grup }) {
 
                     <TextInput
                         type="number"
-                        className="mt-1 block w-full"
                         placeholder="Masukkan telepon institusi"
-                        required
                         value={data.telp}
                         onChange={(e) => setData("telp", e.target.value)}
                     />
@@ -157,13 +150,11 @@ export default function CreateForm({ negara, jenis, grup }) {
                 <div className="form-control">
                     <InputLabel value="Alamat" />
 
-                    <textarea
-                        className="textarea textarea-bordered h-24 mt-1"
+                    <TextArea
                         placeholder="Masukkan institusi"
-                        required
                         onChange={(e) => setData("alamat", e.target.value)}
                         value={data.alamat}
-                    ></textarea>
+                    />
 
                     <InputError message={errors.alamat} className="mt-2" />
                 </div>
@@ -173,8 +164,6 @@ export default function CreateForm({ negara, jenis, grup }) {
 
                     <TextInput
                         type="date"
-                        className="mt-1 block w-full"
-                        required
                         value={data.tgl_registrasi}
                         onChange={(e) =>
                             setData("tgl_registrasi", e.target.value)
@@ -190,20 +179,11 @@ export default function CreateForm({ negara, jenis, grup }) {
 
             <div className="flex justify-end">
                 <PrimaryButton
-                    className="mt-8 w-1/6 justify-center"
+                    className="mt-8 w-1/6 justify-center py-2 btn-danger"
                     disabled={processing}
                 >
                     Simpan Data
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className={`${
-                            processing ? "" : "hidden"
-                        } animate-spin h-5 w-5 ml-2`}
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                    >
-                        <path d="M18.364 5.63604L16.9497 7.05025C15.683 5.7835 13.933 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12H21C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.4853 3 16.7353 4.00736 18.364 5.63604Z"></path>
-                    </svg>
+                    <Spinner isLoading={processing} />
                 </PrimaryButton>
             </div>
         </form>

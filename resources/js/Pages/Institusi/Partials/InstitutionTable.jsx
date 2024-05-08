@@ -4,8 +4,9 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Link, useForm } from "@inertiajs/react";
 import { Dialog } from "primereact/dialog";
-import DangerButton from "@/Components/DangerButton";
 import { Toast } from "primereact/toast";
+import Spinner from "@/Components/Spinner";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function InstitutionTable({ institutions }) {
     const [datas, setDatas] = useState(null);
@@ -59,7 +60,7 @@ export default function InstitutionTable({ institutions }) {
             <div className="flex items-center gap-1">
                 <button
                     onClick={() => confirmDetailData(rowData)}
-                    className="p-2 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-md active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue ease-in-out"
+                    className="p-2 btn-info"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +74,7 @@ export default function InstitutionTable({ institutions }) {
 
                 <Link
                     href={route("institusi.edit", rowData.kode)}
-                    className="p-2 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green ease-in-out"
+                    className="p-2 btn-success"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +88,7 @@ export default function InstitutionTable({ institutions }) {
 
                 <button
                     onClick={() => confirmDeleteData(rowData)}
-                    className="p-2 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red ease-in-out"
+                    className="p-2 btn-danger"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +115,7 @@ export default function InstitutionTable({ institutions }) {
                 onClick={confirmDeleteSelected}
                 className={`${
                     !selectedDatas || !selectedDatas.length ? "hidden" : "flex"
-                } items-center gap-2 py-1 order-2 lg:order-1 lg:w-1/6 w-full justify-center text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red ease-in-out`}
+                } items-center gap-2 py-2 order-2 lg:order-1 lg:w-1/6 w-full justify-center btn-danger`}
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -264,22 +265,13 @@ export default function InstitutionTable({ institutions }) {
                         </p>
 
                         <div className="flex items-center">
-                            <DangerButton
-                                className="mt-2"
+                            <PrimaryButton
+                                className="mt-2 px-4 py-2 btn-danger"
                                 disabled={processing}
                             >
                                 Ya, Hapus
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className={`${
-                                        processing ? "" : "hidden"
-                                    } animate-spin h-5 w-5 ml-2`}
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                >
-                                    <path d="M18.364 5.63604L16.9497 7.05025C15.683 5.7835 13.933 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12H21C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.4853 3 16.7353 4.00736 18.364 5.63604Z"></path>
-                                </svg>
-                            </DangerButton>
+                                <Spinner isLoading={processing} />
+                            </PrimaryButton>
                         </div>
                     </form>
                 )}
@@ -304,19 +296,13 @@ export default function InstitutionTable({ institutions }) {
                         Anda yakin ingin menghapus data yang dipilih?
                     </p>
                     <div className="flex items-center">
-                        <DangerButton className="mt-2" disabled={processing}>
+                        <PrimaryButton
+                            className="mt-2 px-4 py-2 btn-danger"
+                            disabled={processing}
+                        >
                             Ya, Hapus
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className={`${
-                                    processing ? "" : "hidden"
-                                } animate-spin h-5 w-5 ml-2`}
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M18.364 5.63604L16.9497 7.05025C15.683 5.7835 13.933 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12H21C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.4853 3 16.7353 4.00736 18.364 5.63604Z"></path>
-                            </svg>
-                        </DangerButton>
+                            <Spinner isLoading={processing} />
+                        </PrimaryButton>
                     </div>
                 </div>
             </Dialog>

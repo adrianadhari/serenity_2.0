@@ -2,6 +2,8 @@ import NavLink from "./NavLink";
 import Dropdown from "./Dropdown";
 
 export default function SidebarMenu() {
+    const appName = import.meta.env.VITE_APP_NAME || "Laravel";
+
     return (
         <div className="drawer-side z-20">
             <label
@@ -13,7 +15,7 @@ export default function SidebarMenu() {
             <div className="py-4 text-gray-500 bg-white min-h-screen">
                 <div className="flex items-center justify-between px-6">
                     <a className="text-xl font-bold text-gray-800" href="#">
-                        SERENITY
+                        {appName}
                     </a>
 
                     <label
@@ -173,7 +175,10 @@ export default function SidebarMenu() {
                         <span className="ml-4">Pelatihan Pegawai</span>
                     </NavLink>
 
-                    <NavLink>
+                    <NavLink
+                        href={route("register")}
+                        active={route().current("register")}
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-5 h-5"

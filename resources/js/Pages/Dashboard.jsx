@@ -2,9 +2,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
 export default function Dashboard({ auth }) {
+    const title = "Dashboard";
+
     return (
-        <AuthenticatedLayout user={auth.user} titlePage="Dashboard">
-            <Head title="Dashboard" />
+        <AuthenticatedLayout user={auth.user} titlePage={title}>
+            <Head title={title} />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto">
