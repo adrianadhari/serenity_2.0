@@ -5,10 +5,10 @@ import { InputText } from "primereact/inputtext";
 import { Link, useForm } from "@inertiajs/react";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
-import PrimaryButton from "@/Components/PrimaryButton";
 import Spinner from "@/Components/Spinner";
+import PrimaryButton from "@/Components/PrimaryButton";
 
-export default function SchoolsTable({ schools }) {
+export default function InstitutionTable({ institutions }) {
     const [datas, setDatas] = useState(null);
     const [deleteDataModal, setDeleteDataModal] = useState(false);
     const [deleteDatasModal, setDeleteDatasModal] = useState(false);
@@ -19,7 +19,7 @@ export default function SchoolsTable({ schools }) {
     const toast = useRef(null);
 
     useEffect(() => {
-        setDatas(schools);
+        setDatas(institutions);
     }, []);
 
     const confirmDeleteData = (data) => {
@@ -38,18 +38,18 @@ export default function SchoolsTable({ schools }) {
 
     const { delete: destroy, processing } = useForm();
 
-    const deleteSchool = (e) => {
+    const deleteInstitution = (e) => {
         e.preventDefault();
-        let _schools = datas.filter((val) => val.id !== data.id);
+        let _institutions = datas.filter((val) => val.id !== data.id);
 
-        destroy(route("sekolah.destroy", data.kode_sekolah), {
+        destroy(route("institusi.destroy", data.kode), {
             preserveScroll: true,
             onSuccess: () => setDeleteDataModal(false),
             onFinish: () => {
-                setDatas(_schools);
+                setDatas(_institutions);
                 toast.current.show({
                     severity: "success",
-                    summary: "Sekolah Berhasil Dihapus",
+                    summary: "Institusi Berhasil Dihapus",
                 });
             },
         });
@@ -73,7 +73,7 @@ export default function SchoolsTable({ schools }) {
                 </button>
 
                 <Link
-                    href={route("sekolah.edit", rowData.kode_sekolah)}
+                    href={route("institusi.edit", rowData.kode)}
                     className="p-2 btn-success"
                 >
                     <svg
@@ -163,33 +163,21 @@ export default function SchoolsTable({ schools }) {
                     removableSort
                     selection={selectedDatas}
                     onSelectionChange={(e) => setSelectedDatas(e.value)}
-                    currentPageReportTemplate="Menampilkan {first} sampai {last} dari {totalRecords} sekolah"
+                    currentPageReportTemplate="Menampilkan {first} sampai {last} dari {totalRecords} institusi"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
                 >
                     <Column selectionMode="multiple" />
-                    <Column
-                        sortable
-                        field="kode_sekolah"
-                        header="Kode Sekolah"
-                    />
-                    <Column
-                        sortable
-                        field="kategori_sekolah"
-                        header="Kategori Sekolah"
-                    />
-                    <Column
-                        sortable
-                        field="nama_sekolah"
-                        header="Nama Sekolah"
-                    />
-                    <Column sortable field="provinsi" header="Provinsi" />
-                    <Column sortable field="kota" header="Kota" />
+                    <Column sortable field="kode" header="Kode Institusi" />
+                    <Column sortable field="nama" header="Nama Institusi" />
+                    <Column sortable field="negara" header="Negara Institusi" />
+                    <Column sortable field="grup" header="Grup Institusi" />
+                    <Column sortable field="jenis" header="Jenis Institusi" />
                     <Column body={actionBodyTemplate} />
                 </DataTable>
             </div>
 
             <Dialog
-                header="Detail Sekolah"
+                header="Detail Institusi"
                 visible={detailDataModal}
                 onHide={() => setDetailDataModal(false)}
                 draggable={false}
@@ -199,49 +187,34 @@ export default function SchoolsTable({ schools }) {
                     <table className="table-auto">
                         <tbody>
                             <tr>
-                                <td className="font-bold">Kode Sekolah</td>
+                                <td className="font-bold">Kode Institusi</td>
                                 <td className="p-2">:</td>
-                                <td className="p-2">{data.kode_sekolah}</td>
+                                <td className="p-2">{data.kode}</td>
                             </tr>
                             <tr>
-                                <td className="font-bold">Nama Sekolah</td>
+                                <td className="font-bold">Nama Institusi</td>
                                 <td className="p-2">:</td>
-                                <td className="p-2">{data.nama_sekolah}</td>
+                                <td className="p-2">{data.nama}</td>
                             </tr>
                             <tr>
-                                <td className="font-bold">Kategori Sekolah</td>
+                                <td className="font-bold">Negara Institusi</td>
                                 <td className="p-2">:</td>
-                                <td className="p-2">{data.kategori_sekolah}</td>
+                                <td className="p-2">{data.negara}</td>
                             </tr>
                             <tr>
-                                <td className="font-bold">Jenis Sekolah</td>
+                                <td className="font-bold">Grup Institusi</td>
                                 <td className="p-2">:</td>
-                                <td className="p-2">{data.jenis_sekolah}</td>
+                                <td className="p-2">{data.grup}</td>
                             </tr>
                             <tr>
-                                <td className="font-bold">Tipe Sekolah</td>
+                                <td className="font-bold">Jenis Institusi</td>
                                 <td className="p-2">:</td>
-                                <td className="p-2">{data.tipe_sekolah}</td>
+                                <td className="p-2">{data.jenis}</td>
                             </tr>
                             <tr>
-                                <td className="font-bold">Alamat Sekolah</td>
+                                <td className="font-bold">Alamat Institusi</td>
                                 <td className="p-2">:</td>
-                                <td className="p-2">{data.alamat_sekolah}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Provinsi</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{data.provinsi}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Kota</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{data.kota}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Nama Kontak</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{data.nama_kontak}</td>
+                                <td className="p-2">{data.alamat}</td>
                             </tr>
                             <tr>
                                 <td className="font-bold">Nomor Telepon</td>
@@ -274,7 +247,7 @@ export default function SchoolsTable({ schools }) {
             >
                 {data && (
                     <form
-                        onSubmit={deleteSchool}
+                        onSubmit={deleteInstitution}
                         className="flex flex-col items-center gap-2"
                     >
                         <svg
@@ -288,10 +261,7 @@ export default function SchoolsTable({ schools }) {
 
                         <p className="font-medium text-lg">
                             Anda yakin ingin menghapus data{" "}
-                            <span className="font-semibold">
-                                {data.nama_sekolah}
-                            </span>
-                            ?
+                            <span className="font-semibold">{data.nama}</span>?
                         </p>
 
                         <div className="flex items-center">
@@ -331,16 +301,7 @@ export default function SchoolsTable({ schools }) {
                             disabled={processing}
                         >
                             Ya, Hapus
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className={`${
-                                    processing ? "" : "hidden"
-                                } animate-spin h-5 w-5 ml-2`}
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M18.364 5.63604L16.9497 7.05025C15.683 5.7835 13.933 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12H21C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.4853 3 16.7353 4.00736 18.364 5.63604Z"></path>
-                            </svg>
+                            <Spinner isLoading={processing} />
                         </PrimaryButton>
                     </div>
                 </div>

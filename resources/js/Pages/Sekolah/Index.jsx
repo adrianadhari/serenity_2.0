@@ -1,12 +1,20 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import ButtonDropdown from "@/Components/ButtonDropdown";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useMountEffect } from "primereact/hooks";
 import { Toast } from "primereact/toast";
 import SchoolsTable from "./Partials/SchoolsTable";
+import { Dialog } from "primereact/dialog";
+import InputError from "@/Components/InputError";
+import HeaderIndex from "@/Components/HeaderIndex";
+import PrimaryButton from "@/Components/PrimaryButton";
+import Spinner from "@/Components/Spinner";
 
 export default function Sekolah({ auth, flash, schools }) {
+    const title = "Sekolah";
+
+    const [importModal, setImportModal] = useState(false);
     const toast = useRef(null);
 
     useMountEffect(() => {
@@ -20,31 +28,35 @@ export default function Sekolah({ auth, flash, schools }) {
         }
     });
 
+    const { setData, post, processing, errors } = useForm({
+        file: null,
+    });
+
+    const uploadFile = async (e) => {
+        e.preventDefault();
+
+        post(route("sekolah.import"), {
+            preserveScroll: true,
+            onSuccess: () => setImportModal(false),
+            onFinish: () => {
+                toast.current.show({
+                    severity: "success",
+                    summary: "Sekolah Berhasil Diimport!",
+                });
+            },
+        });
+    };
+
     return (
-        <AuthenticatedLayout user={auth.user} titlePage="Sekolah">
-            <Head title="Sekolah" />
+        <>
+            <AuthenticatedLayout user={auth.user} titlePage={title}>
+                <Head title={title} />
 
-            <div className="pb-12">
-                <Toast ref={toast} />
+                <div className="pb-12">
+                    <Toast ref={toast} />
 
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between flex-wrap gap-2 py-8">
-                        <Link
-                            href={route("sekolah.create")}
-                            className="justify-center flex items-center px-4 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-rose-600 border border-transparent rounded-lg active:bg-rose-600 hover:bg-rose-700 focus:outline-none focus:shadow-outline-rose ease-in-out"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-5 h-5 mr-2 -ml-1"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path>
-                            </svg>
-                            <span>Tambah Data</span>
-                        </Link>
-
-                        <div className="flex flex-col md:flex-row md:items-center gap-2">
+                    <div className="max-w-7xl mx-auto">
+                        <HeaderIndex link={route("sekolah.create")}>
                             <ButtonDropdown>
                                 <ButtonDropdown.Trigger>
                                     <svg
@@ -59,7 +71,10 @@ export default function Sekolah({ auth, flash, schools }) {
                                 </ButtonDropdown.Trigger>
                                 <ButtonDropdown.Content>
                                     <ButtonDropdown.Link>
-                                        <button className="w-full text-start">
+                                        <button
+                                            className="w-full text-start"
+                                            onClick={() => setImportModal(true)}
+                                        >
                                             Upload File
                                         </button>
                                     </ButtonDropdown.Link>
@@ -85,9 +100,12 @@ export default function Sekolah({ auth, flash, schools }) {
                                 </ButtonDropdown.Trigger>
                                 <ButtonDropdown.Content>
                                     <ButtonDropdown.Link>
-                                        <button className="w-full text-start">
+                                        <Link
+                                            href={route("sekolah.export")}
+                                            className="w-full text-start"
+                                        >
                                             Excel
-                                        </button>
+                                        </Link>
                                     </ButtonDropdown.Link>
                                     <ButtonDropdown.Link>
                                         <button className="w-full text-start">
@@ -96,12 +114,43 @@ export default function Sekolah({ auth, flash, schools }) {
                                     </ButtonDropdown.Link>
                                 </ButtonDropdown.Content>
                             </ButtonDropdown>
-                        </div>
-                    </div>
+                        </HeaderIndex>
 
-                    <SchoolsTable schools={schools} />
+                        <SchoolsTable schools={schools} />
+                    </div>
                 </div>
-            </div>
-        </AuthenticatedLayout>
+            </AuthenticatedLayout>
+
+            <Dialog
+                header="Import File"
+                visible={importModal}
+                onHide={() => setImportModal(false)}
+                draggable={false}
+                className="md:w-1/2"
+            >
+                <form
+                    onSubmit={uploadFile}
+                    className="flex items-center justify-between flex-col lg:flex-row gap-2 mt-2"
+                >
+                    <input
+                        required
+                        type="file"
+                        className="file-input file-input-bordered w-full"
+                        onChange={(e) => setData("file", e.target.files[0])}
+                    />
+
+                    <div className="flex justify-end">
+                        <PrimaryButton
+                            className="btn-danger"
+                            disabled={processing}
+                        >
+                            Upload File
+                            <Spinner isLoading={processing} />
+                        </PrimaryButton>
+                    </div>
+                </form>
+                <InputError message={errors.file} />
+            </Dialog>
+        </>
     );
 }

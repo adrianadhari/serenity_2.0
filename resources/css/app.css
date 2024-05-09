@@ -5,3 +5,33 @@
 .p-checkbox-box {
     border-width: 2px !important;
 }
+
+@layer components {
+    .btn-primary {
+        @apply px-4 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-rose-600 border border-transparent rounded-lg active:bg-rose-600 hover:bg-rose-700 focus:outline-none ease-in-out;
+    }
+
+    .btn-danger {
+        @apply bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150;
+    }
+
+    .btn-secondary {
+        @apply px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150;
+    }
+
+    .btn-success {
+        @apply p-2 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none ease-in-out;
+    }
+
+    .btn-info {
+        @apply p-2 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-md active:bg-blue-600 hover:bg-blue-700 focus:outline-none ease-in-out;
+    }
+
+    .border-gray {
+        @apply mt-1 text-sm border border-solid border-gray-300 w-full rounded-md shadow-sm;
+    }
+
+    .form-card {
+        @apply max-w-7xl mx-auto p-4 bg-white shadow-lg rounded border-t-4 border-t-rose-600;
+    }
+}

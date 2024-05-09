@@ -1,9 +1,9 @@
 import React, { createContext } from "react";
 
-export const SchoolContext = createContext();
+export const InstitutionContext = createContext();
 
-export const SchoolProvider = (props) => {
-    const selectedSchoolTemplate = (option, props) => {
+export const InstitutionProvider = (props) => {
+    const selectedNegaraTemplate = (option, props) => {
         if (option) {
             return <div className="text-sm">{option}</div>;
         }
@@ -11,11 +11,11 @@ export const SchoolProvider = (props) => {
         return <span>{props.placeholder}</span>;
     };
 
-    const schoolOptionTemplate = (option) => {
+    const negaraOptionTemplate = (option) => {
         return <div className="text-sm">{option}</div>;
     };
 
-    const selectedSchoolCategoryTemplate = (option, props) => {
+    const selectedGrupTemplate = (option, props) => {
         if (option) {
             return <div className="text-sm">{option}</div>;
         }
@@ -23,11 +23,11 @@ export const SchoolProvider = (props) => {
         return <span>{props.placeholder}</span>;
     };
 
-    const schoolCategoryOptionTemplate = (option) => {
+    const grupOptionTemplate = (option) => {
         return <div className="text-sm">{option}</div>;
     };
 
-    const selectedSchoolTypeTemplate = (option, props) => {
+    const selectedJenisTemplate = (option, props) => {
         if (option) {
             return <div className="text-sm">{option}</div>;
         }
@@ -35,26 +35,26 @@ export const SchoolProvider = (props) => {
         return <span>{props.placeholder}</span>;
     };
 
-    const schoolTypeOptionTemplate = (option) => {
+    const jenisOptionTemplate = (option) => {
         return <div className="text-sm">{option}</div>;
     };
 
     let handleFunctions = {
-        selectedSchoolTemplate,
-        schoolOptionTemplate,
-        selectedSchoolCategoryTemplate,
-        schoolCategoryOptionTemplate,
-        selectedSchoolTypeTemplate,
-        schoolTypeOptionTemplate,
+        selectedNegaraTemplate,
+        negaraOptionTemplate,
+        selectedGrupTemplate,
+        grupOptionTemplate,
+        selectedJenisTemplate,
+        jenisOptionTemplate,
     };
 
     return (
-        <SchoolContext.Provider
+        <InstitutionContext.Provider
             value={{
                 handleFunctions,
             }}
         >
             {props.children}
-        </SchoolContext.Provider>
+        </InstitutionContext.Provider>
     );
 };

@@ -5,9 +5,11 @@ import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationFor
 import { Head } from "@inertiajs/react";
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
+    const title = "Edit Profile";
+
     return (
-        <AuthenticatedLayout user={auth.user} titlePage="Edit Profile">
-            <Head title="Profile" />
+        <AuthenticatedLayout user={auth.user} titlePage={title}>
+            <Head title={title} />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">

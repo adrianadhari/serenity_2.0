@@ -9,10 +9,15 @@ import { useForm } from "@inertiajs/react";
 import TextArea from "@/Components/TextArea";
 import Spinner from "@/Components/Spinner";
 
-export default function CreateForm({ school, schoolCategory, schoolType }) {
-    const [provinces, setProvinces] = useState([]);
+export default function EditForm({
+    school,
+    schoolCategory,
+    schoolType,
+    schoolDetail,
+}) {
+    const [provincesId, setProvincesId] = useState(null);
+    const [provincesName, setProvincesName] = useState(null);
     const [cities, setCities] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
 
     let { handleFunctions } = useContext(SchoolContext);
 
@@ -25,69 +30,92 @@ export default function CreateForm({ school, schoolCategory, schoolType }) {
         schoolTypeOptionTemplate,
     } = handleFunctions;
 
+    let {
+        nama_sekolah,
+        kategori_sekolah,
+        jenis_sekolah,
+        nama_kontak,
+        tipe_sekolah,
+        provinsi,
+        kota,
+        email,
+        alamat_sekolah,
+        telp,
+        tgl_registrasi,
+    } = schoolDetail;
+
     const selectedProvinceTemplate = (option, props) => {
         if (option) {
-            fetch(
-                `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${option.id}.json`
-            )
-                .then((res) => res.json())
-                .then((data) => {
-                    setCities(data);
-                    setIsLoading(true);
-                });
-
-            return <div className="text-sm">{option.name}</div>;
+            return <div className="text-sm">{option}</div>;
         }
 
         return <span>{props.placeholder}</span>;
     };
 
     const provinceOptionTemplate = (option) => {
-        return <div className="text-sm">{option.name}</div>;
+        return <div className="text-sm">{option}</div>;
     };
 
     const selectedCityTemplate = (option, props) => {
         if (option) {
-            return <div className="text-sm">{option.name}</div>;
+            return <div className="text-sm">{option}</div>;
         }
 
         return <span>{props.placeholder}</span>;
     };
 
     const cityOptionTemplate = (option) => {
-        return <div className="text-sm">{option.name}</div>;
+        return <div className="text-sm">{option}</div>;
     };
+
+    const { data, setData, patch, processing, errors } = useForm({
+        nama_sekolah,
+        kategori_sekolah,
+        jenis_sekolah,
+        nama_kontak,
+        tipe_sekolah,
+        provinsi,
+        kota,
+        email,
+        alamat_sekolah,
+        telp,
+        tgl_registrasi,
+    });
 
     useEffect(() => {
         fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
             .then((res) => res.json())
-            .then((data) => {
-                setProvinces(data);
+            .then((dataProvinsi) => {
+                const names = dataProvinsi.map((item) => item.name);
+                setProvincesName(names);
+                const selectedProvince = dataProvinsi.find(
+                    (item) => item.name === data.provinsi
+                );
+                if (selectedProvince) {
+                    setProvincesId(selectedProvince.id);
+                }
             });
-    }, []);
 
-    const { data, setData, post, processing, errors } = useForm({
-        nama_sekolah: "",
-        kategori_sekolah: "",
-        jenis_sekolah: "",
-        nama_kontak: "",
-        tipe_sekolah: "",
-        provinsi: "",
-        kota: "",
-        email: "",
-        alamat_sekolah: "",
-        telp: "",
-        tgl_registrasi: "",
-    });
+        if (provincesId) {
+            fetch(
+                `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provincesId}.json`
+            )
+                .then((res) => res.json())
+                .then((dataRegencies) => {
+                    const names = dataRegencies.map((item) => item.name);
+                    setCities(names);
+                });
+        }
+    }, [data.provinsi, provincesId]);
 
-    const storeSchool = async (e) => {
+    const updateSchool = async (e) => {
         e.preventDefault();
 
-        post(route("sekolah.store"));
+        patch(route("sekolah.update", schoolDetail.kode_sekolah));
     };
 
     return (
-        <form onSubmit={storeSchool} className="form-card">
+        <form onSubmit={updateSchool} className="form-card">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
                     <InputLabel value="Nama Sekolah" />
@@ -174,7 +202,7 @@ export default function CreateForm({ school, schoolCategory, schoolType }) {
                         required
                         value={data.provinsi}
                         onChange={(e) => setData("provinsi", e.value)}
-                        options={provinces}
+                        options={provincesName}
                         optionLabel="name"
                         placeholder="-- Pilih Provinsi --"
                         filter
@@ -188,7 +216,7 @@ export default function CreateForm({ school, schoolCategory, schoolType }) {
                     <InputError message={errors.provinsi} />
                 </div>
 
-                <div className={`${isLoading ? "" : "hidden"} form-control`}>
+                <div className="form-control">
                     <InputLabel value="Kota / Kabupaten" />
 
                     <Dropdown

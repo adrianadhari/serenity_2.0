@@ -1,0 +1,191 @@
+import { useContext } from "react";
+import { InstitutionContext } from "../context/InstitutionContext";
+import { useForm } from "@inertiajs/react";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import InputError from "@/Components/InputError";
+import { Dropdown } from "primereact/dropdown";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextArea from "@/Components/TextArea";
+import Spinner from "@/Components/Spinner";
+
+export default function CreateForm({ negara, jenis, grup }) {
+    let { handleFunctions } = useContext(InstitutionContext);
+
+    let {
+        selectedNegaraTemplate,
+        negaraOptionTemplate,
+        selectedGrupTemplate,
+        grupOptionTemplate,
+        selectedJenisTemplate,
+        jenisOptionTemplate,
+    } = handleFunctions;
+
+    const { data, setData, post, processing, errors } = useForm({
+        nama: "",
+        negara: "",
+        grup: "",
+        jenis: "",
+        alamat: "",
+        telp: "",
+        email: "",
+        tgl_registrasi: "",
+    });
+
+    const storeInstitution = async (e) => {
+        e.preventDefault();
+
+        post(route("institusi.store"));
+    };
+
+    return (
+        <form onSubmit={storeInstitution} className="form-card">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="form-control">
+                    <InputLabel value="Nama Institusi" />
+
+                    <TextInput
+                        type="text"
+                        placeholder="Masukkan nama institusi"
+                        value={data.nama}
+                        onChange={(e) => setData("nama", e.target.value)}
+                    />
+
+                    <InputError message={errors.nama} className="mt-2" />
+                </div>
+
+                <div className="form-control">
+                    <InputLabel value="Negara Institusi" />
+
+                    <Dropdown
+                        required
+                        value={data.negara}
+                        onChange={(e) => setData("negara", e.value)}
+                        options={negara}
+                        optionLabel="name"
+                        placeholder="-- Pilih Negara --"
+                        filter
+                        checkmark={true}
+                        highlightOnSelect={false}
+                        valueTemplate={selectedNegaraTemplate}
+                        itemTemplate={negaraOptionTemplate}
+                        className="border-gray"
+                    />
+
+                    <InputError message={errors.negara} className="mt-2" />
+                </div>
+
+                <div className="form-control">
+                    <InputLabel value="Grup Institusi" />
+
+                    <Dropdown
+                        required
+                        value={data.grup}
+                        onChange={(e) => setData("grup", e.value)}
+                        options={grup}
+                        optionLabel="name"
+                        placeholder="-- Pilih Grup Institusi --"
+                        filter
+                        checkmark={true}
+                        highlightOnSelect={false}
+                        valueTemplate={selectedGrupTemplate}
+                        itemTemplate={grupOptionTemplate}
+                        className="border-gray"
+                    />
+
+                    <InputError message={errors.grup} className="mt-2" />
+                </div>
+
+                <div className="form-control">
+                    <InputLabel value="Jenis Institusi" />
+
+                    <Dropdown
+                        required
+                        value={data.jenis}
+                        onChange={(e) => setData("jenis", e.value)}
+                        options={jenis}
+                        optionLabel="name"
+                        placeholder="-- Pilih Jenis Institusi --"
+                        filter
+                        checkmark={true}
+                        highlightOnSelect={false}
+                        valueTemplate={selectedJenisTemplate}
+                        itemTemplate={jenisOptionTemplate}
+                        className="border-gray"
+                    />
+
+                    <InputError message={errors.jenis} className="mt-2" />
+                </div>
+            </div>
+
+            <hr className="my-8 border-gray-300" />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="form-control">
+                    <InputLabel value="Email Institusi" />
+
+                    <TextInput
+                        type="email"
+                        placeholder="Masukkan email institusi"
+                        value={data.email}
+                        onChange={(e) => setData("email", e.target.value)}
+                    />
+
+                    <InputError message={errors.email} className="mt-2" />
+                </div>
+
+                <div className="form-control">
+                    <InputLabel value="Telepon Institusi" />
+
+                    <TextInput
+                        type="number"
+                        placeholder="Masukkan telepon institusi"
+                        value={data.telp}
+                        onChange={(e) => setData("telp", e.target.value)}
+                    />
+
+                    <InputError message={errors.telp} className="mt-2" />
+                </div>
+
+                <div className="form-control">
+                    <InputLabel value="Alamat" />
+
+                    <TextArea
+                        placeholder="Masukkan institusi"
+                        onChange={(e) => setData("alamat", e.target.value)}
+                        value={data.alamat}
+                    />
+
+                    <InputError message={errors.alamat} className="mt-2" />
+                </div>
+
+                <div className="form-control">
+                    <InputLabel value="Tanggal Daftar" />
+
+                    <TextInput
+                        type="date"
+                        value={data.tgl_registrasi}
+                        onChange={(e) =>
+                            setData("tgl_registrasi", e.target.value)
+                        }
+                    />
+
+                    <InputError
+                        message={errors.tgl_registrasi}
+                        className="mt-2"
+                    />
+                </div>
+            </div>
+
+            <div className="flex justify-end">
+                <PrimaryButton
+                    className="mt-8 w-1/6 justify-center py-2 btn-danger"
+                    disabled={processing}
+                >
+                    Simpan Data
+                    <Spinner isLoading={processing} />
+                </PrimaryButton>
+            </div>
+        </form>
+    );
+}

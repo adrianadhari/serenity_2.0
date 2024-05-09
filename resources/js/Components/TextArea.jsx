@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef } from "react";
 
-export default forwardRef(function TextInput(
+export default forwardRef(function TextArea(
     { type = "text", className = "", isFocused = false, ...props },
     ref
 ) {
@@ -13,15 +13,12 @@ export default forwardRef(function TextInput(
     }, []);
 
     return (
-        <input
+        <textarea
             {...props}
             type={type}
-            className={
-                "input-bordered input rounded-md shadow-sm mt-1 block w-full " +
-                className
-            }
+            className={"textarea textarea-bordered h-24 mt-1 " + className}
             ref={input}
             required
-        />
+        ></textarea>
     );
 });
