@@ -43,7 +43,7 @@ export default function Navbar({ user, titlePage }) {
                             {user.name}
                         </p>
                         <p className="px-2 py-1 text-sm font-semibold">
-                            {user.email}
+                            {user.username}
                         </p>
                     </li>
 

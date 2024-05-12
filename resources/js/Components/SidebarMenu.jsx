@@ -1,8 +1,11 @@
 import NavLink from "./NavLink";
 import Dropdown from "./Dropdown";
 
-export default function SidebarMenu() {
+export default function SidebarMenu({ user }) {
     const appName = import.meta.env.VITE_APP_NAME || "Laravel";
+
+    const isAdmin = user.role === "admin";
+    const unitOrAdmin = user.role === "unit" || isAdmin;
 
     return (
         <div className="drawer-side z-20">
@@ -53,49 +56,51 @@ export default function SidebarMenu() {
                         <span className="ml-4">Dashboard</span>
                     </NavLink>
 
-                    <Dropdown>
-                        <Dropdown.Trigger>
-                            <span className="inline-flex items-center">
-                                <svg
-                                    className="w-5 h-5"
-                                    aria-hidden="true"
-                                    fill="none"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
-                                </svg>
-                                <span className="ml-4">Unit</span>
-                            </span>
-                        </Dropdown.Trigger>
+                    {unitOrAdmin && (
+                        <Dropdown>
+                            <Dropdown.Trigger>
+                                <span className="inline-flex items-center">
+                                    <svg
+                                        className="w-5 h-5"
+                                        aria-hidden="true"
+                                        fill="none"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                                    </svg>
+                                    <span className="ml-4">Unit</span>
+                                </span>
+                            </Dropdown.Trigger>
 
-                        <Dropdown.Content>
-                            <Dropdown.Link href={route("sekolah.index")}>
-                                Sekolah
-                            </Dropdown.Link>
-                            <Dropdown.Link href={route("institusi.index")}>
-                                Institusi
-                            </Dropdown.Link>
-                            <Dropdown.Link href={route("siswa.index")}>
-                                Siswa
-                            </Dropdown.Link>
-                            <Dropdown.Link href={route("magang.index")}>
-                                Magang
-                            </Dropdown.Link>
-                            <Dropdown.Link href={route("guru.index")}>
-                                Guru
-                            </Dropdown.Link>
-                            <Dropdown.Link href={route("peserta.index")}>
-                                Peserta
-                            </Dropdown.Link>
-                            <Dropdown.Link href={route("publikasi.index")}>
-                                Publikasi
-                            </Dropdown.Link>
-                        </Dropdown.Content>
-                    </Dropdown>
+                            <Dropdown.Content>
+                                <Dropdown.Link href={route("sekolah.index")}>
+                                    Sekolah
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route("institusi.index")}>
+                                    Institusi
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route("siswa.index")}>
+                                    Siswa
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route("magang.index")}>
+                                    Magang
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route("guru.index")}>
+                                    Guru
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route("peserta.index")}>
+                                    Peserta
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route("publikasi.index")}>
+                                    Publikasi
+                                </Dropdown.Link>
+                            </Dropdown.Content>
+                        </Dropdown>
+                    )}
 
                     <NavLink>
                         <svg
@@ -175,20 +180,22 @@ export default function SidebarMenu() {
                         <span className="ml-4">Pelatihan Pegawai</span>
                     </NavLink>
 
-                    <NavLink
-                        href={route("register")}
-                        active={route().current("register")}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-5 h-5"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
+                    {isAdmin && (
+                        <NavLink
+                            href={route("user.index")}
+                            active={route().current("user.index")}
                         >
-                            <path d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"></path>
-                        </svg>
-                        <span className="ml-4">Kelola User</span>
-                    </NavLink>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-5 h-5"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"></path>
+                            </svg>
+                            <span className="ml-4">Kelola User</span>
+                        </NavLink>
+                    )}
                 </ul>
             </div>
         </div>
