@@ -41,7 +41,6 @@ export default function EditForm({
         email,
         alamat_sekolah,
         telp,
-        tgl_registrasi,
     } = schoolDetail;
 
     const selectedProvinceTemplate = (option, props) => {
@@ -79,7 +78,6 @@ export default function EditForm({
         email,
         alamat_sekolah,
         telp,
-        tgl_registrasi,
     });
 
     useEffect(() => {
@@ -294,20 +292,6 @@ export default function EditForm({
                     />
 
                     <InputError message={errors.alamat_sekolah} />
-                </div>
-
-                <div className="form-control">
-                    <InputLabel value="Tanggal Daftar" />
-
-                    <TextInput
-                        type="date"
-                        value={data.tgl_registrasi}
-                        onChange={(e) =>
-                            setData("tgl_registrasi", e.target.value)
-                        }
-                    />
-
-                    <InputError message={errors.tgl_registrasi} />
                 </div>
             </div>
 

@@ -26,8 +26,7 @@ export default function EditForm({
         jenisOptionTemplate,
     } = handleFunctions;
 
-    let { nama, negara, grup, jenis, alamat, telp, email, tgl_registrasi } =
-        institutionDetail;
+    let { nama, negara, grup, jenis, alamat, telp, email } = institutionDetail;
 
     const { data, setData, patch, processing, errors } = useForm({
         nama,
@@ -37,7 +36,6 @@ export default function EditForm({
         alamat,
         telp,
         email,
-        tgl_registrasi,
     });
 
     const updateInstitution = async (e) => {
@@ -165,20 +163,6 @@ export default function EditForm({
                     />
 
                     <InputError message={errors.alamat} />
-                </div>
-
-                <div className="form-control">
-                    <InputLabel value="Tanggal Daftar" />
-
-                    <TextInput
-                        type="date"
-                        value={data.tgl_registrasi}
-                        onChange={(e) =>
-                            setData("tgl_registrasi", e.target.value)
-                        }
-                    />
-
-                    <InputError message={errors.tgl_registrasi} />
                 </div>
             </div>
 

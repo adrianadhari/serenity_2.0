@@ -29,7 +29,6 @@ export default function CreateForm({ negara, jenis, grup }) {
         alamat: "",
         telp: "",
         email: "",
-        tgl_registrasi: "",
     });
 
     const storeInstitution = async (e) => {
@@ -157,23 +156,6 @@ export default function CreateForm({ negara, jenis, grup }) {
                     />
 
                     <InputError message={errors.alamat} className="mt-2" />
-                </div>
-
-                <div className="form-control">
-                    <InputLabel value="Tanggal Daftar" />
-
-                    <TextInput
-                        type="date"
-                        value={data.tgl_registrasi}
-                        onChange={(e) =>
-                            setData("tgl_registrasi", e.target.value)
-                        }
-                    />
-
-                    <InputError
-                        message={errors.tgl_registrasi}
-                        className="mt-2"
-                    />
                 </div>
             </div>
 

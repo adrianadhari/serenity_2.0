@@ -7,6 +7,7 @@ import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
 import Spinner from "@/Components/Spinner";
 import PrimaryButton from "@/Components/PrimaryButton";
+import moment from "moment";
 
 export default function InstitutionTable({ institutions }) {
     const [datas, setDatas] = useState(null);
@@ -231,7 +232,11 @@ export default function InstitutionTable({ institutions }) {
                                     Tanggal Registrasi
                                 </td>
                                 <td className="p-2">:</td>
-                                <td className="p-2">{data.tgl_registrasi}</td>
+                                <td className="p-2">
+                                    {moment(data.created_at).format(
+                                        "D/MM/YYYY"
+                                    )}
+                                </td>
                             </tr>
                         </tbody>
                     </table>

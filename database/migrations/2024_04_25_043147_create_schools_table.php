@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('nama_kontak');
             $table->string('telp');
             $table->string('email');
-            $table->date('tgl_registrasi');
             $table->timestamps();
         });
     }

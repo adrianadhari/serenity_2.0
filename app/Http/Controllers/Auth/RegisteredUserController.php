@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'role' => $request->role,
-            'password' => Hash::make('password'),
+            'password' => Hash::make($request->username),
         ]);
 
         return redirect()->route('user.index')->with('message', 'User Berhasil Dibuat!');
