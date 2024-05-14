@@ -48,7 +48,7 @@ class InstitusiController extends Controller
     {
         $institution = $request->all();
 
-        $institution['kode'] = 'I' . time();
+        $institution['kode'] = 'IN' . time();
 
         Institution::create($institution);
         return redirect()->route('institusi.index')->with('message', 'Institusi Berhasil Ditambahkan!');

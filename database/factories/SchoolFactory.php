@@ -24,7 +24,7 @@ class SchoolFactory extends Factory
         $types = $schoolData['type'];
 
         return [
-            'kode_sekolah' => fake()->unique()->numerify('###'),
+            'kode_sekolah' => 'SC' . fake()->unique()->numerify('###'),
             'nama_sekolah' => fake()->unique()->company,
             'kategori_sekolah' => $categories[array_rand($categories)],
             'jenis_sekolah' => $schoolTypes[array_rand($schoolTypes)],
@@ -33,7 +33,7 @@ class SchoolFactory extends Factory
             'kota' => fake()->city,
             'alamat_sekolah' => fake()->address,
             'nama_kontak' => fake()->name,
-            'telp' => fake()->phoneNumber,
+            'telp' => fake()->numerify('#########'),
             'email' => fake()->safeEmail,
         ];
     }

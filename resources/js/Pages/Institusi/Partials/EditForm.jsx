@@ -122,11 +122,7 @@ export default function EditForm({
 
                     <InputError message={errors.jenis} />
                 </div>
-            </div>
 
-            <hr className="my-8 border-gray-300" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
                     <InputLabel value="Email Institusi" />
 
@@ -157,7 +153,7 @@ export default function EditForm({
                     <InputLabel value="Alamat" />
 
                     <TextArea
-                        placeholder="Masukkan institusi"
+                        placeholder="Masukkan alamat institusi"
                         onChange={(e) => setData("alamat", e.target.value)}
                         value={data.alamat}
                     />

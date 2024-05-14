@@ -50,7 +50,7 @@ export default function CreateForm({ negara, jenis, grup }) {
                         onChange={(e) => setData("nama", e.target.value)}
                     />
 
-                    <InputError message={errors.nama} className="mt-2" />
+                    <InputError message={errors.nama} />
                 </div>
 
                 <div className="form-control">
@@ -71,7 +71,7 @@ export default function CreateForm({ negara, jenis, grup }) {
                         className="border-gray"
                     />
 
-                    <InputError message={errors.negara} className="mt-2" />
+                    <InputError message={errors.negara} />
                 </div>
 
                 <div className="form-control">
@@ -92,7 +92,7 @@ export default function CreateForm({ negara, jenis, grup }) {
                         className="border-gray"
                     />
 
-                    <InputError message={errors.grup} className="mt-2" />
+                    <InputError message={errors.grup} />
                 </div>
 
                 <div className="form-control">
@@ -113,13 +113,9 @@ export default function CreateForm({ negara, jenis, grup }) {
                         className="border-gray"
                     />
 
-                    <InputError message={errors.jenis} className="mt-2" />
+                    <InputError message={errors.jenis} />
                 </div>
-            </div>
 
-            <hr className="my-8 border-gray-300" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
                     <InputLabel value="Email Institusi" />
 
@@ -130,7 +126,7 @@ export default function CreateForm({ negara, jenis, grup }) {
                         onChange={(e) => setData("email", e.target.value)}
                     />
 
-                    <InputError message={errors.email} className="mt-2" />
+                    <InputError message={errors.email} />
                 </div>
 
                 <div className="form-control">
@@ -143,19 +139,19 @@ export default function CreateForm({ negara, jenis, grup }) {
                         onChange={(e) => setData("telp", e.target.value)}
                     />
 
-                    <InputError message={errors.telp} className="mt-2" />
+                    <InputError message={errors.telp} />
                 </div>
 
                 <div className="form-control">
                     <InputLabel value="Alamat" />
 
                     <TextArea
-                        placeholder="Masukkan institusi"
+                        placeholder="Masukkan alamat institusi"
                         onChange={(e) => setData("alamat", e.target.value)}
                         value={data.alamat}
                     />
 
-                    <InputError message={errors.alamat} className="mt-2" />
+                    <InputError message={errors.alamat} />
                 </div>
             </div>
 

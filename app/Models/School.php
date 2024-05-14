@@ -37,4 +37,9 @@ class School extends Model
             'type' => ["NEGERI", "SWASTA"],
         ];
     }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

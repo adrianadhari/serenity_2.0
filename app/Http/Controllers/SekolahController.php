@@ -49,7 +49,7 @@ class SekolahController extends Controller
     {
         $school = $request->all();
 
-        $school['kode_sekolah'] = 'S' . time();
+        $school['kode_sekolah'] = 'SC' . time();
         $school['provinsi'] = $school['provinsi']['name'];
         $school['kota'] = $school['kota']['name'];
 

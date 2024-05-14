@@ -24,13 +24,13 @@ class InstitutionFactory extends Factory
         $jenis = $institutionData['jenis'];
 
         return [
-            'kode' => fake()->unique()->numerify('###'),
+            'kode' => 'IN' . fake()->unique()->numerify('###'),
             'nama' => fake()->unique()->company,
             'negara' => $negara[array_rand($negara)],
             'grup' => $grup[array_rand($grup)],
             'jenis' => $jenis[array_rand($jenis)],
             'alamat' => fake()->address,
-            'telp' => fake()->phoneNumber,
+            'telp' => fake()->numerify('#########'),
             'email' => fake()->safeEmail,
         ];
     }
