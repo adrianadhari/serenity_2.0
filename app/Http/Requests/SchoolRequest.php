@@ -31,7 +31,7 @@ class SchoolRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_sekolah' => ['required', 'string', 'max:255', 'unique:' . School::class],
+            'nama_sekolah' => ['required', 'string', 'max:255'],
             'kategori_sekolah' => ['required', Rule::in($this->schoolData['category'])],
             'jenis_sekolah' => ['required', Rule::in($this->schoolData['school'])],
             'tipe_sekolah' => ['required', Rule::in($this->schoolData['type'])],

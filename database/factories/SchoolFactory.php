@@ -25,7 +25,7 @@ class SchoolFactory extends Factory
 
         return [
             'kode_sekolah' => 'SC' . fake()->unique()->numerify('###'),
-            'nama_sekolah' => fake()->unique()->company,
+            'nama_sekolah' => fake()->company,
             'kategori_sekolah' => $categories[array_rand($categories)],
             'jenis_sekolah' => $schoolTypes[array_rand($schoolTypes)],
             'tipe_sekolah' => $types[array_rand($types)],

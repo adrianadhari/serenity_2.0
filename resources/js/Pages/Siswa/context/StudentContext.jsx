@@ -17,14 +17,14 @@ export const StudentProvider = (props) => {
 
     const selectedSekolahTemplate = (option, props) => {
         if (option) {
-            return <div className="text-sm">{option.nama_sekolah}</div>;
+            return <div className="text-sm">{option}</div>;
         }
 
         return <span>{props.placeholder}</span>;
     };
 
     const sekolahOptionTemplate = (option) => {
-        return <div className="text-sm">{option.nama_sekolah}</div>;
+        return <div className="text-sm">{option}</div>;
     };
 
     let handleFunctions = {

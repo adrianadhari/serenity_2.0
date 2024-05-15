@@ -43,7 +43,7 @@ export default function StudentTable({ students }) {
         e.preventDefault();
         let _students = datas.filter((val) => val.id !== data.id);
 
-        destroy(route("siswa.destroy", data.kode), {
+        destroy(route("siswa.destroy", data.kode_siswa), {
             preserveScroll: true,
             onSuccess: () => setDeleteDataModal(false),
             onFinish: () => {

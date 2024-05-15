@@ -25,7 +25,7 @@ class InstitutionFactory extends Factory
 
         return [
             'kode' => 'IN' . fake()->unique()->numerify('###'),
-            'nama' => fake()->unique()->company,
+            'nama' => fake()->company,
             'negara' => $negara[array_rand($negara)],
             'grup' => $grup[array_rand($grup)],
             'jenis' => $jenis[array_rand($jenis)],

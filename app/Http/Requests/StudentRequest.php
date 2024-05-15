@@ -11,7 +11,7 @@ class StudentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class StudentRequest extends FormRequest
             'telp' => ['required', 'max:13', 'string'],
             'nama_wali' => ['required', 'max:255', 'string'],
             'keterangan' => ['string'],
-            'school_id' => ['required'],
+            'school_name' => ['required', 'exists:schools,nama_sekolah'],
         ];
     }
 }

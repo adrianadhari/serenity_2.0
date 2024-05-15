@@ -1,15 +1,15 @@
-import InputError from "@/Components/InputError";
+import { useContext } from "react";
+import { StudentContext } from "../context/StudentContext";
+import { useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import InputError from "@/Components/InputError";
+import { Dropdown } from "primereact/dropdown";
+import TextArea from "@/Components/TextArea";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Spinner from "@/Components/Spinner";
-import TextArea from "@/Components/TextArea";
-import TextInput from "@/Components/TextInput";
-import { StudentContext } from "../context/StudentContext";
-import { useContext } from "react";
-import { useForm } from "@inertiajs/react";
-import { Dropdown } from "primereact/dropdown";
 
-export default function CreateForm({ jenis_kelamin, schools_name }) {
+export default function EditForm({ studentDetail, schools_name, gender }) {
     let { handleFunctions } = useContext(StudentContext);
 
     let {
@@ -19,25 +19,36 @@ export default function CreateForm({ jenis_kelamin, schools_name }) {
         sekolahOptionTemplate,
     } = handleFunctions;
 
-    const { data, setData, post, processing, errors } = useForm({
-        nama_siswa: "",
-        nis: "",
-        jenis_kelamin: "",
-        email: "",
-        telp: "",
-        nama_wali: "",
-        keterangan: "",
-        school_name: "",
+    let {
+        kode_siswa,
+        nama_siswa,
+        nis,
+        jenis_kelamin,
+        email,
+        telp,
+        nama_wali,
+        keterangan,
+    } = studentDetail;
+
+    const { data, setData, patch, processing, errors } = useForm({
+        nama_siswa,
+        nis,
+        jenis_kelamin,
+        email,
+        telp,
+        nama_wali,
+        keterangan,
+        school_name: studentDetail.school.nama_sekolah,
     });
 
-    const storeStudent = async (e) => {
+    const updateStudent = async (e) => {
         e.preventDefault();
 
-        post(route("siswa.store"));
+        patch(route("siswa.update", kode_siswa));
     };
 
     return (
-        <form onSubmit={storeStudent} className="form-card">
+        <form onSubmit={updateStudent} className="form-card">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
                     <InputLabel value="Nama Siswa" />
@@ -72,7 +83,7 @@ export default function CreateForm({ jenis_kelamin, schools_name }) {
                         required
                         value={data.jenis_kelamin}
                         onChange={(e) => setData("jenis_kelamin", e.value)}
-                        options={jenis_kelamin}
+                        options={gender}
                         optionLabel="name"
                         placeholder="-- Pilih Jenis Kelamin --"
                         filter

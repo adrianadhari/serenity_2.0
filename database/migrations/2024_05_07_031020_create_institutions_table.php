@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('institutions', function (Blueprint $table) {
             $table->id();
             $table->string('kode')->unique();
-            $table->string('nama')->unique();
+            $table->string('nama');
             $table->string('negara');
             $table->string('grup');
             $table->string('jenis');

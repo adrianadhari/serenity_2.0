@@ -19,7 +19,7 @@ class SiswaController extends Controller
      */
     public function index(): Response
     {
-        $students = Student::with('school')->get();
+        $students = Student::with('school')->latest()->get();
         return Inertia::render('Siswa/Index', [
             'students' => $students
         ]);
@@ -30,11 +30,11 @@ class SiswaController extends Controller
      */
     public function create(): Response
     {
-        $schools = School::all();
+        $schools_name = School::pluck('nama_sekolah');
 
         return Inertia::render('Siswa/Create', [
             'gender' => $this->gender,
-            'schools' => $schools
+            'schools_name' => $schools_name
         ]);
     }
 
@@ -43,10 +43,12 @@ class SiswaController extends Controller
      */
     public function store(StudentRequest $request): RedirectResponse
     {
-        $student = $request->all();
+        $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
 
-        $student['kode_siswa'] = 'ST' . time();
-        $student['school_id'] = $student['school_id']['id'];
+        $request['kode_siswa'] = 'ST' . time();
+        $request['school_id'] = $school_id;
+
+        $student = $request->except('school_name');
 
         Student::create($student);
         return redirect()->route('siswa.index')->with('message', 'Siswa Berhasil Ditambahkan!');
@@ -63,17 +65,30 @@ class SiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): Response
     {
-        //
+        $studentDetail = Student::where('kode_siswa', $id)->with('school')->first();
+        $schools_name = School::pluck('nama_sekolah');
+
+        return Inertia::render('Siswa/Edit', [
+            'gender' => $this->gender,
+            'studentDetail' => $studentDetail,
+            'schools_name' => $schools_name
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StudentRequest $request, string $id): RedirectResponse
     {
-        //
+        $student = Student::where('kode_siswa', $id)->first();
+        $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
+
+        $request['school_id'] = $school_id;
+
+        $student->update($request->except('school_name'));
+        return redirect()->route('siswa.index')->with('message', 'Siswa Berhasil Diperbarui!');
     }
 
     /**
@@ -81,6 +96,8 @@ class SiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $student = Student::where('kode_siswa', $id)->first();
+        $student->delete();
+        return back();
     }
 }
