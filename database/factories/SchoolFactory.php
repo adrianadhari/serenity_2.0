@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\School;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Config;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\School>
@@ -17,20 +18,27 @@ class SchoolFactory extends Factory
      */
     public function definition(): array
     {
-        $schoolData = School::getSchoolData();
+        $schools = Config::get('constantsdata.school');
+        $categories = Config::get('constantsdata.category');
+        $types = Config::get('constantsdata.type');
 
-        $schoolTypes = $schoolData['school'];
-        $categories = $schoolData['category'];
-        $types = $schoolData['type'];
+        $client = new Client();
+
+        $responseProvinces = $client->get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+        $provinces = json_decode($responseProvinces->getBody()->getContents(), true);
+        $province = fake()->randomElement($provinces);
+        $responseCities = $client->get("https://www.emsifa.com/api-wilayah-indonesia/api/regencies/{$province['id']}.json");
+        $cities = json_decode($responseCities->getBody()->getContents(), true);
+        $city = fake()->randomElement($cities);
 
         return [
             'kode_sekolah' => 'SC' . fake()->unique()->numerify('###'),
             'nama_sekolah' => fake()->company,
-            'kategori_sekolah' => $categories[array_rand($categories)],
-            'jenis_sekolah' => $schoolTypes[array_rand($schoolTypes)],
-            'tipe_sekolah' => $types[array_rand($types)],
-            'provinsi' => fake()->state,
-            'kota' => fake()->city,
+            'kategori_sekolah' => fake()->randomElement($categories),
+            'jenis_sekolah' => fake()->randomElement($schools),
+            'tipe_sekolah' => fake()->randomElement($types),
+            'provinsi' => $province['name'],
+            'kota' => $city['name'],
             'alamat_sekolah' => fake()->address,
             'nama_kontak' => fake()->name,
             'telp' => fake()->numerify('#########'),

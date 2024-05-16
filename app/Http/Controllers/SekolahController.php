@@ -8,6 +8,7 @@ use App\Imports\SchoolImport;
 use App\Models\School;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -15,11 +16,15 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SekolahController extends Controller
 {
-    private $schoolData;
+    protected $schools;
+    protected $categories;
+    protected $types;
 
     public function __construct()
     {
-        $this->schoolData = School::getSchoolData();
+        $this->schools = Config::get('constantsdata.school');
+        $this->categories = Config::get('constantsdata.category');
+        $this->types = Config::get('constantsdata.type');
     }
 
     public function index(): Response
@@ -36,9 +41,9 @@ class SekolahController extends Controller
     public function create(): Response
     {
         return Inertia::render('Sekolah/Create', [
-            'school' => $this->schoolData['school'],
-            'schoolCategory' => $this->schoolData['category'],
-            'schoolType' => $this->schoolData['type']
+            'school' => $this->schools,
+            'schoolCategory' => $this->categories,
+            'schoolType' => $this->types
         ]);
     }
 
@@ -65,9 +70,9 @@ class SekolahController extends Controller
         $school = School::where('kode_sekolah', $id)->first();
         return Inertia::render('Sekolah/Edit', [
             'schoolDetail' => $school,
-            'school' => $this->schoolData['school'],
-            'schoolCategory' => $this->schoolData['category'],
-            'schoolType' => $this->schoolData['type']
+            'school' => $this->schools,
+            'schoolCategory' => $this->categories,
+            'schoolType' => $this->types
         ]);
     }
 

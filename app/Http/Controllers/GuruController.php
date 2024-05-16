@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,10 @@ class GuruController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Guru/Index');
+        $teachers = Teacher::with('school')->latest()->get();
+        return Inertia::render('Guru/Index', [
+            'teachers' => $teachers
+        ]);
     }
 
     /**

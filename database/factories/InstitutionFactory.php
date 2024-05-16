@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Institution;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Config;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Institution>
@@ -17,18 +17,16 @@ class InstitutionFactory extends Factory
      */
     public function definition(): array
     {
-        $institutionData = Institution::getInstitutionData();
-
-        $negara = $institutionData['negara'];
-        $grup = $institutionData['grup'];
-        $jenis = $institutionData['jenis'];
+        $negara = Config::get('constantsdata.negara');
+        $grup = Config::get('constantsdata.grup');
+        $jenis = Config::get('constantsdata.jenis');
 
         return [
             'kode' => 'IN' . fake()->unique()->numerify('###'),
             'nama' => fake()->company,
-            'negara' => $negara[array_rand($negara)],
-            'grup' => $grup[array_rand($grup)],
-            'jenis' => $jenis[array_rand($jenis)],
+            'negara' => fake()->randomElement($negara),
+            'grup' => fake()->randomElement($grup),
+            'jenis' => fake()->randomElement($jenis),
             'alamat' => fake()->address,
             'telp' => fake()->numerify('#########'),
             'email' => fake()->safeEmail,

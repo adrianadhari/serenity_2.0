@@ -7,12 +7,18 @@ use App\Models\School;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class SiswaController extends Controller
 {
-    private $gender = ['Pria', 'Wanita'];
+    protected $gender;
+
+    public function __construct()
+    {
+        $this->gender = Config::get('constantsdata.gender');
+    }
 
     /**
      * Display a listing of the resource.

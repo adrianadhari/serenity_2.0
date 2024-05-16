@@ -2,17 +2,21 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Institution;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 
 class InstitutionRequest extends FormRequest
 {
-    private $institutionData;
+    protected $negara;
+    protected $grup;
+    protected $jenis;
 
     public function __construct()
     {
-        $this->institutionData = Institution::getInstitutionData();
+        $this->negara = Config::get('constantsdata.negara');
+        $this->grup = Config::get('constantsdata.grup');
+        $this->jenis = Config::get('constantsdata.jenis');
     }
 
     /**
@@ -32,13 +36,12 @@ class InstitutionRequest extends FormRequest
     {
         return [
             'nama' => ['required', 'string', 'max:255'],
-            'negara' => ['required', Rule::in($this->institutionData['negara'])],
-            'grup' => ['required', Rule::in($this->institutionData['grup'])],
-            'jenis' => ['required', Rule::in($this->institutionData['jenis'])],
+            'negara' => ['required', Rule::in($this->negara)],
+            'grup' => ['required', Rule::in($this->grup)],
+            'jenis' => ['required', Rule::in($this->jenis)],
             'alamat' => ['required', 'string'],
             'telp' => ['required', 'max:13', 'string'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
-            'tgl_registrasi' => ['required', 'date'],
         ];
     }
 }

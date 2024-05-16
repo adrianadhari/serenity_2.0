@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\School;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Config;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Student>
@@ -17,6 +18,8 @@ class StudentFactory extends Factory
      */
     public function definition(): array
     {
+        $gender = Config::get('constantsdata.gender');
+
         return [
             'kode_siswa' => 'ST' . fake()->unique()->numerify('###'),
             'nama_siswa' => fake()->name,
@@ -25,7 +28,7 @@ class StudentFactory extends Factory
             'email' => fake()->safeEmail,
             'telp' => fake()->numerify('#########'),
             'nama_wali' => fake()->name,
-            'jenis_kelamin' => fake()->randomElement(['Pria', 'Wanita']),
+            'jenis_kelamin' => fake()->randomElement($gender),
             'keterangan' => fake()->sentence,
         ];
     }

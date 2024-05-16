@@ -41,7 +41,7 @@ export default function EditForm({
     const updateInstitution = async (e) => {
         e.preventDefault();
 
-        patch(route("sekolah.update", institutionDetail.kode));
+        patch(route("institusi.update", institutionDetail.kode));
     };
 
     return (
