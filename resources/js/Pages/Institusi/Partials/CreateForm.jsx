@@ -62,7 +62,7 @@ export default function CreateForm({ negara, jenis, grup }) {
                         onChange={(e) => setData("negara", e.value)}
                         options={negara}
                         optionLabel="name"
-                        placeholder="-- Pilih Negara --"
+                        placeholder="-- Pilih Negara Institusi --"
                         filter
                         checkmark={true}
                         highlightOnSelect={false}

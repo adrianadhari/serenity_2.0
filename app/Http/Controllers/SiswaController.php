@@ -100,7 +100,7 @@ class SiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $student = Student::where('kode_siswa', $id)->first();
         $student->delete();

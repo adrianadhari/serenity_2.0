@@ -139,7 +139,7 @@ export default function EditForm({
                         onChange={(e) => setData("jenis_sekolah", e.value)}
                         options={school}
                         optionLabel="name"
-                        placeholder="-- Pilih Jenis --"
+                        placeholder="-- Pilih Jenis Sekolah --"
                         filter
                         checkmark={true}
                         highlightOnSelect={false}

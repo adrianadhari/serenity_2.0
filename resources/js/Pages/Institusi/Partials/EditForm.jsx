@@ -69,7 +69,7 @@ export default function EditForm({
                         onChange={(e) => setData("negara", e.value)}
                         options={negaraInstitusi}
                         optionLabel="name"
-                        placeholder="-- Pilih Negara --"
+                        placeholder="-- Pilih Negara Institusi --"
                         filter
                         checkmark={true}
                         highlightOnSelect={false}
