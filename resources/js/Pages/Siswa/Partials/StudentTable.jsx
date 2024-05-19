@@ -10,44 +10,39 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import moment from "moment";
 
 export default function StudentTable({ students }) {
-    const [datas, setDatas] = useState(null);
-    const [deleteDataModal, setDeleteDataModal] = useState(false);
-    const [deleteDatasModal, setDeleteDatasModal] = useState(false);
+    const [dataStudents, setDataStudents] = useState(null);
+    const [deleteModal, setDeleteModal] = useState(false);
     const [detailDataModal, setDetailDataModal] = useState(false);
-    const [data, setData] = useState(null);
+    const [detailStudent, setDetailStudent] = useState(null);
     const [selectedDatas, setSelectedDatas] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
 
     useEffect(() => {
-        setDatas(students);
-    }, []);
-
-    const confirmDeleteData = (data) => {
-        setData(data);
-        setDeleteDataModal(true);
-    };
+        setDataStudents(students);
+    }, [students]);
 
     const confirmDeleteSelected = () => {
-        setDeleteDatasModal(true);
+        setDeleteModal(true);
     };
 
     const confirmDetailData = (data) => {
-        setData(data);
+        setDetailStudent(data);
         setDetailDataModal(true);
     };
 
-    const { delete: destroy, processing } = useForm();
+    const { setData, post, processing } = useForm({
+        codes: [],
+    });
 
     const deleteStudents = (e) => {
         e.preventDefault();
-        let _students = datas.filter((val) => val.id !== data.id);
 
-        destroy(route("siswa.destroy", data.kode_siswa), {
+        post(route("siswa.multipleDelete"), {
             preserveScroll: true,
-            onSuccess: () => setDeleteDataModal(false),
+            onSuccess: () => setDeleteModal(false),
             onFinish: () => {
-                setDatas(_students);
+                setSelectedDatas(null);
                 toast.current.show({
                     severity: "success",
                     summary: "Siswa Berhasil Dihapus",
@@ -86,20 +81,6 @@ export default function StudentTable({ students }) {
                         <path d="M15.7279 9.57627L14.3137 8.16206L5 17.4758V18.89H6.41421L15.7279 9.57627ZM17.1421 8.16206L18.5563 6.74785L17.1421 5.33363L15.7279 6.74785L17.1421 8.16206ZM7.24264 20.89H3V16.6473L16.435 3.21231C16.8256 2.82179 17.4587 2.82179 17.8492 3.21231L20.6777 6.04074C21.0682 6.43126 21.0682 7.06443 20.6777 7.45495L7.24264 20.89Z"></path>
                     </svg>
                 </Link>
-
-                <button
-                    onClick={() => confirmDeleteData(rowData)}
-                    className="p-2 btn-danger"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-4 h-4"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                    >
-                        <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM18 8H6V20H18V8ZM9 11H11V17H9V11ZM13 11H15V17H13V11ZM9 4V6H15V4H9Z"></path>
-                    </svg>
-                </button>
             </div>
         );
     };
@@ -147,13 +128,21 @@ export default function StudentTable({ students }) {
         </div>
     );
 
+    const onSelectionChange = (e) => {
+        setSelectedDatas(e.value);
+        setData(
+            "codes",
+            e.value.map((item) => item.kode_siswa)
+        );
+    };
+
     return (
         <>
             <Toast ref={toast} />
 
             <div className="card shadow-lg">
                 <DataTable
-                    value={datas}
+                    value={dataStudents}
                     paginator
                     rows={10}
                     globalFilter={globalFilter}
@@ -163,7 +152,7 @@ export default function StudentTable({ students }) {
                     stripedRows
                     removableSort
                     selection={selectedDatas}
-                    onSelectionChange={(e) => setSelectedDatas(e.value)}
+                    onSelectionChange={onSelectionChange}
                     currentPageReportTemplate="Menampilkan {first} sampai {last} dari {totalRecords} siswa"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
                 >
@@ -187,51 +176,63 @@ export default function StudentTable({ students }) {
                 draggable={false}
                 className="md:w-1/2"
             >
-                {data && (
+                {detailStudent && (
                     <>
                         <table className="table-auto mb-4">
                             <tbody>
                                 <tr>
                                     <td className="font-bold">Kode Siswa</td>
                                     <td className="p-2">:</td>
-                                    <td className="p-2">{data.kode_siswa}</td>
+                                    <td className="p-2">
+                                        {detailStudent.kode_siswa}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">Nama Siswa</td>
                                     <td className="p-2">:</td>
-                                    <td className="p-2">{data.nama_siswa}</td>
+                                    <td className="p-2">
+                                        {detailStudent.nama_siswa}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">NIS Siswa</td>
                                     <td className="p-2">:</td>
-                                    <td className="p-2">{data.nis}</td>
+                                    <td className="p-2">{detailStudent.nis}</td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">Jenis Kelamin</td>
                                     <td className="p-2">:</td>
                                     <td className="p-2">
-                                        {data.jenis_kelamin}
+                                        {detailStudent.jenis_kelamin}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">Email</td>
                                     <td className="p-2">:</td>
-                                    <td className="p-2">{data.email}</td>
+                                    <td className="p-2">
+                                        {detailStudent.email}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">Nomor Telepon</td>
                                     <td className="p-2">:</td>
-                                    <td className="p-2">{data.telp}</td>
+                                    <td className="p-2">
+                                        {detailStudent.telp}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">Nama Wali</td>
                                     <td className="p-2">:</td>
-                                    <td className="p-2">{data.nama_wali}</td>
+                                    <td className="p-2">
+                                        {detailStudent.nama_wali}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">Keterangan</td>
                                     <td className="p-2">:</td>
-                                    <td className="p-2">{data.keterangan}</td>
+                                    <td className="p-2">
+                                        {detailStudent.keterangan}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td className="font-bold">
@@ -239,9 +240,9 @@ export default function StudentTable({ students }) {
                                     </td>
                                     <td className="p-2">:</td>
                                     <td className="p-2">
-                                        {moment(data.created_at).format(
-                                            "D/MM/YYYY"
-                                        )}
+                                        {moment(
+                                            detailStudent.created_at
+                                        ).format("D/MM/YYYY")}
                                     </td>
                                 </tr>
                             </tbody>
@@ -259,7 +260,7 @@ export default function StudentTable({ students }) {
                                         </td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.kode_sekolah}
+                                            {detailStudent.school.kode_sekolah}
                                         </td>
                                     </tr>
                                     <tr>
@@ -268,7 +269,7 @@ export default function StudentTable({ students }) {
                                         </td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.nama_sekolah}
+                                            {detailStudent.school.nama_sekolah}
                                         </td>
                                     </tr>
                                     <tr>
@@ -277,7 +278,10 @@ export default function StudentTable({ students }) {
                                         </td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.kategori_sekolah}
+                                            {
+                                                detailStudent.school
+                                                    .kategori_sekolah
+                                            }
                                         </td>
                                     </tr>
                                     <tr>
@@ -286,7 +290,7 @@ export default function StudentTable({ students }) {
                                         </td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.jenis_sekolah}
+                                            {detailStudent.school.jenis_sekolah}
                                         </td>
                                     </tr>
                                     <tr>
@@ -295,7 +299,7 @@ export default function StudentTable({ students }) {
                                         </td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.tipe_sekolah}
+                                            {detailStudent.school.tipe_sekolah}
                                         </td>
                                     </tr>
                                     <tr>
@@ -304,21 +308,24 @@ export default function StudentTable({ students }) {
                                         </td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.alamat_sekolah}
+                                            {
+                                                detailStudent.school
+                                                    .alamat_sekolah
+                                            }
                                         </td>
                                     </tr>
                                     <tr>
                                         <td className="font-bold">Provinsi</td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.provinsi}
+                                            {detailStudent.school.provinsi}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td className="font-bold">Kota</td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.kota}
+                                            {detailStudent.school.kota}
                                         </td>
                                     </tr>
                                     <tr>
@@ -327,7 +334,7 @@ export default function StudentTable({ students }) {
                                         </td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.nama_kontak}
+                                            {detailStudent.school.nama_kontak}
                                         </td>
                                     </tr>
                                     <tr>
@@ -336,14 +343,14 @@ export default function StudentTable({ students }) {
                                         </td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.telp}
+                                            {detailStudent.school.telp}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td className="font-bold">Email</td>
                                         <td className="p-2">:</td>
                                         <td className="p-2">
-                                            {data.school.email}
+                                            {detailStudent.school.email}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -354,51 +361,9 @@ export default function StudentTable({ students }) {
             </Dialog>
 
             <Dialog
-                header="Hapus Data"
-                visible={deleteDataModal}
-                onHide={() => setDeleteDataModal(false)}
-                draggable={false}
-                className="md:w-1/2"
-            >
-                {data && (
-                    <form
-                        onSubmit={deleteStudents}
-                        className="flex flex-col items-center gap-2"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="rgba(255,0,0,1)"
-                            className="w-24"
-                        >
-                            <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 15H13V17H11V15ZM11 7H13V13H11V7Z"></path>
-                        </svg>
-
-                        <p className="font-medium text-lg">
-                            Anda yakin ingin menghapus data{" "}
-                            <span className="font-semibold">
-                                {data.nama_siswa}
-                            </span>
-                            ?
-                        </p>
-
-                        <div className="flex items-center">
-                            <PrimaryButton
-                                className="mt-2 px-4 py-2 btn-danger"
-                                disabled={processing}
-                            >
-                                Ya, Hapus
-                                <Spinner isLoading={processing} />
-                            </PrimaryButton>
-                        </div>
-                    </form>
-                )}
-            </Dialog>
-
-            <Dialog
                 header="Hapus Data Terpilih"
-                visible={deleteDatasModal}
-                onHide={() => setDeleteDatasModal(false)}
+                visible={deleteModal}
+                onHide={() => setDeleteModal(false)}
                 draggable={false}
             >
                 <div className="flex flex-col items-center gap-2">
@@ -417,6 +382,7 @@ export default function StudentTable({ students }) {
                         <PrimaryButton
                             className="mt-2 px-4 py-2 btn-danger"
                             disabled={processing}
+                            onClick={deleteStudents}
                         >
                             Ya, Hapus
                             <Spinner isLoading={processing} />

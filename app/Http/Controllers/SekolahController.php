@@ -89,11 +89,14 @@ class SekolahController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id): RedirectResponse
+    public function multipleDelete(Request $request): RedirectResponse
     {
-        $school = School::where('kode_sekolah', $id)->first();
-        $school->delete();
-        return back();
+        $codes = $request->input('codes');
+        if (is_array($codes) && count($codes) > 0) {
+            School::whereIn('kode_sekolah', $codes)->delete();
+            return redirect()->route('sekolah.index');
+        }
+        return redirect()->route('sekolah.index');
     }
 
     public function import(Request $request): RedirectResponse

@@ -60,14 +60,6 @@ class InstitusiController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id): Response
@@ -94,10 +86,13 @@ class InstitusiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function multipleDelete(Request $request): RedirectResponse
     {
-        $institution = Institution::where('kode', $id)->first();
-        $institution->delete();
-        return back();
+        $codes = $request->input('codes');
+        if (is_array($codes) && count($codes) > 0) {
+            Institution::whereIn('kode', $codes)->delete();
+            return redirect()->route('institusi.index');
+        }
+        return redirect()->route('institusi.index');
     }
 }

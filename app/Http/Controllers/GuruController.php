@@ -104,10 +104,13 @@ class GuruController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function multipleDelete(Request $request): RedirectResponse
     {
-        $teacher = Teacher::where('kode', $id)->first();
-        $teacher->delete();
-        return back();
+        $codes = $request->input('codes');
+        if (is_array($codes) && count($codes) > 0) {
+            Teacher::whereIn('kode', $codes)->delete();
+            return redirect()->route('guru.index');
+        }
+        return redirect()->route('guru.index');
     }
 }

@@ -26,14 +26,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware('adminOrUnit')->group(function () {
-        Route::resource('/sekolah', SekolahController::class);
-        Route::post('/sekolah/import', [SekolahController::class, 'import'])->name('sekolah.import');
-        Route::get('/sekolah/export', [SekolahController::class, 'export'])->name('sekolah.export');
+        Route::resource('/sekolah', SekolahController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('sekolah')->name('sekolah.')->group(function () {
+            Route::post('/multiple-delete', [SekolahController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/import', [SekolahController::class, 'import'])->name('import');
+            Route::get('/export', [SekolahController::class, 'export'])->name('export');
+        });
 
         Route::resource('/institusi', InstitusiController::class);
+        Route::post('/institusi/multiple-delete', [InstitusiController::class, 'multipleDelete'])->name('institusi.multipleDelete');
+
         Route::resource('/siswa', SiswaController::class);
+        Route::post('/siswa/multiple-delete', [SiswaController::class, 'multipleDelete'])->name('siswa.multipleDelete');
+
         Route::resource('/magang', MagangController::class);
+
         Route::resource('/guru', GuruController::class);
+        Route::post('/guru/multiple-delete', [GuruController::class, 'multipleDelete'])->name('guru.multipleDelete');
+
         Route::resource('/peserta', PesertaController::class);
         Route::resource('/publikasi', PublikasiController::class);
     });
