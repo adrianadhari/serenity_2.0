@@ -9,7 +9,7 @@ import { Head, useForm } from "@inertiajs/react";
 
 export default function Login({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
+        username: "",
         password: "",
         remember: false,
     });
@@ -38,19 +38,19 @@ export default function Login({ status }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="username" value="Username" />
 
                     <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
+                        id="username"
+                        type="text"
+                        name="username"
+                        value={data.username}
                         autoComplete="username"
                         isFocused={true}
-                        onChange={(e) => setData("email", e.target.value)}
+                        onChange={(e) => setData("username", e.target.value)}
                     />
 
-                    <InputError message={errors.email} />
+                    <InputError message={errors.username} />
                 </div>
 
                 <div className="mt-4">

@@ -26,8 +26,7 @@ export default function EditForm({
         jenisOptionTemplate,
     } = handleFunctions;
 
-    let { nama, negara, grup, jenis, alamat, telp, email, tgl_registrasi } =
-        institutionDetail;
+    let { nama, negara, grup, jenis, alamat, telp, email } = institutionDetail;
 
     const { data, setData, patch, processing, errors } = useForm({
         nama,
@@ -37,13 +36,12 @@ export default function EditForm({
         alamat,
         telp,
         email,
-        tgl_registrasi,
     });
 
     const updateInstitution = async (e) => {
         e.preventDefault();
 
-        patch(route("sekolah.update", institutionDetail.kode));
+        patch(route("institusi.update", institutionDetail.kode));
     };
 
     return (
@@ -71,7 +69,7 @@ export default function EditForm({
                         onChange={(e) => setData("negara", e.value)}
                         options={negaraInstitusi}
                         optionLabel="name"
-                        placeholder="-- Pilih Negara --"
+                        placeholder="-- Pilih Negara Institusi --"
                         filter
                         checkmark={true}
                         highlightOnSelect={false}
@@ -124,11 +122,7 @@ export default function EditForm({
 
                     <InputError message={errors.jenis} />
                 </div>
-            </div>
 
-            <hr className="my-8 border-gray-300" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
                     <InputLabel value="Email Institusi" />
 
@@ -159,26 +153,12 @@ export default function EditForm({
                     <InputLabel value="Alamat" />
 
                     <TextArea
-                        placeholder="Masukkan institusi"
+                        placeholder="Masukkan alamat institusi"
                         onChange={(e) => setData("alamat", e.target.value)}
                         value={data.alamat}
                     />
 
                     <InputError message={errors.alamat} />
-                </div>
-
-                <div className="form-control">
-                    <InputLabel value="Tanggal Daftar" />
-
-                    <TextInput
-                        type="date"
-                        value={data.tgl_registrasi}
-                        onChange={(e) =>
-                            setData("tgl_registrasi", e.target.value)
-                        }
-                    />
-
-                    <InputError message={errors.tgl_registrasi} />
                 </div>
             </div>
 

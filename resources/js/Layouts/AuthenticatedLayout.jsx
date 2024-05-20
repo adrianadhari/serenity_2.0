@@ -13,7 +13,7 @@ export default function Authenticated({ children, user, titlePage }) {
                 </main>
             </div>
 
-            <SidebarMenu />
+            <SidebarMenu user={user} />
         </div>
     );
 }

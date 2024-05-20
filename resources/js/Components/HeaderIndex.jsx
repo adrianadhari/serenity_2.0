@@ -5,7 +5,7 @@ export default function HeaderIndex({ children, link }) {
         <div className="flex flex-col md:flex-row md:items-center justify-between flex-wrap gap-2 py-8">
             <Link
                 href={link}
-                className="justify-center flex items-center px-4 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-rose-600 border border-transparent rounded-lg active:bg-rose-600 hover:bg-rose-700 focus:outline-none focus:shadow-outline-rose ease-in-out"
+                className="justify-center flex items-center px-4 py-2 btn-primary"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

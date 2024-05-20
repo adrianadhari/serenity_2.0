@@ -11,30 +11,13 @@ class School extends Model
 
     protected $guarded = ['id'];
 
-    public static function getSchoolData(): array
+    public function students()
     {
-        return [
-            'school' => [
-                "KB (Kelompok Bermain)",
-                "PAUD",
-                "TK (Taman Kanak-Kanak)",
-                "SD",
-                "SMP",
-                "SMA",
-                "SMK",
-                "SPS",
-                "MI",
-                "MTS",
-                "MA",
-                "RA (Raudhatul Athfal)",
-                "DINAS",
-                "Universitas",
-                "Lainnya",
-            ],
+        return $this->hasMany(Student::class);
+    }
 
-            'category' => ["Madya", "Utama", "Pari Purna"],
-
-            'type' => ["NEGERI", "SWASTA"],
-        ];
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
     }
 }

@@ -14,14 +14,13 @@ return new class extends Migration
         Schema::create('institutions', function (Blueprint $table) {
             $table->id();
             $table->string('kode')->unique();
-            $table->string('nama')->unique();
+            $table->string('nama');
             $table->string('negara');
             $table->string('grup');
             $table->string('jenis');
             $table->text('alamat');
             $table->string('telp');
             $table->string('email');
-            $table->date('tgl_registrasi');
             $table->timestamps();
         });
     }

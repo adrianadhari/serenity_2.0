@@ -6,16 +6,21 @@ use App\Http\Requests\InstitutionRequest;
 use App\Models\Institution;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class InstitusiController extends Controller
 {
-    private $institutionData;
+    protected $negara;
+    protected $grup;
+    protected $jenis;
 
     public function __construct()
     {
-        $this->institutionData = Institution::getInstitutionData();
+        $this->negara = Config::get('constantsdata.negara');
+        $this->grup = Config::get('constantsdata.grup');
+        $this->jenis = Config::get('constantsdata.jenis');
     }
 
     /**
@@ -35,9 +40,9 @@ class InstitusiController extends Controller
     public function create(): Response
     {
         return Inertia::render('Institusi/Create', [
-            'negara' => $this->institutionData['negara'],
-            'grup' => $this->institutionData['grup'],
-            'jenis' => $this->institutionData['jenis']
+            'negara' => $this->negara,
+            'grup' => $this->grup,
+            'jenis' => $this->jenis
         ]);
     }
 
@@ -48,18 +53,10 @@ class InstitusiController extends Controller
     {
         $institution = $request->all();
 
-        $institution['kode'] = 'I' . time();
+        $institution['kode'] = 'IN' . time();
 
         Institution::create($institution);
         return redirect()->route('institusi.index')->with('message', 'Institusi Berhasil Ditambahkan!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -70,9 +67,9 @@ class InstitusiController extends Controller
         $institution = Institution::where('kode', $id)->first();
         return Inertia::render('Institusi/Edit', [
             'institutionDetail' => $institution,
-            'negara' => $this->institutionData['negara'],
-            'grup' => $this->institutionData['grup'],
-            'jenis' => $this->institutionData['jenis']
+            'negara' => $this->negara,
+            'grup' => $this->grup,
+            'jenis' => $this->jenis
         ]);
     }
 
@@ -89,10 +86,13 @@ class InstitusiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function multipleDelete(Request $request): RedirectResponse
     {
-        $institution = Institution::where('kode', $id)->first();
-        $institution->delete();
-        return back();
+        $codes = $request->input('codes');
+        if (is_array($codes) && count($codes) > 0) {
+            Institution::whereIn('kode', $codes)->delete();
+            return redirect()->route('institusi.index');
+        }
+        return redirect()->route('institusi.index');
     }
 }

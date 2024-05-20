@@ -8,6 +8,7 @@ use App\Imports\SchoolImport;
 use App\Models\School;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -15,11 +16,15 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SekolahController extends Controller
 {
-    private $schoolData;
+    protected $schools;
+    protected $categories;
+    protected $types;
 
     public function __construct()
     {
-        $this->schoolData = School::getSchoolData();
+        $this->schools = Config::get('constantsdata.school');
+        $this->categories = Config::get('constantsdata.category');
+        $this->types = Config::get('constantsdata.type');
     }
 
     public function index(): Response
@@ -36,9 +41,9 @@ class SekolahController extends Controller
     public function create(): Response
     {
         return Inertia::render('Sekolah/Create', [
-            'school' => $this->schoolData['school'],
-            'schoolCategory' => $this->schoolData['category'],
-            'schoolType' => $this->schoolData['type']
+            'school' => $this->schools,
+            'schoolCategory' => $this->categories,
+            'schoolType' => $this->types
         ]);
     }
 
@@ -49,7 +54,7 @@ class SekolahController extends Controller
     {
         $school = $request->all();
 
-        $school['kode_sekolah'] = 'S' . time();
+        $school['kode_sekolah'] = 'SC' . time();
         $school['provinsi'] = $school['provinsi']['name'];
         $school['kota'] = $school['kota']['name'];
 
@@ -65,9 +70,9 @@ class SekolahController extends Controller
         $school = School::where('kode_sekolah', $id)->first();
         return Inertia::render('Sekolah/Edit', [
             'schoolDetail' => $school,
-            'school' => $this->schoolData['school'],
-            'schoolCategory' => $this->schoolData['category'],
-            'schoolType' => $this->schoolData['type']
+            'school' => $this->schools,
+            'schoolCategory' => $this->categories,
+            'schoolType' => $this->types
         ]);
     }
 
@@ -84,11 +89,14 @@ class SekolahController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id): RedirectResponse
+    public function multipleDelete(Request $request): RedirectResponse
     {
-        $school = School::where('kode_sekolah', $id)->first();
-        $school->delete();
-        return back();
+        $codes = $request->input('codes');
+        if (is_array($codes) && count($codes) > 0) {
+            School::whereIn('kode_sekolah', $codes)->delete();
+            return redirect()->route('sekolah.index');
+        }
+        return redirect()->route('sekolah.index');
     }
 
     public function import(Request $request): RedirectResponse
