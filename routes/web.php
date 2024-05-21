@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/multiple-delete', [SekolahController::class, 'multipleDelete'])->name('multipleDelete');
             Route::post('/import', [SekolahController::class, 'import'])->name('import');
             Route::get('/export', [SekolahController::class, 'export'])->name('export');
+            Route::get('/download-template', [SekolahController::class, 'downloadTemplate'])->name('downloadTemplate');
         });
 
         Route::resource('/institusi', InstitusiController::class);

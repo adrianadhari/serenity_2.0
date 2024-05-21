@@ -5,8 +5,10 @@ namespace App\Imports;
 use App\Models\School;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Support\Str;
 
-class SchoolImport implements ToModel
+class SchoolImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -16,18 +18,18 @@ class SchoolImport implements ToModel
     public function model(array $row)
     {
         return new School([
-            'kode_sekolah' => 'S' . time(),
-            'nama_sekolah' => $row[0],
-            'kategori_sekolah' => $row[1],
-            'jenis_sekolah' => $row[2],
-            'tipe_sekolah' => $row[3],
-            'provinsi' => $row[4],
-            'kota' => $row[5],
-            'alamat_sekolah' => $row[6],
-            'nama_kontak' => $row[7],
-            'telp' => $row[8],
-            'email' => $row[9],
-            'tgl_registrasi' => Carbon::now()->format('Y-m-d')
+            'kode_sekolah' => 'SCH-' . Str::random(8),
+            'nama_sekolah' => $row['nama_sekolah'],
+            'kategori_sekolah' => $row['kategori_sekolah'],
+            'jenis_sekolah' => $row['jenis_sekolah'],
+            'tipe_sekolah' => $row['tipe_sekolah'],
+            'provinsi' => $row['provinsi'],
+            'kota' => $row['kota'],
+            'alamat_sekolah' => $row['alamat_sekolah'],
+            'nama_kontak' => $row['nama_kontak'],
+            'telp' => $row['telp'],
+            'email' => $row['email'],
+            'tgl_registrasi' => Carbon::now()
         ]);
     }
 }
