@@ -11,6 +11,24 @@ class School extends Model
 
     protected $guarded = ['id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->kode_sekolah = self::generateUniqueCode();
+        });
+    }
+
+    private static function generateUniqueCode()
+    {
+        do {
+            $code = 'SCH' . time();
+        } while (self::where('kode_sekolah', $code)->exists());
+
+        return $code;
+    }
+
     public function students()
     {
         return $this->hasMany(Student::class);

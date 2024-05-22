@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TeacherExport;
+use App\Exports\TemplateTeacherExport;
 use App\Http\Requests\TeacherRequest;
+use App\Http\Requests\TeacherUpdateRequest;
+use App\Imports\TeacherImport;
 use App\Models\School;
 use App\Models\Teacher;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GuruController extends Controller
 {
@@ -54,21 +61,12 @@ class GuruController extends Controller
     {
         $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
 
-        $request['kode'] = 'TCH' . time();
         $request['school_id'] = $school_id;
 
         $student = $request->except('school_name');
 
         Teacher::create($student);
         return redirect()->route('guru.index')->with('message', 'Guru Berhasil Ditambahkan!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -90,7 +88,7 @@ class GuruController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TeacherRequest $request, string $id): RedirectResponse
+    public function update(TeacherUpdateRequest $request, string $id): RedirectResponse
     {
         $teacher = Teacher::where('kode', $id)->first();
         $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
@@ -112,5 +110,30 @@ class GuruController extends Controller
             return redirect()->route('guru.index');
         }
         return redirect()->route('guru.index');
+    }
+
+    public function import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'file' => ['required', 'mimes:csv,xls,xlsx']
+        ]);
+
+        $file = $request->file('file');
+        $nama_file = $file->hashName();
+        $file->storeAs('public/excel/', $nama_file);
+        Excel::import(new TeacherImport(), storage_path('app/public/excel/' . $nama_file));
+        Storage::delete('public/excel/' . $nama_file);
+
+        return redirect()->back();
+    }
+
+    public function export()
+    {
+        return Excel::download(new TeacherExport(), 'teachers-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new TemplateTeacherExport(), 'template-teachers.xlsx');
     }
 }

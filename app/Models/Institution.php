@@ -10,4 +10,22 @@ class Institution extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->kode = self::generateUniqueCode();
+        });
+    }
+
+    private static function generateUniqueCode()
+    {
+        do {
+            $code = 'INS' . time();
+        } while (self::where('kode', $code)->exists());
+
+        return $code;
+    }
 }

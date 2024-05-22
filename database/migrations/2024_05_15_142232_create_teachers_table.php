@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode')->unique();
             $table->string('nama');
-            $table->string('nip');
+            $table->string('nip')->unique();
             $table->string('jenis_kelamin');
             $table->string('email');
             $table->string('telp');

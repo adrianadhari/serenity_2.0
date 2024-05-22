@@ -6,15 +6,13 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 
-class TeacherRequest extends FormRequest
+class StudentUpdateRequest extends FormRequest
 {
     protected $gender;
-    protected $pendidikan;
 
     public function __construct()
     {
         $this->gender = Config::get('constantsdata.gender');
-        $this->pendidikan = Config::get('constantsdata.pendidikan');
     }
 
     /**
@@ -33,13 +31,13 @@ class TeacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => ['required', 'max:255', 'string'],
-            'nip' => ['required', 'max:20', 'string', 'unique:teachers,nip'],
+            'nama_siswa' => ['required', 'max:255', 'string'],
+            'nis' => ['required', 'max:20', 'string'],
             'jenis_kelamin' => ['required', Rule::in($this->gender)],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'telp' => ['required', 'max:13', 'string'],
-            'jabatan' => ['required', 'max:255', 'string'],
-            'pendidikan' => ['required', Rule::in($this->pendidikan)],
+            'nama_wali' => ['required', 'max:255', 'string'],
+            'keterangan' => ['string'],
             'school_name' => ['required', 'exists:schools,nama_sekolah'],
         ];
     }

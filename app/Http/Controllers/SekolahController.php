@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\SchoolExport;
 use App\Exports\TemplateSchoolExport;
 use App\Http\Requests\SchoolRequest;
+use App\Http\Requests\SchoolUpdateRequest;
 use App\Imports\SchoolImport;
 use App\Models\School;
 use Carbon\Carbon;
@@ -57,7 +58,6 @@ class SekolahController extends Controller
     {
         $school = $request->all();
 
-        $school['kode_sekolah'] = 'SC' . time();
         $school['provinsi'] = $school['provinsi']['name'];
         $school['kota'] = $school['kota']['name'];
 
@@ -82,7 +82,7 @@ class SekolahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SchoolRequest $request, $id): RedirectResponse
+    public function update(SchoolUpdateRequest $request, $id): RedirectResponse
     {
         $school = School::where('kode_sekolah', $id)->first();
         $school->update($request->all());
@@ -119,7 +119,7 @@ class SekolahController extends Controller
 
     public function export()
     {
-        return Excel::download(new SchoolExport(), 'school-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+        return Excel::download(new SchoolExport(), 'schools-' . Carbon::now()->format('Y-m-d') . '.xlsx');
     }
 
     public function downloadTemplate()

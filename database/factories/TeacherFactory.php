@@ -22,7 +22,6 @@ class TeacherFactory extends Factory
         $pendidikan = Config::get('constantsdata.pendidikan');
 
         return [
-            'kode' => 'TCH' . fake()->unique()->numerify('###'),
             'nama' => fake()->name,
             'nip' => fake()->numerify('######'),
             'jenis_kelamin' => fake()->randomElement($gender),

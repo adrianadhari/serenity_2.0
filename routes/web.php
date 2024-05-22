@@ -36,16 +36,37 @@ Route::middleware('auth')->group(function () {
             Route::get('/download-template', [SekolahController::class, 'downloadTemplate'])->name('downloadTemplate');
         });
 
-        Route::resource('/institusi', InstitusiController::class);
-        Route::post('/institusi/multiple-delete', [InstitusiController::class, 'multipleDelete'])->name('institusi.multipleDelete');
+        Route::resource('/institusi', InstitusiController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('institusi')->name('institusi.')->group(function () {
+            Route::post('/multiple-delete', [InstitusiController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/import', [InstitusiController::class, 'import'])->name('import');
+            Route::get('/export', [InstitusiController::class, 'export'])->name('export');
+            Route::get('/download-template', [InstitusiController::class, 'downloadTemplate'])->name('downloadTemplate');
+        });
 
-        Route::resource('/siswa', SiswaController::class);
-        Route::post('/siswa/multiple-delete', [SiswaController::class, 'multipleDelete'])->name('siswa.multipleDelete');
+        Route::resource('/siswa', SiswaController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('siswa')->name('siswa.')->group(function () {
+            Route::post('/multiple-delete', [SiswaController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/import', [SiswaController::class, 'import'])->name('import');
+            Route::get('/export', [SiswaController::class, 'export'])->name('export');
+            Route::get('/download-template', [SiswaController::class, 'downloadTemplate'])->name('downloadTemplate');
+        });
 
         Route::resource('/magang', MagangController::class);
 
-        Route::resource('/guru', GuruController::class);
-        Route::post('/guru/multiple-delete', [GuruController::class, 'multipleDelete'])->name('guru.multipleDelete');
+        Route::resource('/guru', GuruController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('guru')->name('guru.')->group(function () {
+            Route::post('/multiple-delete', [GuruController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/import', [GuruController::class, 'import'])->name('import');
+            Route::get('/export', [GuruController::class, 'export'])->name('export');
+            Route::get('/download-template', [GuruController::class, 'downloadTemplate'])->name('downloadTemplate');
+        });
 
         Route::resource('/peserta', PesertaController::class);
         Route::resource('/publikasi', PublikasiController::class);

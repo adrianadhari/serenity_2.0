@@ -11,6 +11,24 @@ class Teacher extends Model
 
     protected $guarded = ['id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->kode = self::generateUniqueCode();
+        });
+    }
+
+    private static function generateUniqueCode()
+    {
+        do {
+            $code = 'TCH' . time();
+        } while (self::where('kode', $code)->exists());
+
+        return $code;
+    }
+
     public function school()
     {
         return $this->belongsTo(School::class);

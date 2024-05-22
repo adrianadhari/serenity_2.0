@@ -32,7 +32,7 @@ class StudentRequest extends FormRequest
     {
         return [
             'nama_siswa' => ['required', 'max:255', 'string'],
-            'nis' => ['required', 'max:20', 'string'],
+            'nis' => ['required', 'max:20', 'string', 'unique:students,nis'],
             'jenis_kelamin' => ['required', Rule::in($this->gender)],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'telp' => ['required', 'max:13', 'string'],

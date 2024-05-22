@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 
-class TeacherRequest extends FormRequest
+class TeacherUpdateRequest extends FormRequest
 {
     protected $gender;
     protected $pendidikan;
@@ -34,7 +34,7 @@ class TeacherRequest extends FormRequest
     {
         return [
             'nama' => ['required', 'max:255', 'string'],
-            'nip' => ['required', 'max:20', 'string', 'unique:teachers,nip'],
+            'nip' => ['required', 'max:20', 'string'],
             'jenis_kelamin' => ['required', Rule::in($this->gender)],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'telp' => ['required', 'max:13', 'string'],

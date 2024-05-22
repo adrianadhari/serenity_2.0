@@ -21,7 +21,6 @@ class StudentFactory extends Factory
         $gender = Config::get('constantsdata.gender');
 
         return [
-            'kode_siswa' => 'ST' . fake()->unique()->numerify('###'),
             'nama_siswa' => fake()->name,
             'nis' => fake()->numerify('######'),
             'school_id' => School::inRandomOrder()->first()->id,
