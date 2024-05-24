@@ -35,7 +35,7 @@ class InstitutionUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => ['required', 'string', 'max:255'],
+            'nama' => ['required', 'string', 'max:255', 'unique:institutions,nama,except,' . $this->institution->id],
             'negara' => ['required', Rule::in($this->negara)],
             'grup' => ['required', Rule::in($this->grup)],
             'jenis' => ['required', Rule::in($this->jenis)],

@@ -22,7 +22,7 @@ class StudentFactory extends Factory
 
         return [
             'nama_siswa' => fake()->name,
-            'nis' => fake()->numerify('######'),
+            'nis' => fake()->unique()->numerify('######'),
             'school_id' => School::inRandomOrder()->first()->id,
             'email' => fake()->safeEmail,
             'telp' => fake()->numerify('#########'),

@@ -56,7 +56,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/download-template', [SiswaController::class, 'downloadTemplate'])->name('downloadTemplate');
         });
 
-        Route::resource('/magang', MagangController::class);
+        Route::resource('/magang', MagangController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::post('/magang/multiple-delete', [MagangController::class, 'multipleDelete'])->name('magang.multipleDelete');
 
         Route::resource('/guru', GuruController::class)->except([
             'show', 'destroy'

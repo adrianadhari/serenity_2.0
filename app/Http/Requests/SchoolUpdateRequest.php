@@ -35,7 +35,7 @@ class SchoolUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_sekolah' => ['required', 'string', 'max:255'],
+            'nama_sekolah' => ['required', 'string', 'max:255', 'unique:schools,nama_sekolah,except,' . $this->school->id],
             'kategori_sekolah' => ['required', Rule::in($this->categories)],
             'jenis_sekolah' => ['required', Rule::in($this->schools)],
             'tipe_sekolah' => ['required', Rule::in($this->types)],

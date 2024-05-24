@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Institution;
+use App\Models\Internship;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -29,5 +30,6 @@ class DatabaseSeeder extends Seeder
         Institution::factory(20)->create();
         Student::factory(20)->create();
         Teacher::factory(20)->create();
+        Internship::factory(20)->create();
     }
 }

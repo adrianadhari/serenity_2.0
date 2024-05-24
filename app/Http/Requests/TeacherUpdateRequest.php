@@ -34,7 +34,7 @@ class TeacherUpdateRequest extends FormRequest
     {
         return [
             'nama' => ['required', 'max:255', 'string'],
-            'nip' => ['required', 'max:20', 'string'],
+            'nip' => ['required', 'max:20', 'string', 'unique:teachers,nip,except,' . $this->teacher->id],
             'jenis_kelamin' => ['required', Rule::in($this->gender)],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'telp' => ['required', 'max:13', 'string'],

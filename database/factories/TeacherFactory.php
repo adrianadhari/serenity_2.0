@@ -23,7 +23,7 @@ class TeacherFactory extends Factory
 
         return [
             'nama' => fake()->name,
-            'nip' => fake()->numerify('######'),
+            'nip' => fake()->unique()->numerify('######'),
             'jenis_kelamin' => fake()->randomElement($gender),
             'email' => fake()->safeEmail,
             'telp' => fake()->numerify('#########'),

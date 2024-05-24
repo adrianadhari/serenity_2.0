@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class Internship extends Model
 {
     use HasFactory;
 
@@ -16,26 +16,21 @@ class Student extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->kode_siswa = self::generateUniqueCode();
+            $model->kode = self::generateUniqueCode();
         });
     }
 
     private static function generateUniqueCode()
     {
         do {
-            $code = 'STD' . time();
-        } while (self::where('kode_siswa', $code)->exists());
+            $code = 'INT' . time();
+        } while (self::where('kode', $code)->exists());
 
         return $code;
     }
 
-    public function school()
+    public function student()
     {
-        return $this->belongsTo(School::class);
-    }
-
-    public function internships()
-    {
-        return $this->hasMany(Internship::class);
+        return $this->belongsTo(Student::class);
     }
 }
