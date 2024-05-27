@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InstitutionExport;
+use App\Exports\TemplateInstitutionExport;
 use App\Http\Requests\InstitutionRequest;
+use App\Http\Requests\InstitutionUpdateRequest;
+use App\Imports\InstitutionImport;
 use App\Models\Institution;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InstitusiController extends Controller
 {
@@ -53,8 +60,6 @@ class InstitusiController extends Controller
     {
         $institution = $request->all();
 
-        $institution['kode'] = 'IN' . time();
-
         Institution::create($institution);
         return redirect()->route('institusi.index')->with('message', 'Institusi Berhasil Ditambahkan!');
     }
@@ -76,7 +81,7 @@ class InstitusiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(InstitutionRequest $request, string $id): RedirectResponse
+    public function update(InstitutionUpdateRequest $request, string $id): RedirectResponse
     {
         $institution = Institution::where('kode', $id)->first();
         $institution->update($request->all());
@@ -94,5 +99,30 @@ class InstitusiController extends Controller
             return redirect()->route('institusi.index');
         }
         return redirect()->route('institusi.index');
+    }
+
+    public function import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'file' => ['required', 'mimes:csv,xls,xlsx']
+        ]);
+
+        $file = $request->file('file');
+        $nama_file = $file->hashName();
+        $file->storeAs('public/excel/', $nama_file);
+        Excel::import(new InstitutionImport(), storage_path('app/public/excel/' . $nama_file));
+        Storage::delete('public/excel/' . $nama_file);
+
+        return redirect()->back();
+    }
+
+    public function export()
+    {
+        return Excel::download(new InstitutionExport(), 'institutions-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new TemplateInstitutionExport(), 'template-institutions.xlsx');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 
-class InstitutionRequest extends FormRequest
+class InstitutionUpdateRequest extends FormRequest
 {
     protected $negara;
     protected $grup;
@@ -35,7 +35,7 @@ class InstitutionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => ['required', 'string', 'max:255', 'unique:institutions,nama'],
+            'nama' => ['required', 'string', 'max:255', 'unique:institutions,nama,except,' . $this->institution->id],
             'negara' => ['required', Rule::in($this->negara)],
             'grup' => ['required', Rule::in($this->grup)],
             'jenis' => ['required', Rule::in($this->jenis)],

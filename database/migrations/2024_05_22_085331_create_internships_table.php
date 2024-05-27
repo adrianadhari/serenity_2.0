@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('institutions', function (Blueprint $table) {
+        Schema::create('internships', function (Blueprint $table) {
             $table->id();
             $table->string('kode')->unique();
-            $table->string('nama')->unique();
-            $table->string('negara');
-            $table->string('grup');
-            $table->string('jenis');
-            $table->text('alamat');
-            $table->string('telp');
-            $table->string('email');
+            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
+            $table->date('start');
+            $table->date('finish');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('institutions');
+        Schema::dropIfExists('internships');
     }
 };

@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\School;
+use App\Models\Student;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -10,30 +10,28 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SchoolExport implements FromCollection, WithHeadings, WithMapping, WithStyles
+class StudentExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        return School::latest()->get();
+        return Student::latest()->with('school')->get();
     }
 
     public function headings(): array
     {
         return [
-            'Kode Sekolah',
-            'Nama Sekolah',
-            'Kategori Sekolah',
-            'Jenis Sekolah',
-            'Tipe Sekolah',
-            'Alamat Sekolah',
-            'Provinsi',
-            'Kota',
-            'Nama Kontak',
+            'Kode Siswa',
+            'Nama Siswa',
+            'NIS',
+            'Jenis Kelamin',
             'Nomor Telepon',
             'Email',
+            'Nama Wali',
+            'Keterangan',
+            'Asal Sekolah',
             'Tanggal Registrasi'
         ];
     }
@@ -41,17 +39,15 @@ class SchoolExport implements FromCollection, WithHeadings, WithMapping, WithSty
     public function map($row): array
     {
         return [
-            $row->kode_sekolah,
-            $row->nama_sekolah,
-            $row->kategori_sekolah,
-            $row->jenis_sekolah,
-            $row->tipe_sekolah,
-            $row->alamat_sekolah,
-            $row->provinsi,
-            $row->kota,
-            $row->nama_kontak,
+            $row->kode_siswa,
+            $row->nama_siswa,
+            $row->nis,
+            $row->jenis_kelamin,
             $row->telp,
             $row->email,
+            $row->nama_wali,
+            $row->keterangan,
+            $row->schools->nama_sekolah,
             Carbon::parse($row->created_at)->format('Y-m-d')
         ];
     }

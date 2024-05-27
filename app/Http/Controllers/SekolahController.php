@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Exports\SchoolExport;
+use App\Exports\TemplateSchoolExport;
 use App\Http\Requests\SchoolRequest;
+use App\Http\Requests\SchoolUpdateRequest;
 use App\Imports\SchoolImport;
 use App\Models\School;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -54,7 +58,6 @@ class SekolahController extends Controller
     {
         $school = $request->all();
 
-        $school['kode_sekolah'] = 'SC' . time();
         $school['provinsi'] = $school['provinsi']['name'];
         $school['kota'] = $school['kota']['name'];
 
@@ -79,7 +82,7 @@ class SekolahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SchoolRequest $request, $id): RedirectResponse
+    public function update(SchoolUpdateRequest $request, $id): RedirectResponse
     {
         $school = School::where('kode_sekolah', $id)->first();
         $school->update($request->all());
@@ -111,11 +114,16 @@ class SekolahController extends Controller
         Excel::import(new SchoolImport(), storage_path('app/public/excel/' . $nama_file));
         Storage::delete('public/excel/' . $nama_file);
 
-        return redirect();
+        return redirect()->back();
     }
 
     public function export()
     {
-        return Excel::download(new SchoolExport(), 'users.xlsx');
+        return Excel::download(new SchoolExport(), 'schools-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new TemplateSchoolExport(), 'template-schools.xlsx');
     }
 }

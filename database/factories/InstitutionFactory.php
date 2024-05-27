@@ -22,8 +22,7 @@ class InstitutionFactory extends Factory
         $jenis = Config::get('constantsdata.jenis');
 
         return [
-            'kode' => 'IN' . fake()->unique()->numerify('###'),
-            'nama' => fake()->company,
+            'nama' => fake()->unique()->company,
             'negara' => fake()->randomElement($negara),
             'grup' => fake()->randomElement($grup),
             'jenis' => fake()->randomElement($jenis),

@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StudentExport;
+use App\Exports\TemplateStudentExport;
 use App\Http\Requests\StudentRequest;
+use App\Http\Requests\StudentUpdateRequest;
+use App\Imports\StudentImport;
 use App\Models\School;
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
 {
@@ -51,21 +58,12 @@ class SiswaController extends Controller
     {
         $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
 
-        $request['kode_siswa'] = 'ST' . time();
         $request['school_id'] = $school_id;
 
         $student = $request->except('school_name');
 
         Student::create($student);
         return redirect()->route('siswa.index')->with('message', 'Siswa Berhasil Ditambahkan!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -86,7 +84,7 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StudentRequest $request, string $id): RedirectResponse
+    public function update(StudentUpdateRequest $request, string $id): RedirectResponse
     {
         $student = Student::where('kode_siswa', $id)->first();
         $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
@@ -108,5 +106,30 @@ class SiswaController extends Controller
             return redirect()->route('siswa.index');
         }
         return redirect()->route('siswa.index');
+    }
+
+    public function import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'file' => ['required', 'mimes:csv,xls,xlsx']
+        ]);
+
+        $file = $request->file('file');
+        $nama_file = $file->hashName();
+        $file->storeAs('public/excel/', $nama_file);
+        Excel::import(new StudentImport(), storage_path('app/public/excel/' . $nama_file));
+        Storage::delete('public/excel/' . $nama_file);
+
+        return redirect()->back();
+    }
+
+    public function export()
+    {
+        return Excel::download(new StudentExport(), 'students-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new TemplateStudentExport(), 'template-students.xlsx');
     }
 }

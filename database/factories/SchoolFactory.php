@@ -32,8 +32,7 @@ class SchoolFactory extends Factory
         $city = fake()->randomElement($cities);
 
         return [
-            'kode_sekolah' => 'SC' . fake()->unique()->numerify('###'),
-            'nama_sekolah' => fake()->company,
+            'nama_sekolah' => fake()->unique()->company,
             'kategori_sekolah' => fake()->randomElement($categories),
             'jenis_sekolah' => fake()->randomElement($schools),
             'tipe_sekolah' => fake()->randomElement($types),
