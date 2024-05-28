@@ -71,7 +71,15 @@ Route::middleware('auth')->group(function () {
             Route::get('/download-template', [GuruController::class, 'downloadTemplate'])->name('downloadTemplate');
         });
 
-        Route::resource('/peserta', PesertaController::class);
+        Route::resource('/peserta', PesertaController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('peserta')->name('peserta.')->group(function () {
+            Route::post('/multiple-delete', [PesertaController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/import', [PesertaController::class, 'import'])->name('import');
+            Route::get('/export', [PesertaController::class, 'export'])->name('export');
+            Route::get('/download-template', [PesertaController::class, 'downloadTemplate'])->name('downloadTemplate');
+        });
 
         Route::resource('/publikasi', PublikasiController::class)->except([
             'show', 'destroy'

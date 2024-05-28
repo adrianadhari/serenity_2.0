@@ -23,6 +23,8 @@ return [
 
     'type' => ["NEGERI", "SWASTA"],
 
+    'tipe_peserta' => ["Siswa", "Mahasiswa", "Akademisi", "Profesional/Praktisi"],
+
     'negara' => ["Indonesia", "Malaysia", "Singapura", "Thailand", "Filipina", "Brunei Darussalam", "Vietnam", "Laos", "Myanmar", "Kamboja", "Timor Leste", "Lainnya"],
 
     'grup' => ["Akademisi", "Government", "NGO", "Private", "Proffesional", "Research", "Research Institution", "UN Agency", "Lainnya"],
