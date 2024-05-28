@@ -31,5 +31,9 @@ return [
 
     'gender' => ["Pria", "Wanita"],
 
-    'pendidikan' => ["D3", "S1/D4", "Profesi", "S2", "S3", "Lainnya", "Tidak relevan, lulusan SMA"]
+    'pendidikan' => ["D3", "S1/D4", "Profesi", "S2", "S3", "Lainnya", "Tidak relevan, lulusan SMA"],
+
+    'tipe' => ['Buku', 'Modul', 'Publikasi', 'Lainnya'],
+
+    'status_publikasi' => ['Release', 'Draft']
 ];

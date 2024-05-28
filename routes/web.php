@@ -72,7 +72,11 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::resource('/peserta', PesertaController::class);
-        Route::resource('/publikasi', PublikasiController::class);
+
+        Route::resource('/publikasi', PublikasiController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::post('/publikasi/multiple-delete', [PublikasiController::class, 'multipleDelete'])->name('publikasi.multipleDelete');
     });
 });
 
