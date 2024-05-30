@@ -114,7 +114,7 @@ export default function SidebarMenu({ user }) {
                         <span className="ml-4">Kegiatan</span>
                     </NavLink>
 
-                    <NavLink>
+                    <NavLink href={route("penelitian.index")}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-5 h-5"

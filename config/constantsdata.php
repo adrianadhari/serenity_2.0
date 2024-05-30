@@ -37,5 +37,13 @@ return [
 
     'tipe' => ['Buku', 'Modul', 'Publikasi', 'Lainnya'],
 
-    'status_publikasi' => ['Release', 'Draft']
+    'status_publikasi' => ['Release', 'Draft'],
+
+    'kategori_penelitian' => ['DIPA Kontraktual', 'DIPA Swakelola', 'Non-DIPA'],
+
+    'jenis_flagship' => ['ECCNE', 'NGTS', 'NGTW'],
+
+    'area_penelitian' => ['Food Safety, Food Security, and Environment', 'Optimal Nutrition Throughout The Life Course', 'Nutrition, Health, and Productivity Nexus'],
+
+    'status_penelitian' => ['Ongoing', 'Finish', 'Published'],
 ];

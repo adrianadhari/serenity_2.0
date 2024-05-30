@@ -6,6 +6,7 @@ use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublikasiController;
+use App\Http\Controllers\ResearchController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Foundation\Application;
@@ -85,6 +86,16 @@ Route::middleware('auth')->group(function () {
             'show', 'destroy'
         ]);
         Route::post('/publikasi/multiple-delete', [PublikasiController::class, 'multipleDelete'])->name('publikasi.multipleDelete');
+
+        Route::resource('/penelitian', ResearchController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('penelitian')->name('penelitian.')->group(function () {
+            Route::post('/multiple-delete', [ResearchController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/import', [ResearchController::class, 'import'])->name('import');
+            Route::get('/export', [ResearchController::class, 'export'])->name('export');
+            Route::get('/download-template', [ResearchController::class, 'downloadTemplate'])->name('downloadTemplate');
+        });
     });
 });
 
