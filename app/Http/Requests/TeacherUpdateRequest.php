@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Teacher;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
@@ -32,9 +33,11 @@ class TeacherUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $nip = Teacher::where('kode', $this->route('guru'))->firstOrFail();
+
         return [
             'nama' => ['required', 'max:255', 'string'],
-            'nip' => ['required', 'max:20', 'string', 'unique:teachers,nip,except,' . $this->teacher->id],
+            'nip' => ['required', 'max:20', 'string', 'unique:teachers,nip,' . $nip->id],
             'jenis_kelamin' => ['required', Rule::in($this->gender)],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'telp' => ['required', 'max:13', 'string'],

@@ -82,10 +82,10 @@ class SekolahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SchoolUpdateRequest $request, $id): RedirectResponse
+    public function update(SchoolUpdateRequest $request, $kode): RedirectResponse
     {
-        $school = School::where('kode_sekolah', $id)->first();
-        $school->update($request->all());
+        $school = School::where('kode_sekolah', $kode)->firstOrFail();
+        $school->update($request->validated());
         return redirect()->route('sekolah.index')->with('message', 'Sekolah Berhasil Diperbarui!');
     }
 

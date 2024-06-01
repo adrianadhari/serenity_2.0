@@ -35,5 +35,15 @@ return [
 
     'tipe' => ['Buku', 'Modul', 'Publikasi', 'Lainnya'],
 
-    'status_publikasi' => ['Release', 'Draft']
+    'status_publikasi' => ['Release', 'Draft'],
+
+    'jenis_kegiatan' => ['Post Graduate Training', 'Pelatihan Flagship Program', 'Roll out/In-Country Training', 'Tailored Training', 'Seminar/Webinar', 'Lokakarya'],
+
+    'semester' => [1, 2],
+
+    'flagship' => ['ECCNE', 'NGTS', 'NGTW'],
+
+    'moda' => ['Luring', 'Daring', 'Hybrid', 'Blended'],
+
+    'status_kegiatan' => ['Rencana', 'Terlaksana']
 ];

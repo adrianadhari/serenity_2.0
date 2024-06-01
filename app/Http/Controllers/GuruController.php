@@ -88,9 +88,9 @@ class GuruController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TeacherUpdateRequest $request, string $id): RedirectResponse
+    public function update(TeacherUpdateRequest $request, $kode): RedirectResponse
     {
-        $teacher = Teacher::where('kode', $id)->first();
+        $teacher = Teacher::where('kode', $kode)->firstOrFail();
         $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
 
         $request['school_id'] = $school_id;

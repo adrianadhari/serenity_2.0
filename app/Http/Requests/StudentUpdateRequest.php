@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Student;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
@@ -30,9 +31,11 @@ class StudentUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $nis = Student::where('kode_siswa', $this->route('siswa'))->firstOrFail();
+
         return [
             'nama_siswa' => ['required', 'max:255', 'string'],
-            'nis' => ['required', 'max:20', 'string', 'unique:students,nis,except,' . $this->student->id],
+            'nis' => ['required', 'max:20', 'string', 'unique:students,nis,' . $nis->id],
             'jenis_kelamin' => ['required', Rule::in($this->gender)],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'telp' => ['required', 'max:13', 'string'],

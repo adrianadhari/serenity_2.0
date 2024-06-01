@@ -84,9 +84,9 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StudentUpdateRequest $request, string $id): RedirectResponse
+    public function update(StudentUpdateRequest $request, $kode): RedirectResponse
     {
-        $student = Student::where('kode_siswa', $id)->first();
+        $student = Student::where('kode_siswa', $kode)->firstOrFail();
         $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
 
         $request['school_id'] = $school_id;
