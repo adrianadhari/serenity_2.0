@@ -93,18 +93,37 @@ class KegiatanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request): RedirectResponse
+    public function update(KegiatanUpdateRequest $request, $kode): RedirectResponse
     {
-        dd($request->all());
+        $activity = Kegiatan::where('kode', $kode)->firstOrFail();
+        $slug = Str::of($activity->judul_kegiatan)->slug('-');
+
+        $img = $request->file('sertifikat');
+        $fileName = $activity->sertifikat;
+        if ($img) {
+            Storage::delete('public/sertifikat-kegiatan/' . $fileName);
+            $fileName = 'sertifikat-kegiatan-' . $slug . '.' . $img->extension();
+            $img->storeAs('public/sertifikat-kegiatan', $fileName);
+        }
+
+        $dataToUpdate = $request->all();
+        $dataToUpdate['sertifikat'] = $fileName;
+
+        $activity->update($dataToUpdate);
+        return redirect()->route('kegiatan.index')->with('message', 'Kegiatan Berhasil Diperbarui!');
     }
 
     public function multipleDelete(Request $request): RedirectResponse
     {
-        $codes = $request->input('codes');
-        if (is_array($codes) && count($codes) > 0) {
-            $kegiatan = Kegiatan::whereIn('kode', $codes);
-            Storage::delete('public/sertifikat-kegiatan/' . $kegiatan->sertifikat);
-            $kegiatan->delete();
+        $items = $request->input('items');
+        if (is_array($items) && count($items) > 0) {
+            foreach ($items as $item) {
+                $kegiatan = Kegiatan::where('kode', $item['kode'])->first();
+                if ($kegiatan && $kegiatan->sertifikat == $item['sertifikat']) {
+                    Storage::delete('public/sertifikat-kegiatan/' . $item['sertifikat']);
+                    $kegiatan->delete();
+                }
+            }
             return redirect()->route('kegiatan.index');
         }
         return redirect()->route('kegiatan.index');

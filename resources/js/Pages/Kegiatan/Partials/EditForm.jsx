@@ -51,7 +51,7 @@ export default function EditForm({
         min_score,
     } = kegiatanDetail;
 
-    const { data, setData, patch, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         jenis_kegiatan,
         semester,
         judul_kegiatan,
@@ -68,20 +68,17 @@ export default function EditForm({
         status,
         target_peserta,
         min_score,
+        _method: "PUT",
     });
 
     const updateKegiatan = async (e) => {
         e.preventDefault();
 
-        patch(route("kegiatan.update", kegiatanDetail.kode));
+        post(route("kegiatan.update", kegiatanDetail.kode));
     };
 
     return (
-        <form
-            onSubmit={updateKegiatan}
-            className="form-card"
-            encType="multipart/form-data"
-        >
+        <form onSubmit={updateKegiatan} className="form-card">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
                     <InputLabel value="Judul Kegiatan" />

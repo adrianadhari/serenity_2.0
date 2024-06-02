@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import ButtonDropdown from "@/Components/ButtonDropdown";
 import { useRef, useState } from "react";
 import { useMountEffect } from "primereact/hooks";
@@ -37,11 +37,18 @@ export default function Sekolah({ auth, flash, schools }) {
 
         post(route("sekolah.import"), {
             preserveScroll: true,
-            onSuccess: () => setImportModal(false),
-            onFinish: () => {
+            onSuccess: () => {
+                setImportModal(false);
                 toast.current.show({
                     severity: "success",
                     summary: "Sekolah Berhasil Diimport!",
+                });
+            },
+            onError: () => {
+                setImportModal(false);
+                toast.current.show({
+                    severity: "error",
+                    summary: "Terdapat kesalahan saat mengimport data!",
                 });
             },
         });
@@ -79,18 +86,18 @@ export default function Sekolah({ auth, flash, schools }) {
                                         </button>
                                     </ButtonDropdown.Link>
                                     <ButtonDropdown.Link>
-                                        <Link
+                                        <a
                                             href={route(
                                                 "sekolah.downloadTemplate"
                                             )}
                                         >
                                             Download Format
-                                        </Link>
+                                        </a>
                                     </ButtonDropdown.Link>
                                 </ButtonDropdown.Content>
                             </ButtonDropdown>
 
-                            <Link
+                            <a
                                 href={route("sekolah.export")}
                                 className="justify-center flex items-center px-4 py-2 btn-primary"
                             >
@@ -103,7 +110,7 @@ export default function Sekolah({ auth, flash, schools }) {
                                     <path d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM13 9V16H11V9H6L12 3L18 9H13Z"></path>
                                 </svg>
                                 <span>Export Data</span>
-                            </Link>
+                            </a>
                         </HeaderIndex>
 
                         <SchoolsTable schools={schools} />

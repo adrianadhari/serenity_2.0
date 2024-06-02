@@ -32,7 +32,7 @@ export default function KegiatanTable({ activities }) {
     };
 
     const { setData, post, processing } = useForm({
-        codes: [],
+        items: [],
     });
 
     const deleteKegiatan = (e) => {
@@ -131,8 +131,11 @@ export default function KegiatanTable({ activities }) {
     const onSelectionChange = (e) => {
         setSelectedDatas(e.value);
         setData(
-            "codes",
-            e.value.map((item) => item.kode)
+            "items",
+            e.value.map((item) => ({
+                kode: item.kode,
+                sertifikat: item.sertifikat,
+            }))
         );
     };
 
