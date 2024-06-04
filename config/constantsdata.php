@@ -47,7 +47,7 @@ return [
 
     'moda' => ['Luring', 'Daring', 'Hybrid', 'Blended'],
 
-    'status_kegiatan' => ['Rencana', 'Terlaksana']
+    'status_kegiatan' => ['Rencana', 'Terlaksana'],
 
     'kategori_penelitian' => ['DIPA Kontraktual', 'DIPA Swakelola', 'Non-DIPA'],
 
