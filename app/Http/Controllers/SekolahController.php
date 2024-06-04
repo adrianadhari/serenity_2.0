@@ -116,11 +116,11 @@ class SekolahController extends Controller
 
     public function export()
     {
-        return Excel::download(new SchoolExport(), 'schools-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+        return Excel::download(new SchoolExport, 'schools-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 
     public function downloadTemplate()
     {
-        return Excel::download(new TemplateSchoolExport(), 'template-schools.xlsx');
+        return Excel::download(new TemplateSchoolExport, 'template-schools.xlsx');
     }
 }

@@ -37,11 +37,18 @@ export default function Guru({ auth, flash, teachers }) {
 
         post(route("guru.import"), {
             preserveScroll: true,
-            onSuccess: () => setImportModal(false),
-            onFinish: () => {
+            onSuccess: () => {
+                setImportModal(false);
                 toast.current.show({
                     severity: "success",
                     summary: "Guru Berhasil Diimport!",
+                });
+            },
+            onError: () => {
+                setImportModal(false);
+                toast.current.show({
+                    severity: "error",
+                    summary: "Terdapat kesalahan saat mengimport data!",
                 });
             },
         });

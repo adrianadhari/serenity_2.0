@@ -52,7 +52,7 @@ class SchoolExport implements FromCollection, WithHeadings, WithMapping, WithSty
             $row->nama_kontak,
             $row->telp,
             $row->email,
-            Carbon::parse($row->created_at)->format('Y-m-d')
+            Carbon::parse($row->created_at)->format('d/m/Y')
         ];
     }
 

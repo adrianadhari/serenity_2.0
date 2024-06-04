@@ -47,8 +47,8 @@ class TeacherExport implements FromCollection, WithHeadings, WithMapping, WithSt
             $row->email,
             $row->jabatan,
             $row->pendidikan,
-            $row->schools->nama_sekolah,
-            Carbon::parse($row->created_at)->format('Y-m-d')
+            $row->school->nama_sekolah,
+            Carbon::parse($row->created_at)->format('d/m/Y')
         ];
     }
 

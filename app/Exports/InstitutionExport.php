@@ -46,7 +46,7 @@ class InstitutionExport implements FromCollection, WithHeadings, WithMapping, Wi
             $row->alamat,
             $row->telp,
             $row->email,
-            Carbon::parse($row->created_at)->format('Y-m-d')
+            Carbon::parse($row->created_at)->format('d/m/Y')
         ];
     }
 

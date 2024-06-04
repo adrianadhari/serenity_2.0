@@ -108,21 +108,18 @@ class InstitusiController extends Controller
         ]);
 
         $file = $request->file('file');
-        $nama_file = $file->hashName();
-        $file->storeAs('public/excel/', $nama_file);
-        Excel::import(new InstitutionImport(), storage_path('app/public/excel/' . $nama_file));
-        Storage::delete('public/excel/' . $nama_file);
+        Excel::import(new InstitutionImport, $file);
 
         return redirect()->back();
     }
 
     public function export()
     {
-        return Excel::download(new InstitutionExport(), 'institutions-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+        return Excel::download(new InstitutionExport, 'institutions-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 
     public function downloadTemplate()
     {
-        return Excel::download(new TemplateInstitutionExport(), 'template-institutions.xlsx');
+        return Excel::download(new TemplateInstitutionExport, 'template-institutions.xlsx');
     }
 }

@@ -26,8 +26,10 @@ class TemplateTeacherExport implements FromArray, WithEvents, WithStyles
                 $sheet = $event->sheet->getDelegate();
 
                 $gender = Config::get('constantsdata.gender');
+                $pendidikan = Config::get('constantsdata.pendidikan');
 
                 $this->addDropdown($sheet, 'C', $gender);
+                $this->addDropdown($sheet, 'G', $pendidikan);
             },
         ];
     }

@@ -37,11 +37,18 @@ export default function Institusi({ auth, flash, institutions }) {
 
         post(route("institusi.import"), {
             preserveScroll: true,
-            onSuccess: () => setImportModal(false),
-            onFinish: () => {
+            onSuccess: () => {
+                setImportModal(false);
                 toast.current.show({
                     severity: "success",
                     summary: "Institusi Berhasil Diimport!",
+                });
+            },
+            onError: () => {
+                setImportModal(false);
+                toast.current.show({
+                    severity: "error",
+                    summary: "Terdapat kesalahan saat mengimport data!",
                 });
             },
         });
