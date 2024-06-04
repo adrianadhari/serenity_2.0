@@ -107,7 +107,7 @@ export default function CreateForm({
                     <InputLabel value="Email" />
 
                     <TextInput
-                        type="text"
+                        type="email"
                         placeholder="Masukkan email"
                         value={data.email}
                         onChange={(e) => setData("email", e.target.value)}
@@ -119,7 +119,7 @@ export default function CreateForm({
                 <div className="form-control">
                     <InputLabel value="Telp" />
                     <TextInput
-                        type="text"
+                        type="number"
                         placeholder="Masukkan telp"
                         value={data.telp}
                         onChange={(e) => setData("telp", e.target.value)}

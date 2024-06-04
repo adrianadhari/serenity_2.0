@@ -246,7 +246,7 @@ export default function CreateForm({
                 <div className="form-control">
                     <InputLabel value="Besaran Hibah" />
                     <TextInput
-                        type="text"
+                        type="number"
                         placeholder="Masukkan besaran hibah"
                         value={data.besaran_hibah}
                         onChange={(e) =>
