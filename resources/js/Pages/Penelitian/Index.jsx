@@ -4,11 +4,11 @@ import { Head, Link } from "@inertiajs/react";
 import { useMountEffect } from "primereact/hooks";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
-import ParticipantsTable from "./Partials/ParticipantsTable";
+import ResearchTable from "./Partials/ResearchTable";
 import HeaderIndex from "@/Components/HeaderIndex";
 
-export default function Peserta({ auth, flash, participants }) {
-    const title = "Peserta";
+export default function Penelitian({ auth, flash, researches }) {
+    const title = "Penelitian";
 
     const toast = useRef(null);
 
@@ -31,7 +31,7 @@ export default function Peserta({ auth, flash, participants }) {
                 <Toast ref={toast} />
 
                 <div className="max-w-7xl mx-auto">
-                    <HeaderIndex link={route("peserta.create")}>
+                    <HeaderIndex link={route("penelitian.create")}>
                         <ButtonDropdown>
                             <ButtonDropdown.Trigger>
                                 <svg
@@ -55,7 +55,9 @@ export default function Peserta({ auth, flash, participants }) {
                                 </ButtonDropdown.Link>
                                 <ButtonDropdown.Link>
                                     <Link
-                                        href={route("peserta.downloadTemplate")}
+                                        href={route(
+                                            "penelitian.downloadTemplate"
+                                        )}
                                     >
                                         Download Format
                                     </Link>
@@ -64,7 +66,7 @@ export default function Peserta({ auth, flash, participants }) {
                         </ButtonDropdown>
 
                         <Link
-                            href={route("peserta.export")}
+                            href={route("penelitian.export")}
                             className="justify-center flex items-center px-4 py-2 btn-primary"
                         >
                             <svg
@@ -79,7 +81,7 @@ export default function Peserta({ auth, flash, participants }) {
                         </Link>
                     </HeaderIndex>
 
-                    <ParticipantsTable participants={participants} />
+                    <ResearchTable researches={researches} />
                 </div>
             </div>
         </AuthenticatedLayout>

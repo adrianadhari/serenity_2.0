@@ -23,6 +23,8 @@ return [
 
     'type' => ["NEGERI", "SWASTA"],
 
+    'tipe_peserta' => ["Siswa", "Mahasiswa", "Akademisi", "Profesional/Praktisi"],
+
     'negara' => ["Indonesia", "Malaysia", "Singapura", "Thailand", "Filipina", "Brunei Darussalam", "Vietnam", "Laos", "Myanmar", "Kamboja", "Timor Leste", "Lainnya"],
 
     'grup' => ["Akademisi", "Government", "NGO", "Private", "Proffesional", "Research", "Research Institution", "UN Agency", "Lainnya"],
@@ -46,4 +48,13 @@ return [
     'moda' => ['Luring', 'Daring', 'Hybrid', 'Blended'],
 
     'status_kegiatan' => ['Rencana', 'Terlaksana']
+
+    'kategori_penelitian' => ['DIPA Kontraktual', 'DIPA Swakelola', 'Non-DIPA'],
+
+    'jenis_flagship' => ['ECCNE', 'NGTS', 'NGTW'],
+
+    'area_penelitian' => ['Food Safety, Food Security, and Environment', 'Optimal Nutrition Throughout The Life Course', 'Nutrition, Health, and Productivity Nexus'],
+
+    'status_penelitian' => ['Ongoing', 'Finish', 'Published'],
+
 ];

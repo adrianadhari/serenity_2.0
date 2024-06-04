@@ -7,6 +7,7 @@ use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublikasiController;
+use App\Http\Controllers\ResearchController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Support\Facades\Route;
@@ -71,12 +72,30 @@ Route::middleware('auth')->group(function () {
             Route::get('/download-template', [GuruController::class, 'downloadTemplate'])->name('downloadTemplate');
         });
 
-        Route::resource('/peserta', PesertaController::class);
+        Route::resource('/peserta', PesertaController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('peserta')->name('peserta.')->group(function () {
+            Route::post('/multiple-delete', [PesertaController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/import', [PesertaController::class, 'import'])->name('import');
+            Route::get('/export', [PesertaController::class, 'export'])->name('export');
+            Route::get('/download-template', [PesertaController::class, 'downloadTemplate'])->name('downloadTemplate');
+        });
 
         Route::resource('/publikasi', PublikasiController::class)->except([
             'show', 'destroy'
         ]);
         Route::post('/publikasi/multiple-delete', [PublikasiController::class, 'multipleDelete'])->name('publikasi.multipleDelete');
+
+        Route::resource('/penelitian', ResearchController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('penelitian')->name('penelitian.')->group(function () {
+            Route::post('/multiple-delete', [ResearchController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/import', [ResearchController::class, 'import'])->name('import');
+            Route::get('/export', [ResearchController::class, 'export'])->name('export');
+            Route::get('/download-template', [ResearchController::class, 'downloadTemplate'])->name('downloadTemplate');
+        });
     });
 
     Route::middleware('admin')->group(function () {

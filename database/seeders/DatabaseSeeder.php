@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\Institution;
 use App\Models\Internship;
 use App\Models\Kegiatan;
+use App\Models\Participant;
 use App\Models\Publication;
+use App\Models\Research;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -35,5 +37,7 @@ class DatabaseSeeder extends Seeder
         Internship::factory(20)->create();
         Publication::factory(20)->create();
         Kegiatan::factory(20)->create();
+        Participant::factory(20)->create();
+        Research::factory(20)->create();
     }
 }
