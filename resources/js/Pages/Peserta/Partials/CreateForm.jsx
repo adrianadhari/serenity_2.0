@@ -125,7 +125,7 @@ export default function CreateForm({
                         onChange={(e) => setData("telp", e.target.value)}
                     />
 
-                    <InputError message={errors.email} />
+                    <InputError message={errors.telp} />
                 </div>
 
                 <div className="form-control">
