@@ -127,29 +127,4 @@ class PesertaController extends Controller
         }
         return redirect()->route('peserta.index');
     }
-
-    public function import(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'file' => ['required', 'mimes:csv,xls,xlsx']
-        ]);
-
-        $file = $request->file('file');
-        $nama_file = $file->hashName();
-        $file->storeAs('public/excel/', $nama_file);
-        Excel::import(new ParticipantImport(), storage_path('app/public/excel/' . $nama_file));
-        Storage::delete('public/excel/' . $nama_file);
-
-        return redirect()->back();
-    }
-
-    public function export()
-    {
-        return Excel::download(new ParticipantExport(), 'students-' . Carbon::now()->format('Y-m-d') . '.xlsx');
-    }
-
-    public function downloadTemplate()
-    {
-        return Excel::download(new TemplateParticipantExport(), 'template-students.xlsx');
-    }
 }

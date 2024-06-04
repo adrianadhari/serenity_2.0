@@ -77,9 +77,6 @@ Route::middleware('auth')->group(function () {
         ]);
         Route::prefix('peserta')->name('peserta.')->group(function () {
             Route::post('/multiple-delete', [PesertaController::class, 'multipleDelete'])->name('multipleDelete');
-            Route::post('/import', [PesertaController::class, 'import'])->name('import');
-            Route::get('/export', [PesertaController::class, 'export'])->name('export');
-            Route::get('/download-template', [PesertaController::class, 'downloadTemplate'])->name('downloadTemplate');
         });
 
         Route::resource('/publikasi', PublikasiController::class)->except([
@@ -92,9 +89,6 @@ Route::middleware('auth')->group(function () {
         ]);
         Route::prefix('penelitian')->name('penelitian.')->group(function () {
             Route::post('/multiple-delete', [ResearchController::class, 'multipleDelete'])->name('multipleDelete');
-            Route::post('/import', [ResearchController::class, 'import'])->name('import');
-            Route::get('/export', [ResearchController::class, 'export'])->name('export');
-            Route::get('/download-template', [ResearchController::class, 'downloadTemplate'])->name('downloadTemplate');
         });
     });
 

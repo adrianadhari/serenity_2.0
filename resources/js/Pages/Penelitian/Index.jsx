@@ -31,55 +31,9 @@ export default function Penelitian({ auth, flash, researches }) {
                 <Toast ref={toast} />
 
                 <div className="max-w-7xl mx-auto">
-                    <HeaderIndex link={route("penelitian.create")}>
-                        <ButtonDropdown>
-                            <ButtonDropdown.Trigger>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-5 h-5 mr-2 -ml-1"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                >
-                                    <path d="M13 10H18L12 16L6 10H11V3H13V10ZM4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19Z"></path>
-                                </svg>
-                                <span>Import Data</span>
-                            </ButtonDropdown.Trigger>
-                            <ButtonDropdown.Content>
-                                <ButtonDropdown.Link>
-                                    <button
-                                        className="w-full text-start"
-                                        onClick={() => setImportModal(true)}
-                                    >
-                                        Upload File
-                                    </button>
-                                </ButtonDropdown.Link>
-                                <ButtonDropdown.Link>
-                                    <Link
-                                        href={route(
-                                            "penelitian.downloadTemplate"
-                                        )}
-                                    >
-                                        Download Format
-                                    </Link>
-                                </ButtonDropdown.Link>
-                            </ButtonDropdown.Content>
-                        </ButtonDropdown>
-
-                        <Link
-                            href={route("penelitian.export")}
-                            className="justify-center flex items-center px-4 py-2 btn-primary"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-5 h-5 mr-2 -ml-1"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM13 9V16H11V9H6L12 3L18 9H13Z"></path>
-                            </svg>
-                            <span>Export Data</span>
-                        </Link>
-                    </HeaderIndex>
+                    <HeaderIndex
+                        link={route("penelitian.create")}
+                    ></HeaderIndex>
 
                     <ResearchTable researches={researches} />
                 </div>
