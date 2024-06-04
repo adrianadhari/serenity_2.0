@@ -88,9 +88,9 @@ class GuruController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TeacherUpdateRequest $request, string $id): RedirectResponse
+    public function update(TeacherUpdateRequest $request, $kode): RedirectResponse
     {
-        $teacher = Teacher::where('kode', $id)->first();
+        $teacher = Teacher::where('kode', $kode)->firstOrFail();
         $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
 
         $request['school_id'] = $school_id;
@@ -119,21 +119,18 @@ class GuruController extends Controller
         ]);
 
         $file = $request->file('file');
-        $nama_file = $file->hashName();
-        $file->storeAs('public/excel/', $nama_file);
-        Excel::import(new TeacherImport(), storage_path('app/public/excel/' . $nama_file));
-        Storage::delete('public/excel/' . $nama_file);
+        Excel::import(new TeacherImport, $file);
 
         return redirect()->back();
     }
 
     public function export()
     {
-        return Excel::download(new TeacherExport(), 'teachers-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+        return Excel::download(new TeacherExport, 'teachers-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 
     public function downloadTemplate()
     {
-        return Excel::download(new TemplateTeacherExport(), 'template-teachers.xlsx');
+        return Excel::download(new TemplateTeacherExport, 'template-teachers.xlsx');
     }
 }

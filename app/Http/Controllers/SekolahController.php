@@ -82,10 +82,10 @@ class SekolahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SchoolUpdateRequest $request, $id): RedirectResponse
+    public function update(SchoolUpdateRequest $request, $kode): RedirectResponse
     {
-        $school = School::where('kode_sekolah', $id)->first();
-        $school->update($request->all());
+        $school = School::where('kode_sekolah', $kode)->firstOrFail();
+        $school->update($request->validated());
         return redirect()->route('sekolah.index')->with('message', 'Sekolah Berhasil Diperbarui!');
     }
 
@@ -109,21 +109,18 @@ class SekolahController extends Controller
         ]);
 
         $file = $request->file('file');
-        $nama_file = $file->hashName();
-        $file->storeAs('public/excel/', $nama_file);
-        Excel::import(new SchoolImport(), storage_path('app/public/excel/' . $nama_file));
-        Storage::delete('public/excel/' . $nama_file);
+        Excel::import(new SchoolImport, $file);
 
         return redirect()->back();
     }
 
     public function export()
     {
-        return Excel::download(new SchoolExport(), 'schools-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+        return Excel::download(new SchoolExport, 'schools-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 
     public function downloadTemplate()
     {
-        return Excel::download(new TemplateSchoolExport(), 'template-schools.xlsx');
+        return Excel::download(new TemplateSchoolExport, 'template-schools.xlsx');
     }
 }

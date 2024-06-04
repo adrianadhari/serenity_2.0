@@ -29,8 +29,8 @@ class TemplateSchoolExport implements FromArray, WithEvents, WithStyles
                 $categories = Config::get('constantsdata.category');
                 $types = Config::get('constantsdata.type');
 
-                $this->addDropdown($sheet, 'B', $schools);
-                $this->addDropdown($sheet, 'C', $categories);
+                $this->addDropdown($sheet, 'B', $categories);
+                $this->addDropdown($sheet, 'C', $schools);
                 $this->addDropdown($sheet, 'D', $types);
             },
         ];

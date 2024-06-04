@@ -47,8 +47,8 @@ class StudentExport implements FromCollection, WithHeadings, WithMapping, WithSt
             $row->email,
             $row->nama_wali,
             $row->keterangan,
-            $row->schools->nama_sekolah,
-            Carbon::parse($row->created_at)->format('Y-m-d')
+            $row->school->nama_sekolah,
+            Carbon::parse($row->created_at)->format('d/m/Y')
         ];
     }
 

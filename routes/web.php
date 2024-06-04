@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\InstitusiController;
+use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\ProfileController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\ResearchController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\SiswaController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -96,6 +96,13 @@ Route::middleware('auth')->group(function () {
             Route::get('/export', [ResearchController::class, 'export'])->name('export');
             Route::get('/download-template', [ResearchController::class, 'downloadTemplate'])->name('downloadTemplate');
         });
+    });
+
+    Route::middleware('admin')->group(function () {
+        Route::resource('/kegiatan', KegiatanController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::post('/kegiatan/multiple-delete', [KegiatanController::class, 'multipleDelete'])->name('kegiatan.multipleDelete');
     });
 });
 

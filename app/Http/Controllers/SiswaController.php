@@ -84,9 +84,9 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StudentUpdateRequest $request, string $id): RedirectResponse
+    public function update(StudentUpdateRequest $request, $kode): RedirectResponse
     {
-        $student = Student::where('kode_siswa', $id)->first();
+        $student = Student::where('kode_siswa', $kode)->firstOrFail();
         $school_id = School::where('nama_sekolah', $request->school_name)->pluck('id')->first();
 
         $request['school_id'] = $school_id;
@@ -115,21 +115,18 @@ class SiswaController extends Controller
         ]);
 
         $file = $request->file('file');
-        $nama_file = $file->hashName();
-        $file->storeAs('public/excel/', $nama_file);
-        Excel::import(new StudentImport(), storage_path('app/public/excel/' . $nama_file));
-        Storage::delete('public/excel/' . $nama_file);
+        Excel::import(new StudentImport, $file);
 
         return redirect()->back();
     }
 
     public function export()
     {
-        return Excel::download(new StudentExport(), 'students-' . Carbon::now()->format('Y-m-d') . '.xlsx');
+        return Excel::download(new StudentExport, 'students-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 
     public function downloadTemplate()
     {
-        return Excel::download(new TemplateStudentExport(), 'template-students.xlsx');
+        return Excel::download(new TemplateStudentExport, 'template-students.xlsx');
     }
 }

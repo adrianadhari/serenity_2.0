@@ -66,7 +66,7 @@ const Content = ({ children }) => {
             leaveTo="opacity-0 scale-95"
         >
             <div
-                className="w-full bg-gray-50 p-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner"
+                className="mb-2 w-full bg-gray-50 p-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner"
                 onClick={() => setOpen(false)}
             >
                 {children}

@@ -39,6 +39,16 @@ return [
 
     'status_publikasi' => ['Release', 'Draft'],
 
+    'jenis_kegiatan' => ['Post Graduate Training', 'Pelatihan Flagship Program', 'Roll out/In-Country Training', 'Tailored Training', 'Seminar/Webinar', 'Lokakarya'],
+
+    'semester' => [1, 2],
+
+    'flagship' => ['ECCNE', 'NGTS', 'NGTW'],
+
+    'moda' => ['Luring', 'Daring', 'Hybrid', 'Blended'],
+
+    'status_kegiatan' => ['Rencana', 'Terlaksana']
+
     'kategori_penelitian' => ['DIPA Kontraktual', 'DIPA Swakelola', 'Non-DIPA'],
 
     'jenis_flagship' => ['ECCNE', 'NGTS', 'NGTW'],
@@ -46,4 +56,5 @@ return [
     'area_penelitian' => ['Food Safety, Food Security, and Environment', 'Optimal Nutrition Throughout The Life Course', 'Nutrition, Health, and Productivity Nexus'],
 
     'status_penelitian' => ['Ongoing', 'Finish', 'Published'],
+
 ];

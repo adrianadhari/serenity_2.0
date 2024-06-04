@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\School;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
@@ -34,8 +35,10 @@ class SchoolUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $nama_sekolah = School::where('kode_sekolah', $this->route('sekolah'))->firstOrFail();
+
         return [
-            'nama_sekolah' => ['required', 'string', 'max:255', 'unique:schools,nama_sekolah,except,' . $this->school->id],
+            'nama_sekolah' => ['required', 'string', 'max:255', 'unique:schools,nama_sekolah,' . $nama_sekolah->id],
             'kategori_sekolah' => ['required', Rule::in($this->categories)],
             'jenis_sekolah' => ['required', Rule::in($this->schools)],
             'tipe_sekolah' => ['required', Rule::in($this->types)],
