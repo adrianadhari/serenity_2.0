@@ -28,4 +28,9 @@ class Kegiatan extends Model
 
         return $code;
     }
+
+    public function pesertaKegiatans()
+    {
+        return $this->hasMany(PesertaKegiatan::class);
+    }
 }

@@ -57,4 +57,5 @@ return [
 
     'status_penelitian' => ['Ongoing', 'Finish', 'Published'],
 
+    'tipe_peserta_kegiatan' => ['Siswa', 'Guru', 'Institusi']
 ];

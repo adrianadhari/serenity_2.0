@@ -267,7 +267,15 @@ export default function KegiatanTable({ activities }) {
                             <tr>
                                 <td className="font-bold">Link Kegiatan</td>
                                 <td className="p-2">:</td>
-                                <td className="p-2">{detailActivity.link}</td>
+                                <td className="p-2">
+                                    <a
+                                        href={detailActivity.link}
+                                        className="underline text-blue-500"
+                                        target="_blank"
+                                    >
+                                        {detailActivity.link}
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
                                 <td className="font-bold">Moda</td>

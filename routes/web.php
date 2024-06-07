@@ -5,6 +5,7 @@ use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\PesertaKegiatanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\ResearchController;
@@ -83,6 +84,18 @@ Route::middleware('auth')->group(function () {
             'show', 'destroy'
         ]);
         Route::post('/publikasi/multiple-delete', [PublikasiController::class, 'multipleDelete'])->name('publikasi.multipleDelete');
+    });
+
+    Route::middleware('admin')->group(function () {
+        Route::resource('/kegiatan', KegiatanController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('kegiatan')->name('kegiatan.')->group(function () {
+            Route::post('/multiple-delete', [KegiatanController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::get('/aktif', [PesertaKegiatanController::class, 'index'])->name('aktif');
+            Route::get('/{id}/detail', [PesertaKegiatanController::class, 'detail'])->name('detail');
+            Route::post('/daftar', [PesertaKegiatanController::class, 'daftar'])->name('daftar');
+        });
 
         Route::resource('/penelitian', ResearchController::class)->except([
             'show', 'destroy'
@@ -91,13 +104,12 @@ Route::middleware('auth')->group(function () {
             Route::post('/multiple-delete', [ResearchController::class, 'multipleDelete'])->name('multipleDelete');
         });
     });
+});
 
-    Route::middleware('admin')->group(function () {
-        Route::resource('/kegiatan', KegiatanController::class)->except([
-            'show', 'destroy'
-        ]);
-        Route::post('/kegiatan/multiple-delete', [KegiatanController::class, 'multipleDelete'])->name('kegiatan.multipleDelete');
-    });
+Route::prefix('api')->group(function () {
+    Route::get('/get-sekolah', [PesertaKegiatanController::class, 'getSekolah']);
+    Route::get('/get-peserta', [PesertaKegiatanController::class, 'getPeserta']);
+    Route::get('/jumlah-peserta', [PesertaKegiatanController::class, 'jumlahPeserta']);
 });
 
 require __DIR__ . '/auth.php';
