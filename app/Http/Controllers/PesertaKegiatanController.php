@@ -8,8 +8,8 @@ use App\Models\PesertaKegiatan;
 use App\Models\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class PesertaKegiatanController extends Controller
 {
@@ -20,33 +20,20 @@ class PesertaKegiatanController extends Controller
         $this->tipePesertaKegiatan = Config::get('constantsdata.tipe_peserta_kegiatan');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): Response
-    {
-        $activities = Kegiatan::where('status', 'Rencana')->orderBy('jadwal_mulai', 'desc')->get();
-        return Inertia::render('Kegiatan/Peserta/Index', [
-            'activities' => $activities
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function detail(string $id)
+    public function index(string $id)
     {
         $activity = Kegiatan::where('kode', $id)->first();
-        return Inertia::render('Kegiatan/Peserta/Detail', [
+        return Inertia::render('Kegiatan/Daftar', [
             'activity' => $activity,
             'tipe' => $this->tipePesertaKegiatan
         ]);
     }
 
-    public function daftar(Request $request)
+    public function create(Request $request)
     {
         $request->validate([
-            'activityId' => 'required|exists:kegiatans,id',
+            'type' => ['required', Rule::in($this->tipePesertaKegiatan)],
+            'activityId' => ['required', 'exists:kegiatans,id'],
         ]);
 
         PesertaKegiatan::create([
@@ -57,6 +44,16 @@ class PesertaKegiatanController extends Controller
         ]);
 
         return redirect()->route('kegiatan.aktif')->with('message', 'Daftar ke kegiatan berhasil!');
+    }
+
+    public function multipleDelete(Request $request)
+    {
+        $codes = $request->input('codes');
+        if (is_array($codes) && count($codes) > 0) {
+            PesertaKegiatan::whereIn('kode', $codes)->delete();
+            return redirect()->back();
+        }
+        return redirect()->back();
     }
 
     public function getSekolah(Request $request)

@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/react";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { useMountEffect } from "primereact/hooks";
-import PesertaKegiatanTable from "./PesertaKegiatanTable";
+import KegiatanAktifTable from "./Partials/KegiatanAktifTable";
 
 export default function KegiatanAktif({ auth, activities, flash }) {
     const title = "Kegiatan Aktif";
@@ -29,7 +29,7 @@ export default function KegiatanAktif({ auth, activities, flash }) {
                 <Toast ref={toast} />
 
                 <div className="max-w-7xl mx-auto">
-                    <PesertaKegiatanTable activities={activities} />
+                    <KegiatanAktifTable activities={activities} />
                 </div>
             </div>
         </AuthenticatedLayout>

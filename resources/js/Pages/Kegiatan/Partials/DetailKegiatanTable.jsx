@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export default function DetailTable({ activity }) {
+export default function DetailKegiatanTable({ activity }) {
     let {
         jadwal_mulai,
         jadwal_selesai,
@@ -16,6 +16,10 @@ export default function DetailTable({ activity }) {
         narasumber,
         semester,
         tentang,
+        sertifikat,
+        status,
+        target_peserta,
+        created_at,
     } = activity;
 
     return (
@@ -83,8 +87,36 @@ export default function DetailTable({ activity }) {
                         <td>{semester}</td>
                     </tr>
                     <tr>
+                        <td className="font-bold">Status</td>
+                        <td>{status}</td>
+                    </tr>
+                    <tr>
+                        <td className="font-bold">Target Peserta</td>
+                        <td>{target_peserta}</td>
+                    </tr>
+                    <tr>
+                        <td className="font-bold">Template Sertifikat</td>
+                        <td>
+                            {sertifikat ? (
+                                <a
+                                    target="__blank"
+                                    className="text-sm text-blue-500 underline"
+                                    href={`storage/sertifikat-kegiatan/${sertifikat}`}
+                                >
+                                    Lihat File
+                                </a>
+                            ) : (
+                                "-"
+                            )}
+                        </td>
+                    </tr>
+                    <tr>
                         <td className="font-bold">Tentang</td>
                         <td>{tentang}</td>
+                    </tr>
+                    <tr>
+                        <td className="font-bold">Tanggal Registrasi</td>
+                        <td>{moment(created_at).format("D/MM/YYYY")}</td>
                     </tr>
                 </tbody>
             </table>

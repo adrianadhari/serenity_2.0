@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\KegiatanRequest;
 use App\Http\Requests\KegiatanUpdateRequest;
 use App\Models\Kegiatan;
+use App\Models\PesertaKegiatan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -75,6 +76,26 @@ class KegiatanController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show($id): Response
+    {
+        $activity = Kegiatan::where('kode', $id)->first();
+
+        if (!$activity) {
+            abort(404);
+        }
+
+        $kegiatan_id = Kegiatan::where('kode', $id)->pluck('id')->first();
+        $participants = PesertaKegiatan::where('kegiatan_id', $kegiatan_id)->with('student', 'student.school', 'teacher', 'teacher.school', 'institution')->latest()->get();
+
+        return Inertia::render('Kegiatan/Show', [
+            'participants' => $participants,
+            'activity' => $activity,
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id): Response
@@ -127,5 +148,13 @@ class KegiatanController extends Controller
             return redirect()->route('kegiatan.index');
         }
         return redirect()->route('kegiatan.index');
+    }
+
+    public function kegiatanAktif(): Response
+    {
+        $activities = Kegiatan::where('status', 'Rencana')->orderBy('jadwal_mulai', 'desc')->get();
+        return Inertia::render('Kegiatan/KegiatanAktif', [
+            'activities' => $activities
+        ]);
     }
 }

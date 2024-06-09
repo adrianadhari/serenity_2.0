@@ -87,7 +87,7 @@ export default function DaftarForm({ tipe, activityId }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("kegiatan.daftar"));
+        post(route("kegiatan.peserta.create"));
     };
 
     return (
@@ -117,6 +117,8 @@ export default function DaftarForm({ tipe, activityId }) {
                         )}
                         className="border-gray"
                     />
+
+                    <InputError message={errors.type} />
                 </div>
 
                 <div
@@ -139,8 +141,6 @@ export default function DaftarForm({ tipe, activityId }) {
                         itemTemplate={optionSchoolTemplate}
                         className="border-gray"
                     />
-
-                    <InputError message={errors.sekolah} />
                 </div>
 
                 <div
@@ -163,8 +163,6 @@ export default function DaftarForm({ tipe, activityId }) {
                         itemTemplate={optionTeacherTemplate}
                         className="border-gray"
                     />
-
-                    <InputError message={errors.peserta} />
                 </div>
             </div>
 

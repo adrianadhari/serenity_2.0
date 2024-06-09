@@ -87,14 +87,16 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('admin')->group(function () {
-        Route::resource('/kegiatan', KegiatanController::class)->except([
-            'show', 'destroy'
-        ]);
-        Route::prefix('kegiatan')->name('kegiatan.')->group(function () {
-            Route::post('/multiple-delete', [KegiatanController::class, 'multipleDelete'])->name('multipleDelete');
-            Route::get('/aktif', [PesertaKegiatanController::class, 'index'])->name('aktif');
-            Route::get('/{id}/detail', [PesertaKegiatanController::class, 'detail'])->name('detail');
-            Route::post('/daftar', [PesertaKegiatanController::class, 'daftar'])->name('daftar');
+        Route::resource('/kegiatan', KegiatanController::class)->except(['destroy']);
+        Route::name('kegiatan.')->group(function () {
+            Route::post('kegiatan/multiple-delete', [KegiatanController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::get('/kegiatan-aktif', [KegiatanController::class, 'kegiatanAktif'])->name('aktif');
+        });
+
+        Route::prefix('kegiatan')->name('kegiatan.peserta.')->group(function () {
+            Route::get('/{id}/daftar', [PesertaKegiatanController::class, 'index'])->name('index');
+            Route::post('/daftar', [PesertaKegiatanController::class, 'create'])->name('create');
+            Route::post('/peserta/multiple-delete', [PesertaKegiatanController::class, 'multipleDelete'])->name('multipleDelete');
         });
 
         Route::resource('/penelitian', ResearchController::class)->except([
