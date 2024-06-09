@@ -101,6 +101,11 @@ class KegiatanController extends Controller
     public function edit(string $id): Response
     {
         $kegiatanDetail = Kegiatan::where('kode', $id)->first();
+
+        if (!$kegiatanDetail) {
+            abort(404);
+        }
+
         return Inertia::render('Kegiatan/Edit', [
             'jenis_kegiatan' => $this->jenis_kegiatan,
             'semester' => $this->semester,

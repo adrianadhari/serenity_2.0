@@ -32,7 +32,7 @@ class SiswaController extends Controller
      */
     public function index(): Response
     {
-        $students = Student::with('school')->latest()->get();
+        $students = Student::with('school', 'pesertaKegiatans', 'pesertaKegiatans.kegiatan')->latest()->get();
         return Inertia::render('Siswa/Index', [
             'students' => $students
         ]);
@@ -72,6 +72,11 @@ class SiswaController extends Controller
     public function edit(string $id): Response
     {
         $studentDetail = Student::where('kode_siswa', $id)->with('school')->first();
+
+        if (!$studentDetail) {
+            abort(404);
+        }
+
         $schools_name = School::pluck('nama_sekolah');
 
         return Inertia::render('Siswa/Edit', [

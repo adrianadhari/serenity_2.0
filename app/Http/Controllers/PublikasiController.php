@@ -60,6 +60,11 @@ class PublikasiController extends Controller
     public function edit(string $id): Response
     {
         $publication = Publication::where('kode', $id)->first();
+
+        if (!$publication) {
+            abort(404);
+        }
+
         return Inertia::render('Publikasi/Edit', [
             'typeData' => $this->tipe,
             'statusData' => $this->status,
