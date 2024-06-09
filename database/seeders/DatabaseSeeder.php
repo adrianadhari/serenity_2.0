@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Employee;
 use App\Models\Institution;
 use App\Models\Internship;
 use App\Models\Kegiatan;
@@ -11,6 +12,7 @@ use App\Models\Research;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Training;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -39,5 +41,7 @@ class DatabaseSeeder extends Seeder
         Kegiatan::factory(20)->create();
         Participant::factory(20)->create();
         Research::factory(20)->create();
+        Training::factory(20)->create();
+        Employee::factory(200)->create();
     }
 }

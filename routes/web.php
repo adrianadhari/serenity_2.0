@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\ResearchController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\TrainingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -89,6 +91,18 @@ Route::middleware('auth')->group(function () {
         ]);
         Route::prefix('penelitian')->name('penelitian.')->group(function () {
             Route::post('/multiple-delete', [ResearchController::class, 'multipleDelete'])->name('multipleDelete');
+        });
+
+        Route::resource('/pelatihan', TrainingController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('pelatihan')->name('pelatihan.')->group(function () {
+            Route::post('/multiple-delete', [TrainingController::class, 'multipleDelete'])->name('multipleDelete');
+        });
+
+        Route::resource('/pegawai', EmployeeController::class)->except(['destroy']);
+        Route::prefix('pegawai')->name('pegawai.')->group(function () {
+            Route::post('/multiple-delete', [EmployeeController::class, 'multipleDelete'])->name('multipleDelete');
         });
     });
 
