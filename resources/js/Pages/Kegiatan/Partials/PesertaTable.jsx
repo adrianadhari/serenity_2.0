@@ -155,6 +155,42 @@ export default function PesertaTable({ participants }) {
         }
     };
 
+    const scoreTemplate = (rowData) => {
+        const score = rowData.score === null ? 0 : rowData.score;
+        return <InputText className="w-24" type="number" value={score} />;
+    };
+
+    const onScoreEditComplete = (e) => {
+        const { rowData, newValue } = e;
+
+        post(
+            route("kegiatan.peserta.updateScore", {
+                id: rowData.id,
+                score: newValue,
+            }),
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.current.show({
+                        severity: "success",
+                        summary: "Skor Berhasil Diupdate",
+                    });
+                },
+            }
+        );
+    };
+
+    const scoreEditor = (options) => {
+        return (
+            <InputText
+                className="w-24"
+                type="number"
+                value={options.value}
+                onChange={(e) => options.editorCallback(e.target.value)}
+            />
+        );
+    };
+
     return (
         <>
             <Toast ref={toast} />
@@ -172,6 +208,7 @@ export default function PesertaTable({ participants }) {
                     removableSort
                     selection={selectedDatas}
                     onSelectionChange={onSelectionChange}
+                    editMode="cell"
                     currentPageReportTemplate="Menampilkan {first} sampai {last} dari {totalRecords} peserta"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
                 >
@@ -183,7 +220,14 @@ export default function PesertaTable({ participants }) {
                         body={namaPesertaTemplate}
                         header="Peserta"
                     />
-                    <Column sortable field="score" header="Skor" />
+                    <Column
+                        sortable
+                        field="score"
+                        body={scoreTemplate}
+                        header="Skor"
+                        editor={scoreEditor}
+                        onCellEditComplete={onScoreEditComplete}
+                    />
                     <Column body={actionBodyTemplate} />
                 </DataTable>
             </div>

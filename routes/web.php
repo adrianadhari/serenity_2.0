@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/daftar', [PesertaKegiatanController::class, 'index'])->name('index');
             Route::post('/daftar', [PesertaKegiatanController::class, 'create'])->name('create');
             Route::post('/peserta/multiple-delete', [PesertaKegiatanController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/peserta/update-score', [PesertaKegiatanController::class, 'updateScore'])->name('updateScore');
         });
 
         Route::resource('/penelitian', ResearchController::class)->except([

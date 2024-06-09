@@ -46,6 +46,13 @@ class PesertaKegiatanController extends Controller
         return redirect()->route('kegiatan.aktif')->with('message', 'Daftar ke kegiatan berhasil!');
     }
 
+    public function updateScore(Request $request)
+    {
+        $peserta = PesertaKegiatan::find($request->id);
+        $peserta->update(['score' => $request->score]);
+        return redirect()->back();
+    }
+
     public function multipleDelete(Request $request)
     {
         $codes = $request->input('codes');
