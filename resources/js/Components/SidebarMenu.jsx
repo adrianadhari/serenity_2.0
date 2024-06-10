@@ -175,7 +175,9 @@ export default function SidebarMenu({ user }) {
                                 </Dropdown.Trigger>
 
                                 <Dropdown.Content>
-                                    <Dropdown.Link>
+                                    <Dropdown.Link
+                                        href={route("lab.pelanggan.index")}
+                                    >
                                         Data Pelanggan
                                     </Dropdown.Link>
                                     <Dropdown.Link>Data Pegawai</Dropdown.Link>
