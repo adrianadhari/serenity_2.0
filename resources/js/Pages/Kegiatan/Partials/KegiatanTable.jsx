@@ -12,8 +12,6 @@ import moment from "moment";
 export default function KegiatanTable({ activities }) {
     const [dataActivities, setDataActivities] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
-    const [detailDataModal, setDetailDataModal] = useState(false);
-    const [detailActivity, setDetailActivity] = useState(null);
     const [selectedDatas, setSelectedDatas] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -24,11 +22,6 @@ export default function KegiatanTable({ activities }) {
 
     const confirmDeleteSelected = () => {
         setDeleteModal(true);
-    };
-
-    const confirmDetailData = (data) => {
-        setDetailActivity(data);
-        setDetailDataModal(true);
     };
 
     const { setData, post, processing } = useForm({
@@ -54,8 +47,8 @@ export default function KegiatanTable({ activities }) {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="flex items-center gap-1">
-                <button
-                    onClick={() => confirmDetailData(rowData)}
+                <Link
+                    href={route("kegiatan.show", rowData.kode)}
                     className="p-2 btn-info"
                 >
                     <svg
@@ -66,7 +59,7 @@ export default function KegiatanTable({ activities }) {
                     >
                         <path d="M12.0003 3C17.3924 3 21.8784 6.87976 22.8189 12C21.8784 17.1202 17.3924 21 12.0003 21C6.60812 21 2.12215 17.1202 1.18164 12C2.12215 6.87976 6.60812 3 12.0003 3ZM12.0003 19C16.2359 19 19.8603 16.052 20.7777 12C19.8603 7.94803 16.2359 5 12.0003 5C7.7646 5 4.14022 7.94803 3.22278 12C4.14022 16.052 7.7646 19 12.0003 19ZM12.0003 16.5C9.51498 16.5 7.50026 14.4853 7.50026 12C7.50026 9.51472 9.51498 7.5 12.0003 7.5C14.4855 7.5 16.5003 9.51472 16.5003 12C16.5003 14.4853 14.4855 16.5 12.0003 16.5ZM12.0003 14.5C13.381 14.5 14.5003 13.3807 14.5003 12C14.5003 10.6193 13.381 9.5 12.0003 9.5C10.6196 9.5 9.50026 10.6193 9.50026 12C9.50026 13.3807 10.6196 14.5 12.0003 14.5Z"></path>
                     </svg>
-                </button>
+                </Link>
 
                 <Link
                     href={route("kegiatan.edit", rowData.kode)}
@@ -139,10 +132,6 @@ export default function KegiatanTable({ activities }) {
         );
     };
 
-    const formatDateWithHour = (value) => {
-        return moment(value).format("D/MM/YYYY h:mm");
-    };
-
     const formatDate = (value) => {
         return moment(value).format("D/MM/YYYY");
     };
@@ -197,153 +186,6 @@ export default function KegiatanTable({ activities }) {
                     <Column body={actionBodyTemplate} />
                 </DataTable>
             </div>
-
-            <Dialog
-                header="Detail Publikasi"
-                visible={detailDataModal}
-                onHide={() => setDetailDataModal(false)}
-                draggable={false}
-                className="md:w-1/2"
-            >
-                {detailActivity && (
-                    <table className="table-auto">
-                        <tbody>
-                            <tr>
-                                <td className="font-bold">Kode Kegiatan</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{detailActivity.kode}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Judul Kegiatan</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.judul_kegiatan}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Jenis Kegiatan</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.jenis_kegiatan}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Semester</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.semester}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Jenis Flagship</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.jenis_flagship}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Jadwal Mulai</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {formatDateWithHour(
-                                        detailActivity.jadwal_mulai
-                                    )}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Jadwal Selesai</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {formatDateWithHour(
-                                        detailActivity.jadwal_selesai
-                                    )}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Lokasi Kegiatan</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{detailActivity.lokasi}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Link Kegiatan</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{detailActivity.link}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Moda</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{detailActivity.moda}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Tentang Kegiatan</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.tentang}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Narasumber</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.narasumber}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Materi Kegiatan</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{detailActivity.materi}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">
-                                    Template Sertifikat
-                                </td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.sertifikat ? (
-                                        <a
-                                            target="__blank"
-                                            className="text-sm text-blue-500 underline"
-                                            href={`storage/sertifikat-kegiatan/${detailActivity.sertifikat}`}
-                                        >
-                                            Lihat File
-                                        </a>
-                                    ) : (
-                                        "-"
-                                    )}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Status</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">{detailActivity.status}</td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Target Peserta</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.target_peserta}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">Min. Score</td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {detailActivity.min_score}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-bold">
-                                    Tanggal Registrasi
-                                </td>
-                                <td className="p-2">:</td>
-                                <td className="p-2">
-                                    {formatDate(detailActivity.created_at)}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                )}
-            </Dialog>
 
             <Dialog
                 header="Hapus Data Terpilih"

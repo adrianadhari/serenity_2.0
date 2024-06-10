@@ -34,7 +34,7 @@ class GuruController extends Controller
      */
     public function index(): Response
     {
-        $teachers = Teacher::with('school')->latest()->get();
+        $teachers = Teacher::with('school', 'pesertaKegiatans', 'pesertaKegiatans.kegiatan')->latest()->get();
         return Inertia::render('Guru/Index', [
             'teachers' => $teachers
         ]);
@@ -75,6 +75,11 @@ class GuruController extends Controller
     public function edit(string $id): Response
     {
         $teacherDetail = Teacher::where('kode', $id)->with('school')->first();
+
+        if (!$teacherDetail) {
+            abort(404);
+        }
+
         $schools_name = School::pluck('nama_sekolah');
 
         return Inertia::render('Guru/Edit', [

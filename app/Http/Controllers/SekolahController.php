@@ -71,6 +71,11 @@ class SekolahController extends Controller
     public function edit($id): Response
     {
         $school = School::where('kode_sekolah', $id)->first();
+
+        if (!$school) {
+            abort(404);
+        }
+
         return Inertia::render('Sekolah/Edit', [
             'schoolDetail' => $school,
             'school' => $this->schools,
