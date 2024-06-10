@@ -57,5 +57,7 @@ return [
 
     'status_penelitian' => ['Ongoing', 'Finish', 'Published'],
 
-    'tipe_peserta_kegiatan' => ['Siswa', 'Guru', 'Institusi']
+    'tipe_peserta_kegiatan' => ['Siswa', 'Guru', 'Institusi'],
+
+    'lab_instansi' => ['Kementerian', 'Institusi Akademik', 'NGO', 'Organisasi Profesional', 'Laboratorium Penguji', 'SEAMEO Center', 'Lainnya']
 ];
