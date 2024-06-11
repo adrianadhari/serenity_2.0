@@ -35,7 +35,7 @@ class InstitusiController extends Controller
      */
     public function index(): Response
     {
-        $institutions = Institution::latest()->get();
+        $institutions = Institution::with('pesertaKegiatans', 'pesertaKegiatans.kegiatan')->latest()->get();
         return Inertia::render('Institusi/Index', [
             'institutions' => $institutions
         ]);
@@ -70,6 +70,11 @@ class InstitusiController extends Controller
     public function edit(string $id): Response
     {
         $institution = Institution::where('kode', $id)->first();
+
+        if (!$institution) {
+            abort(404);
+        }
+
         return Inertia::render('Institusi/Edit', [
             'institutionDetail' => $institution,
             'negara' => $this->negara,

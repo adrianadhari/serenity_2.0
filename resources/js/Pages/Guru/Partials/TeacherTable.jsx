@@ -13,6 +13,7 @@ export default function TeacherTable({ teachers }) {
     const [dataTeachers, setDataTeachers] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
     const [detailDataModal, setDetailDataModal] = useState(false);
+    const [historyActivityModal, sethistoryActivityModal] = useState(false);
     const [dataTeacher, setDataTeacher] = useState(null);
     const [selectedDatas, setSelectedDatas] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
@@ -29,6 +30,11 @@ export default function TeacherTable({ teachers }) {
     const confirmDetailData = (data) => {
         setDataTeacher(data);
         setDetailDataModal(true);
+    };
+
+    const confirmHistoryData = (data) => {
+        setDataTeacher(data);
+        sethistoryActivityModal(true);
     };
 
     const { setData, post, processing } = useForm({
@@ -54,6 +60,20 @@ export default function TeacherTable({ teachers }) {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="flex items-center gap-1">
+                <button
+                    onClick={() => confirmHistoryData(rowData)}
+                    className="p-2 btn-danger"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12H4C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C9.25022 4 6.82447 5.38734 5.38451 7.50024L8 7.5V9.5H2V3.5H4L3.99989 5.99918C5.82434 3.57075 8.72873 2 12 2ZM13 7L12.9998 11.585L16.2426 14.8284L14.8284 16.2426L10.9998 12.413L11 7H13Z"></path>
+                    </svg>
+                </button>
+
                 <button
                     onClick={() => confirmDetailData(rowData)}
                     className="p-2 btn-info"
@@ -378,6 +398,174 @@ export default function TeacherTable({ teachers }) {
                         </PrimaryButton>
                     </div>
                 </div>
+            </Dialog>
+
+            <Dialog
+                header="Kegiatan yang diikuti"
+                visible={historyActivityModal}
+                onHide={() => sethistoryActivityModal(false)}
+                draggable={false}
+                className="md:w-1/2"
+            >
+                {dataTeacher &&
+                    dataTeacher.peserta_kegiatans.map((item, index) => (
+                        <details
+                            className="collapse collapse-arrow bg-gray-100 mb-4"
+                            key={index}
+                        >
+                            <summary className="collapse-title text-lg font-semibold">
+                                {item.kegiatan.judul_kegiatan}
+                            </summary>
+                            <table className="table-auto mx-4 mb-4">
+                                <tbody>
+                                    <tr>
+                                        <td className="font-bold">
+                                            Kode Kegiatan
+                                        </td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">{item.kode}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">
+                                            Judul Kegiatan
+                                        </td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.judul_kegiatan}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">
+                                            Jenis Kegiatan
+                                        </td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.jenis_kegiatan}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">
+                                            Jenis Flagship
+                                        </td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.jenis_flagship}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">
+                                            Narasumber
+                                        </td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.narasumber}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">Jadwal</td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">{`${moment(
+                                            item.kegiatan.jadwal_mulai
+                                        ).format("D/MM/YYYY h:mm")} - ${moment(
+                                            item.kegiatan.jadwal_selesai
+                                        ).format("D/MM/YYYY h:mm")}`}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">Materi</td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.materi}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">Link</td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            <a
+                                                href={item.kegiatan.link}
+                                                className="underline text-blue-500"
+                                                target="_blank"
+                                            >
+                                                {item.kegiatan.link}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">Lokasi</td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.lokasi}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">
+                                            Min. Score
+                                        </td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.min_score}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">Moda</td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.moda}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">Semester</td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.semester}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">Status</td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.status}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">
+                                            Target Peserta
+                                        </td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.target_peserta}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">
+                                            Template Sertifikat
+                                        </td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.sertifikat ? (
+                                                <a
+                                                    target="__blank"
+                                                    className="text-sm text-blue-500 underline"
+                                                    href={`storage/sertifikat-kegiatan/${item.kegiatan.sertifikat}`}
+                                                >
+                                                    Lihat File
+                                                </a>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="font-bold">Tentang</td>
+                                        <td className="p-2">:</td>
+                                        <td className="p-2">
+                                            {item.kegiatan.tentang}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </details>
+                    ))}
             </Dialog>
         </>
     );

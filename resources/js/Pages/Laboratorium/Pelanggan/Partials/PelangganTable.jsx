@@ -9,36 +9,43 @@ import Spinner from "@/Components/Spinner";
 import PrimaryButton from "@/Components/PrimaryButton";
 import moment from "moment";
 
-export default function KegiatanTable({ activities }) {
-    const [dataActivities, setDataActivities] = useState(null);
+export default function PelangganTable({ customers }) {
+    const [dataCustomers, setDataCustomers] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
+    const [detailDataModal, setDetailDataModal] = useState(false);
+    const [detailCustomer, setDetailCustomer] = useState(null);
     const [selectedDatas, setSelectedDatas] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
 
     useEffect(() => {
-        setDataActivities(activities);
-    }, [activities]);
+        setDataCustomers(customers);
+    }, [customers]);
 
     const confirmDeleteSelected = () => {
         setDeleteModal(true);
     };
 
+    const confirmDetailData = (data) => {
+        setDetailCustomer(data);
+        setDetailDataModal(true);
+    };
+
     const { setData, post, processing } = useForm({
-        items: [],
+        codes: [],
     });
 
-    const deleteKegiatan = (e) => {
+    const deletePelanggan = (e) => {
         e.preventDefault();
 
-        post(route("kegiatan.multipleDelete"), {
+        post(route("lab.pelanggan.multipleDelete"), {
             preserveScroll: true,
             onSuccess: () => setDeleteModal(false),
             onFinish: () => {
                 setSelectedDatas(null);
                 toast.current.show({
                     severity: "success",
-                    summary: "Kegiatan Berhasil Dihapus",
+                    summary: "Pelanggan Berhasil Dihapus",
                 });
             },
         });
@@ -47,8 +54,8 @@ export default function KegiatanTable({ activities }) {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="flex items-center gap-1">
-                <Link
-                    href={route("kegiatan.show", rowData.kode)}
+                <button
+                    onClick={() => confirmDetailData(rowData)}
                     className="p-2 btn-info"
                 >
                     <svg
@@ -59,10 +66,10 @@ export default function KegiatanTable({ activities }) {
                     >
                         <path d="M12.0003 3C17.3924 3 21.8784 6.87976 22.8189 12C21.8784 17.1202 17.3924 21 12.0003 21C6.60812 21 2.12215 17.1202 1.18164 12C2.12215 6.87976 6.60812 3 12.0003 3ZM12.0003 19C16.2359 19 19.8603 16.052 20.7777 12C19.8603 7.94803 16.2359 5 12.0003 5C7.7646 5 4.14022 7.94803 3.22278 12C4.14022 16.052 7.7646 19 12.0003 19ZM12.0003 16.5C9.51498 16.5 7.50026 14.4853 7.50026 12C7.50026 9.51472 9.51498 7.5 12.0003 7.5C14.4855 7.5 16.5003 9.51472 16.5003 12C16.5003 14.4853 14.4855 16.5 12.0003 16.5ZM12.0003 14.5C13.381 14.5 14.5003 13.3807 14.5003 12C14.5003 10.6193 13.381 9.5 12.0003 9.5C10.6196 9.5 9.50026 10.6193 9.50026 12C9.50026 13.3807 10.6196 14.5 12.0003 14.5Z"></path>
                     </svg>
-                </Link>
+                </button>
 
                 <Link
-                    href={route("kegiatan.edit", rowData.kode)}
+                    href={route("lab.pelanggan.edit", rowData.kode)}
                     className="p-2 btn-success"
                 >
                     <svg
@@ -124,24 +131,9 @@ export default function KegiatanTable({ activities }) {
     const onSelectionChange = (e) => {
         setSelectedDatas(e.value);
         setData(
-            "items",
-            e.value.map((item) => ({
-                kode: item.kode,
-                sertifikat: item.sertifikat,
-            }))
+            "codes",
+            e.value.map((item) => item.kode)
         );
-    };
-
-    const formatDate = (value) => {
-        return moment(value).format("D/MM/YYYY");
-    };
-
-    const dateStartTemplate = (rowData) => {
-        return formatDate(rowData.jadwal_mulai);
-    };
-
-    const dateFinishTemplate = (rowData) => {
-        return formatDate(rowData.jadwal_selesai);
     };
 
     return (
@@ -150,7 +142,7 @@ export default function KegiatanTable({ activities }) {
 
             <div className="card shadow-lg">
                 <DataTable
-                    value={dataActivities}
+                    value={dataCustomers}
                     paginator
                     rows={10}
                     globalFilter={globalFilter}
@@ -161,31 +153,108 @@ export default function KegiatanTable({ activities }) {
                     removableSort
                     selection={selectedDatas}
                     onSelectionChange={onSelectionChange}
-                    currentPageReportTemplate="Menampilkan {first} sampai {last} dari {totalRecords} kegiatan"
+                    currentPageReportTemplate="Menampilkan {first} sampai {last} dari {totalRecords} pelanggan"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
                 >
                     <Column selectionMode="multiple" />
-                    <Column sortable field="kode" header="Kode Kegiatan" />
+                    <Column sortable field="kode" header="Kode Pelanggan" />
                     <Column
                         sortable
-                        field="judul_kegiatan"
-                        header="Judul Kegiatan"
+                        field="nama_pelanggan"
+                        header="Nama Pelanggan"
                     />
+                    <Column sortable field="instansi" header="Instansi" />
                     <Column
                         sortable
-                        body={dateStartTemplate}
-                        field="jadwal_mulai"
-                        header="Mulai"
-                    />
-                    <Column
-                        sortable
-                        body={dateFinishTemplate}
-                        field="jadwal_selesai"
-                        header="Selesai"
+                        field="nama_instansi"
+                        header="Nama Instansi"
                     />
                     <Column body={actionBodyTemplate} />
                 </DataTable>
             </div>
+
+            <Dialog
+                header="Detail Pelanggan"
+                visible={detailDataModal}
+                onHide={() => setDetailDataModal(false)}
+                draggable={false}
+                className="md:w-1/2"
+            >
+                {detailCustomer && (
+                    <table className="table-auto">
+                        <tbody>
+                            <tr>
+                                <td className="font-bold">Kode Pelanggan</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">{detailCustomer.kode}</td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">Instansi</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">
+                                    {detailCustomer.instansi}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">Nama Instansi</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">
+                                    {detailCustomer.nama_instansi}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">Nama Pelanggan</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">
+                                    {detailCustomer.nama_pelanggan}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">Jenis Kelamin</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">
+                                    {detailCustomer.jenis_kelamin}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">Tanggal Lahir</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">
+                                    {moment(detailCustomer.tgl_lahir).format(
+                                        "D/MM/YYYY"
+                                    )}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">No. Telp</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">{detailCustomer.telp}</td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">Email</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">{detailCustomer.email}</td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">Alamat</td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">{detailCustomer.alamat}</td>
+                            </tr>
+                            <tr>
+                                <td className="font-bold">
+                                    Tanggal Registrasi
+                                </td>
+                                <td className="p-2">:</td>
+                                <td className="p-2">
+                                    {moment(detailCustomer.created_at).format(
+                                        "D/MM/YYYY"
+                                    )}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                )}
+            </Dialog>
 
             <Dialog
                 header="Hapus Data Terpilih"
@@ -209,7 +278,7 @@ export default function KegiatanTable({ activities }) {
                         <PrimaryButton
                             className="mt-2 px-4 py-2 btn-danger"
                             disabled={processing}
-                            onClick={deleteKegiatan}
+                            onClick={deletePelanggan}
                         >
                             Ya, Hapus
                             <Spinner isLoading={processing} />

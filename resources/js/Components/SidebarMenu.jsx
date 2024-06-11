@@ -103,20 +103,30 @@ export default function SidebarMenu({ user }) {
                     )}
 
                     {isAdmin && (
-                        <NavLink
-                            href={route("kegiatan.index")}
-                            active={route().current("kegiatan.index")}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                className="w-5 h-5"
-                                fill="currentColor"
-                            >
-                                <path d="M8 4H21V6H8V4ZM3 3.5H6V6.5H3V3.5ZM3 10.5H6V13.5H3V10.5ZM3 17.5H6V20.5H3V17.5ZM8 11H21V13H8V11ZM8 18H21V20H8V18Z"></path>
-                            </svg>
-                            <span className="ml-4">Kegiatan</span>
-                        </NavLink>
+                        <Dropdown>
+                            <Dropdown.Trigger>
+                                <span className="inline-flex items-center">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="w-5 h-5"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                    >
+                                        <path d="M15.9994 2V4H14.9994V7.24291C14.9994 8.40051 15.2506 9.54432 15.7357 10.5954L20.017 19.8714C20.3641 20.6236 20.0358 21.5148 19.2836 21.8619C19.0865 21.9529 18.8721 22 18.655 22H5.34375C4.51532 22 3.84375 21.3284 3.84375 20.5C3.84375 20.2829 3.89085 20.0685 3.98181 19.8714L8.26306 10.5954C8.74816 9.54432 8.99939 8.40051 8.99939 7.24291V4H7.99939V2H15.9994ZM13.3873 10.0012H10.6115C10.5072 10.3644 10.3823 10.7221 10.2371 11.0724L10.079 11.4335L6.12439 20H17.8734L13.9198 11.4335C13.7054 10.9691 13.5276 10.4902 13.3873 10.0012ZM10.9994 7.24291C10.9994 7.49626 10.9898 7.7491 10.9706 8.00087H13.0282C13.0189 7.87982 13.0119 7.75852 13.0072 7.63704L12.9994 7.24291V4H10.9994V7.24291Z"></path>
+                                    </svg>
+                                    <span className="ml-4">Kegiatan</span>
+                                </span>
+                            </Dropdown.Trigger>
+
+                            <Dropdown.Content>
+                                <Dropdown.Link href={route("kegiatan.index")}>
+                                    Kelola Kegiatan
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route("kegiatan.aktif")}>
+                                    Kegiatan Aktif
+                                </Dropdown.Link>
+                            </Dropdown.Content>
+                        </Dropdown>
                     )}
 
                     {isAdmin && (
@@ -166,7 +176,9 @@ export default function SidebarMenu({ user }) {
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
-                            <Dropdown.Link>Data Pelanggan</Dropdown.Link>
+                            <Dropdown.Link href={route("lab.pelanggan.index")}>
+                                Data Pelanggan
+                            </Dropdown.Link>
                             <Dropdown.Link>Data Pegawai</Dropdown.Link>
                             <Dropdown.Link>
                                 Data Alat Laboratorium

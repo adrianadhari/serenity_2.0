@@ -55,6 +55,11 @@ class MagangController extends Controller
     public function edit(string $id): Response
     {
         $internDetail = Internship::where('kode', $id)->with('student')->first();
+
+        if (!$internDetail) {
+            abort(404);
+        }
+
         $students = Student::pluck('nis');
 
         return Inertia::render('Magang/Edit', [

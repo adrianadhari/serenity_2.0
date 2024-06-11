@@ -38,4 +38,9 @@ class Student extends Model
     {
         return $this->hasMany(Internship::class);
     }
+
+    public function pesertaKegiatans()
+    {
+        return $this->hasMany(PesertaKegiatan::class);
+    }
 }

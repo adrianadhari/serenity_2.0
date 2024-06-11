@@ -4,8 +4,10 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\LabPelangganController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\PesertaKegiatanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\ResearchController;
@@ -85,12 +87,34 @@ Route::middleware('auth')->group(function () {
             'show', 'destroy'
         ]);
         Route::post('/publikasi/multiple-delete', [PublikasiController::class, 'multipleDelete'])->name('publikasi.multipleDelete');
+    });
+
+    Route::middleware('admin')->group(function () {
+        Route::resource('/kegiatan', KegiatanController::class)->except(['destroy']);
+        Route::name('kegiatan.')->group(function () {
+            Route::post('kegiatan/multiple-delete', [KegiatanController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::get('/kegiatan-aktif', [KegiatanController::class, 'kegiatanAktif'])->name('aktif');
+        });
+
+        Route::prefix('kegiatan')->name('kegiatan.peserta.')->group(function () {
+            Route::get('/{id}/daftar', [PesertaKegiatanController::class, 'index'])->name('index');
+            Route::post('/daftar', [PesertaKegiatanController::class, 'create'])->name('create');
+            Route::post('/peserta/multiple-delete', [PesertaKegiatanController::class, 'multipleDelete'])->name('multipleDelete');
+            Route::post('/peserta/update-score', [PesertaKegiatanController::class, 'updateScore'])->name('updateScore');
+        });
 
         Route::resource('/penelitian', ResearchController::class)->except([
             'show', 'destroy'
         ]);
         Route::prefix('penelitian')->name('penelitian.')->group(function () {
             Route::post('/multiple-delete', [ResearchController::class, 'multipleDelete'])->name('multipleDelete');
+        });
+
+        Route::prefix('lab')->name('lab.')->group(function () {
+            Route::resource('/pelanggan', LabPelangganController::class)->except([
+                'show', 'destroy'
+            ]);
+            Route::post('/pelanggan/multiple-delete', [LabPelangganController::class, 'multipleDelete'])->name('pelanggan.multipleDelete');
         });
 
         Route::resource('/pelatihan', TrainingController::class)->except([
@@ -104,14 +128,20 @@ Route::middleware('auth')->group(function () {
         Route::prefix('pegawai')->name('pegawai.')->group(function () {
             Route::post('/multiple-delete', [EmployeeController::class, 'multipleDelete'])->name('multipleDelete');
         });
-    });
 
-    Route::middleware('admin')->group(function () {
-        Route::resource('/kegiatan', KegiatanController::class)->except([
-            'show', 'destroy'
-        ]);
-        Route::post('/kegiatan/multiple-delete', [KegiatanController::class, 'multipleDelete'])->name('kegiatan.multipleDelete');
+        Route::prefix('lab')->name('lab.')->group(function () {
+            Route::resource('/pelanggan', LabPelangganController::class)->except([
+                'show', 'destroy'
+            ]);
+            Route::post('/pelanggan/multiple-delete', [LabPelangganController::class, 'multipleDelete'])->name('pelanggan.multipleDelete');
+        });
     });
+});
+
+Route::prefix('api')->group(function () {
+    Route::get('/get-sekolah', [PesertaKegiatanController::class, 'getSekolah']);
+    Route::get('/get-peserta', [PesertaKegiatanController::class, 'getPeserta']);
+    Route::get('/jumlah-peserta', [PesertaKegiatanController::class, 'jumlahPeserta']);
 });
 
 require __DIR__ . '/auth.php';
