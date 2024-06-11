@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Models\Institution;
 use App\Models\Internship;
 use App\Models\Kegiatan;
+use App\Models\LabPegawai;
 use App\Models\LabPelanggan;
 use App\Models\Participant;
 use App\Models\Publication;
@@ -45,5 +46,6 @@ class DatabaseSeeder extends Seeder
         Training::factory(20)->create();
         Employee::factory(200)->create();
         LabPelanggan::factory(20)->create();
+        LabPegawai::factory(20)->create();
     }
 }

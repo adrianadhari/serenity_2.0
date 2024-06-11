@@ -2,22 +2,19 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Institution;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 
-class InstitutionUpdateRequest extends FormRequest
+class LabPegawaiRequest extends FormRequest
 {
-    protected $negara;
-    protected $grup;
-    protected $jenis;
+    protected $gender;
+    protected $pendidikan;
 
     public function __construct()
     {
-        $this->negara = Config::get('constantsdata.negara');
-        $this->grup = Config::get('constantsdata.grup');
-        $this->jenis = Config::get('constantsdata.jenis');
+        $this->gender = Config::get('constantsdata.gender');
+        $this->pendidikan = Config::get('constantsdata.pendidikan');
     }
 
     /**
@@ -35,15 +32,15 @@ class InstitutionUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $kode = Institution::where('kode', $this->route('institusi'))->firstOrFail();
-
         return [
-            'nama' => ['required', 'string', 'max:255', 'unique:institutions,nama,' . $kode->id],
-            'negara' => ['required', Rule::in($this->negara)],
-            'grup' => ['required', Rule::in($this->grup)],
-            'jenis' => ['required', Rule::in($this->jenis)],
+            'nama' => ['required', 'max:255', 'string'],
+            'nip' => ['required', 'max:20', 'string', 'unique:lab_pegawais,nip'],
+            'jabatan' => ['required', 'max:255', 'string'],
+            'pendidikan' => ['required', Rule::in($this->pendidikan)],
             'alamat' => ['required', 'string'],
             'telp' => ['required', 'max:13', 'string'],
+            'tgl_lahir' => ['required', 'date'],
+            'jenis_kelamin' => ['required', Rule::in($this->gender)],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
         ];
     }
