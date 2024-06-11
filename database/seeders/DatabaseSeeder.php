@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Institution;
 use App\Models\Internship;
 use App\Models\Kegiatan;
+use App\Models\LabPegawai;
 use App\Models\LabPelanggan;
 use App\Models\Participant;
 use App\Models\Publication;
@@ -41,5 +42,6 @@ class DatabaseSeeder extends Seeder
         Participant::factory(20)->create();
         Research::factory(20)->create();
         LabPelanggan::factory(20)->create();
+        LabPegawai::factory(20)->create();
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\LabPegawaiController;
 use App\Http\Controllers\LabPelangganController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PesertaController;
@@ -113,6 +114,11 @@ Route::middleware('auth')->group(function () {
                 'show', 'destroy'
             ]);
             Route::post('/pelanggan/multiple-delete', [LabPelangganController::class, 'multipleDelete'])->name('pelanggan.multipleDelete');
+
+            Route::resource('/pegawai', LabPegawaiController::class)->except([
+                'show', 'destroy'
+            ]);
+            Route::post('/pegawai/multiple-delete', [LabPegawaiController::class, 'multipleDelete'])->name('pegawai.multipleDelete');
         });
     });
 });
