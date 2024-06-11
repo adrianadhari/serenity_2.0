@@ -134,13 +134,6 @@ Route::middleware('auth')->group(function () {
         Route::prefix('pegawai')->name('pegawai.')->group(function () {
             Route::post('/multiple-delete', [EmployeeController::class, 'multipleDelete'])->name('multipleDelete');
         });
-
-        Route::prefix('lab')->name('lab.')->group(function () {
-            Route::resource('/pelanggan', LabPelangganController::class)->except([
-                'show', 'destroy'
-            ]);
-            Route::post('/pelanggan/multiple-delete', [LabPelangganController::class, 'multipleDelete'])->name('pelanggan.multipleDelete');
-        });
     });
 });
 
