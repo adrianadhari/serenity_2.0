@@ -59,5 +59,9 @@ return [
 
     'tipe_peserta_kegiatan' => ['Siswa', 'Guru', 'Institusi'],
 
-    'lab_instansi' => ['Kementerian', 'Institusi Akademik', 'NGO', 'Organisasi Profesional', 'Laboratorium Penguji', 'SEAMEO Center', 'Lainnya']
+    'lab_instansi' => ['Kementerian', 'Institusi Akademik', 'NGO', 'Organisasi Profesional', 'Laboratorium Penguji', 'SEAMEO Center', 'Lainnya'],
+
+    'kategori_kemitraan' => ['MoU', 'MoA'],
+
+    'status_kemitraan' => ['Baru', 'Perpanjangan']
 ];
