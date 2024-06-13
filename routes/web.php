@@ -7,6 +7,7 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LabPegawaiController;
 use App\Http\Controllers\LabPelangganController;
 use App\Http\Controllers\MagangController;
+use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PesertaKegiatanController;
 use App\Http\Controllers\ProfileController;
@@ -109,6 +110,13 @@ Route::middleware('auth')->group(function () {
         ]);
         Route::prefix('penelitian')->name('penelitian.')->group(function () {
             Route::post('/multiple-delete', [ResearchController::class, 'multipleDelete'])->name('multipleDelete');
+        });
+
+        Route::resource('/kemitraan', PartnershipController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('kemitraan')->name('kemitraan.')->group(function () {
+            Route::post('/multiple-delete', [PartnershipController::class, 'multipleDelete'])->name('multipleDelete');
         });
 
         Route::prefix('lab')->name('lab.')->group(function () {
