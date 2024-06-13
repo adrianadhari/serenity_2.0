@@ -32,7 +32,7 @@ export default function PartnershipTable({ partnerships }) {
     };
 
     const { setData, post, processing } = useForm({
-        codes: [],
+        items: [],
     });
 
     const deletePartnership = (e) => {
@@ -131,8 +131,12 @@ export default function PartnershipTable({ partnerships }) {
     const onSelectionChange = (e) => {
         setSelectedDatas(e.value);
         setData(
-            "codes",
-            e.value.map((item) => item.kode)
+            "items",
+            e.value.map((item) => ({
+                kode: item.kode,
+                dok_kerjasama: item.dok_kerjasama,
+                dok_roadmap: item.dok_roadmap,
+            }))
         );
     };
 
