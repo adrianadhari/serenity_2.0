@@ -9,7 +9,6 @@ import Spinner from "@/Components/Spinner";
 import { PartnershipContext } from "../context/PartnershipContext";
 import TextArea from "@/Components/TextArea";
 import { MultiSelect } from "primereact/multiselect";
-import { useState } from "react";
 
 export default function CreateForm({
     kategoriOption,
@@ -17,7 +16,6 @@ export default function CreateForm({
     institutionOption,
 }) {
     let { handleFunctions } = useContext(PartnershipContext);
-    const [selectedInstitutions, setSelectedInstitutions] = useState(null);
 
     let {
         selectedKategoriTemplate,
@@ -39,6 +37,7 @@ export default function CreateForm({
         nama_penandatangan: "",
         jabatan_penandatangan: "",
         ruang_lingkup: "",
+        institutions: [],
     });
 
     const storePartnership = async (e) => {
@@ -48,13 +47,17 @@ export default function CreateForm({
     };
 
     return (
-        <form onSubmit={storePartnership} className="form-card">
+        <form
+            onSubmit={storePartnership}
+            encType="multipart/form-data"
+            className="form-card"
+        >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
                     <InputLabel value="Nomor Dokumen Kerjasama" />
 
                     <TextInput
-                        type="text"
+                        type="number"
                         placeholder="Masukkan nomor dokumen kerjasama"
                         value={data.nomor}
                         onChange={(e) => setData("nomor", e.target.value)}
@@ -238,15 +241,17 @@ export default function CreateForm({
 
                     <MultiSelect
                         required
-                        value={selectedInstitutions}
-                        onChange={(e) => setSelectedInstitutions(e.value)}
+                        value={data.institutions}
                         options={institutionOption}
+                        onChange={(e) => setData("institutions", e.value)}
                         optionLabel="nama"
                         filter
                         placeholder="Pilih Institusi"
                         display="chip"
                         className="border-gray"
                     />
+
+                    <InputError message={errors.institutions} />
                 </div>
             </div>
 

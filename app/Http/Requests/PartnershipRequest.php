@@ -33,7 +33,7 @@ class PartnershipRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nomor' => ['required', 'max:255', 'unique:partnerships,nomor'],
+            'nomor' => ['required', 'max:255', 'unique:partnerships,nomor', 'integer'],
             'kategori' => ['required', Rule::in($this->kategori_kemitraan)],
             'judul' => ['required', 'string', 'max:255'],
             'status' => ['required', Rule::in($this->status_kemitraan)],
@@ -46,7 +46,6 @@ class PartnershipRequest extends FormRequest
             'jabatan_penandatangan' => ['required', 'string', 'max:255'],
             'ruang_lingkup' => ['required', 'string'],
             'institutions' => ['required', 'array'],
-            'institutions.*' => ['exists:institutions,id'],
         ];
     }
 }

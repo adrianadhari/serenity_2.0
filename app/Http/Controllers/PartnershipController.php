@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PartnershipRequest;
 use App\Models\Institution;
 use App\Models\Partnership;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Inertia\Inertia;
@@ -44,5 +46,37 @@ class PartnershipController extends Controller
             'status' => $this->status_kemitraan,
             'institutions' => $institutions
         ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(PartnershipRequest $request): RedirectResponse
+    {
+        $data = $request->validated();
+
+        $dok_kerjasama = $request->file('dok_kerjasama');
+        if ($dok_kerjasama) {
+            $fileName = 'dokumen-kerjasama-' . $request->nomor . '.' . $dok_kerjasama->extension();
+            $dok_kerjasama->storeAs('public/dokumen-kerjasama', $fileName);
+            $data['dok_kerjasama'] = $fileName;
+        }
+
+        $dok_roadmap = $request->file('dok_roadmap');
+        if ($dok_roadmap) {
+            $fileName = 'dokumen-roadmap-' . $request->nomor . '.' . $dok_roadmap->extension();
+            $dok_roadmap->storeAs('public/dokumen-roadmap', $fileName);
+            $data['dok_roadmap'] = $fileName;
+        }
+
+        $ids = [];
+        foreach ($request->institutions as $item) {
+            $ids[] = $item['id'];
+        }
+
+        $partnership = Partnership::create($data);
+        $partnership->institutions()->attach($ids);
+
+        return redirect()->route('kemitraan.index')->with('message', 'Kemitraan Berhasil Ditambahkan!');
     }
 }
