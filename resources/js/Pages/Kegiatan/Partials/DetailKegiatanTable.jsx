@@ -101,7 +101,7 @@ export default function DetailKegiatanTable({ activity }) {
                                 <a
                                     target="__blank"
                                     className="text-sm text-blue-500 underline"
-                                    href={`storage/sertifikat-kegiatan/${sertifikat}`}
+                                    href={`/storage/sertifikat-kegiatan/${sertifikat}`}
                                 >
                                     Lihat File
                                 </a>

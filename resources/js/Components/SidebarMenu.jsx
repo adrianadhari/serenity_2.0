@@ -180,13 +180,15 @@ export default function SidebarMenu({ user }) {
                                 Data Pelanggan
                             </Dropdown.Link>
                             <Dropdown.Link>Data Pegawai</Dropdown.Link>
-                            <Dropdown.Link>
+                            <Dropdown.Link href={route("lab.alat.index")}>
                                 Data Alat Laboratorium
                             </Dropdown.Link>
                             <Dropdown.Link>Data Pra Analisa</Dropdown.Link>
                             <Dropdown.Link>Data Analisis</Dropdown.Link>
                             <Dropdown.Link>Data Pasca Analisa</Dropdown.Link>
-                            <Dropdown.Link>Peminjaman Alat</Dropdown.Link>
+                            <Dropdown.Link href={route("lab.peminjaman.index")}>
+                                Peminjaman Alat
+                            </Dropdown.Link>
                         </Dropdown.Content>
                     </Dropdown>
 

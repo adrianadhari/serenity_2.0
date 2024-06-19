@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LabPelanggan extends Model
+class Alat extends Model
 {
     use HasFactory;
 
@@ -16,15 +16,15 @@ class LabPelanggan extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->kode = self::generateUniqueCode();
+            $model->kode_alat = self::generateUniqueCode();
         });
     }
 
     private static function generateUniqueCode()
     {
         do {
-            $code = 'LP' . time();
-        } while (self::where('kode', $code)->exists());
+            $code = 'LAB' . time();
+        } while (self::where('kode_alat', $code)->exists());
 
         return $code;
     }

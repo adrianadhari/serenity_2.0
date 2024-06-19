@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\AlatController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LabPelangganController;
 use App\Http\Controllers\MagangController;
+use App\Http\Controllers\PeminjamanAlatController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PesertaKegiatanController;
 use App\Http\Controllers\ProfileController;
@@ -134,6 +136,16 @@ Route::middleware('auth')->group(function () {
                 'show', 'destroy'
             ]);
             Route::post('/pelanggan/multiple-delete', [LabPelangganController::class, 'multipleDelete'])->name('pelanggan.multipleDelete');
+
+            Route::resource('/alat', AlatController::class)->except([
+                'show', 'destroy'
+            ]);
+            Route::post('/alat/multiple-delete', [AlatController::class, 'multipleDelete'])->name('alat.multipleDelete');
+
+            Route::resource('/peminjaman', PeminjamanAlatController::class)->except([
+                'show', 'destroy'
+            ]);
+            Route::post('/peminjaman/multiple-delete', [PeminjamanAlatController::class, 'multipleDelete'])->name('peminjaman.multipleDelete');
         });
     });
 });
