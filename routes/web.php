@@ -6,6 +6,7 @@ use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LabPegawaiController;
 use App\Http\Controllers\LabPelangganController;
+use App\Http\Controllers\LabPraAnalisaController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\PesertaController;
@@ -129,6 +130,11 @@ Route::middleware('auth')->group(function () {
                 'show', 'destroy'
             ]);
             Route::post('/pegawai/multiple-delete', [LabPegawaiController::class, 'multipleDelete'])->name('pegawai.multipleDelete');
+
+            Route::resource('/pra-analisa', LabPraAnalisaController::class)->except(['destroy']);
+            Route::prefix('pra-analisa')->name('pra-analisa.')->group(function () {
+                Route::post('/multiple-delete', [LabPraAnalisaController::class, 'multipleDelete'])->name('multipleDelete');
+            });
         });
 
         Route::resource('/pelatihan', TrainingController::class)->except([

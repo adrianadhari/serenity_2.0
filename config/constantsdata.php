@@ -63,5 +63,9 @@ return [
 
     'kategori_kemitraan' => ['MoU', 'MoA'],
 
-    'status_kemitraan' => ['Baru', 'Perpanjangan']
+    'status_kemitraan' => ['Baru', 'Perpanjangan'],
+
+    'jenis_pelayanan' => ['Analisis Biokimia', 'Analisis Antropometri', 'Analisis Dietary'],
+
+    'status_tarif' => ['Full tarif', 'Diskon 5%', 'Diskon 10%', 'Diskon 15%', 'Diskon Maksimal', 'Subsidi', 'In-kind contribution']
 ];
