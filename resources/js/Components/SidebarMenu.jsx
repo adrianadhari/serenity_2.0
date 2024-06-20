@@ -192,7 +192,7 @@ export default function SidebarMenu({ user }) {
                                 >
                                     Data Pegawai
                                 </Dropdown.Link>
-                                <Dropdown.Link>
+                                <Dropdown.Link href={route("lab.alat.index")}>
                                     Data Alat Laboratorium
                                 </Dropdown.Link>
                                 <Dropdown.Link
@@ -204,7 +204,7 @@ export default function SidebarMenu({ user }) {
                                 <Dropdown.Link>
                                     Data Pasca Analisa
                                 </Dropdown.Link>
-                                <Dropdown.Link>Peminjaman Alat</Dropdown.Link>
+                                <Dropdown.Link href={route("lab.peminjaman.index")}>Peminjaman Alat</Dropdown.Link>
                             </Dropdown.Content>
                         </Dropdown>
                     )}

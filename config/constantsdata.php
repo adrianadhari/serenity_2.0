@@ -61,11 +61,19 @@ return [
 
     'lab_instansi' => ['Kementerian', 'Institusi Akademik', 'NGO', 'Organisasi Profesional', 'Laboratorium Penguji', 'SEAMEO Center', 'Lainnya'],
 
+    'kategori_alat' => ['Antropometri', 'Biokimia', 'Klinis', 'Dietary'],
+
+    'status_bmn' => ['BMN', 'Non BMN'],
+
+    'sumber_dana' => ['DIPA', 'Non-DIPA', 'DIPA dan Non-DIPA'],
+
+    'status_tarif' => ['Full Tarif', 'Diskon 5%', 'Diskon 10%', 'Diskon 15%', 'Diskon Maksimal', 'Subsidi', 'In-kind contribution'],
+
+    'status_peminjaman' => ['Dipinjam', 'Dikembalikan'],
+
     'kategori_kemitraan' => ['MoU', 'MoA'],
 
     'status_kemitraan' => ['Baru', 'Perpanjangan'],
 
     'jenis_pelayanan' => ['Analisis Biokimia', 'Analisis Antropometri', 'Analisis Dietary'],
-
-    'status_tarif' => ['Full tarif', 'Diskon 5%', 'Diskon 10%', 'Diskon 15%', 'Diskon Maksimal', 'Subsidi', 'In-kind contribution']
 ];
