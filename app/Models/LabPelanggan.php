@@ -32,6 +32,7 @@ class LabPelanggan extends Model
     public function peminjamanAlat()
     {
         $this->hasMany(PeminjamanAlat::class);
+    }
 
     public function labPraAnalisa()
     {
