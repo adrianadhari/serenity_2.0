@@ -6,8 +6,11 @@ use App\Models\Employee;
 use App\Models\Institution;
 use App\Models\Internship;
 use App\Models\Kegiatan;
+use App\Models\LabPegawai;
 use App\Models\LabPelanggan;
+use App\Models\LabPraAnalisa;
 use App\Models\Participant;
+use App\Models\Partnership;
 use App\Models\Publication;
 use App\Models\Research;
 use App\Models\School;
@@ -45,5 +48,8 @@ class DatabaseSeeder extends Seeder
         Training::factory(20)->create();
         Employee::factory(200)->create();
         LabPelanggan::factory(20)->create();
+        LabPegawai::factory(20)->create();
+        Partnership::factory(20)->has(Institution::factory(2))->create();
+        LabPraAnalisa::factory(20)->create();
     }
 }

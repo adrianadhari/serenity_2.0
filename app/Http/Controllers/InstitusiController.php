@@ -86,9 +86,9 @@ class InstitusiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(InstitutionUpdateRequest $request, string $id): RedirectResponse
+    public function update(InstitutionUpdateRequest $request, $kode): RedirectResponse
     {
-        $institution = Institution::where('kode', $id)->first();
+        $institution = Institution::where('kode', $kode)->firstOrFail();
         $institution->update($request->all());
         return redirect()->route('institusi.index')->with('message', 'Institusi Berhasil Diperbarui!');
     }

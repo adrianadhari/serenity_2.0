@@ -33,4 +33,9 @@ class Institution extends Model
     {
         return $this->hasMany(PesertaKegiatan::class);
     }
+
+    public function partnerships()
+    {
+        return $this->belongsToMany(Partnership::class);
+    }
 }

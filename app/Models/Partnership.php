@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LabPelanggan extends Model
+class Partnership extends Model
 {
     use HasFactory;
 
@@ -23,18 +23,14 @@ class LabPelanggan extends Model
     private static function generateUniqueCode()
     {
         do {
-            $code = 'LP' . time();
+            $code = 'PRT' . time();
         } while (self::where('kode', $code)->exists());
 
         return $code;
     }
 
-    public function peminjamanAlat()
+    public function institutions()
     {
-        $this->hasMany(PeminjamanAlat::class);
-
-    public function labPraAnalisa()
-    {
-        return $this->hasMany(LabPraAnalisa::class);
+        return $this->belongsToMany(Institution::class);
     }
 }

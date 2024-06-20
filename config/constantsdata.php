@@ -69,5 +69,11 @@ return [
 
     'status_tarif' => ['Full Tarif', 'Diskon 5%', 'Diskon 10%', 'Diskon 15%', 'Diskon Maksimal', 'Subsidi', 'In-kind contribution'],
 
-    'status_peminjaman' => ['Dipinjam', 'Dikembalikan']
+    'status_peminjaman' => ['Dipinjam', 'Dikembalikan'],
+
+    'kategori_kemitraan' => ['MoU', 'MoA'],
+
+    'status_kemitraan' => ['Baru', 'Perpanjangan'],
+
+    'jenis_pelayanan' => ['Analisis Biokimia', 'Analisis Antropometri', 'Analisis Dietary'],
 ];

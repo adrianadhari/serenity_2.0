@@ -5,9 +5,12 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\LabPegawaiController;
 use App\Http\Controllers\LabPelangganController;
+use App\Http\Controllers\LabPraAnalisaController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PeminjamanAlatController;
+use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PesertaKegiatanController;
 use App\Http\Controllers\ProfileController;
@@ -112,11 +115,38 @@ Route::middleware('auth')->group(function () {
             Route::post('/multiple-delete', [ResearchController::class, 'multipleDelete'])->name('multipleDelete');
         });
 
+        Route::resource('/kemitraan', PartnershipController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('kemitraan')->name('kemitraan.')->group(function () {
+            Route::post('/multiple-delete', [PartnershipController::class, 'multipleDelete'])->name('multipleDelete');
+        });
+
         Route::prefix('lab')->name('lab.')->group(function () {
             Route::resource('/pelanggan', LabPelangganController::class)->except([
                 'show', 'destroy'
             ]);
             Route::post('/pelanggan/multiple-delete', [LabPelangganController::class, 'multipleDelete'])->name('pelanggan.multipleDelete');
+
+            Route::resource('/pegawai', LabPegawaiController::class)->except([
+                'show', 'destroy'
+            ]);
+            Route::post('/pegawai/multiple-delete', [LabPegawaiController::class, 'multipleDelete'])->name('pegawai.multipleDelete');
+
+            Route::resource('/pra-analisa', LabPraAnalisaController::class)->except(['destroy']);
+            Route::prefix('pra-analisa')->name('pra-analisa.')->group(function () {
+                Route::post('/multiple-delete', [LabPraAnalisaController::class, 'multipleDelete'])->name('multipleDelete');
+            });
+          
+          Route::resource('/alat', AlatController::class)->except([
+                'show', 'destroy'
+            ]);
+            Route::post('/alat/multiple-delete', [AlatController::class, 'multipleDelete'])->name('alat.multipleDelete');
+
+            Route::resource('/peminjaman', PeminjamanAlatController::class)->except([
+                'show', 'destroy'
+            ]);
+            Route::post('/peminjaman/multiple-delete', [PeminjamanAlatController::class, 'multipleDelete'])->name('peminjaman.multipleDelete');
         });
 
         Route::resource('/pelatihan', TrainingController::class)->except([
@@ -129,23 +159,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('/pegawai', EmployeeController::class)->except(['destroy']);
         Route::prefix('pegawai')->name('pegawai.')->group(function () {
             Route::post('/multiple-delete', [EmployeeController::class, 'multipleDelete'])->name('multipleDelete');
-        });
-
-        Route::prefix('lab')->name('lab.')->group(function () {
-            Route::resource('/pelanggan', LabPelangganController::class)->except([
-                'show', 'destroy'
-            ]);
-            Route::post('/pelanggan/multiple-delete', [LabPelangganController::class, 'multipleDelete'])->name('pelanggan.multipleDelete');
-
-            Route::resource('/alat', AlatController::class)->except([
-                'show', 'destroy'
-            ]);
-            Route::post('/alat/multiple-delete', [AlatController::class, 'multipleDelete'])->name('alat.multipleDelete');
-
-            Route::resource('/peminjaman', PeminjamanAlatController::class)->except([
-                'show', 'destroy'
-            ]);
-            Route::post('/peminjaman/multiple-delete', [PeminjamanAlatController::class, 'multipleDelete'])->name('peminjaman.multipleDelete');
         });
     });
 });
