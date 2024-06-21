@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('lab_tenders', function (Blueprint $table) {
             $table->id();
-            $table->string('no_surat')->unique();
+            $table->string('no_surat')->nullable()->unique();
             $table->string('parameter_uji');
             $table->string('jenis_sampel');
             $table->string('metode');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('bahan');
             $table->boolean('qc');
             $table->boolean('kondisi_akomodasi');
-            $table->text('kesimpulan');
+            $table->string('kesimpulan');
             $table->foreignId('lab_pra_analisa_id')->constrained('lab_pra_analisas')->onDelete('cascade');
             $table->timestamps();
         });

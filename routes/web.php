@@ -7,6 +7,7 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LabPegawaiController;
 use App\Http\Controllers\LabPelangganController;
 use App\Http\Controllers\LabPraAnalisaController;
+use App\Http\Controllers\LabTenderController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\PesertaController;
@@ -134,6 +135,12 @@ Route::middleware('auth')->group(function () {
             Route::resource('/pra-analisa', LabPraAnalisaController::class)->except(['destroy']);
             Route::prefix('pra-analisa')->name('pra-analisa.')->group(function () {
                 Route::post('/multiple-delete', [LabPraAnalisaController::class, 'multipleDelete'])->name('multipleDelete');
+
+                Route::prefix('{id}/lab-tender')->name('lab-tender.')->group(function () {
+                    Route::post('/store', [LabTenderController::class, 'store'])->name('store');
+                    Route::post('/{tender}/update', [LabTenderController::class, 'update'])->name('update');
+                    Route::post('/multiple-delete', [LabTenderController::class, 'multipleDelete'])->name('multipleDelete');
+                });
             });
         });
 

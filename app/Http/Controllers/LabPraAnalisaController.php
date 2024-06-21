@@ -86,7 +86,7 @@ class LabPraAnalisaController extends Controller
      */
     public function show(string $id): Response
     {
-        $detailData = LabPraAnalisa::where('kode', $id)->with('labPelanggans')->first();
+        $detailData = LabPraAnalisa::where('kode', $id)->with('labPelanggans', 'labSppcs', 'labTenders', 'labAgendas')->first();
 
         if (!$detailData) {
             abort(404);

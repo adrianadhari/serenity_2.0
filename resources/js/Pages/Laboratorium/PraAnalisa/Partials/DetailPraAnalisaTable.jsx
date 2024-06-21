@@ -16,7 +16,6 @@ export default function DetailPraAnalisaTable({ detailData }) {
         sppc,
         buku_agenda,
         contoh_uji,
-        lab_pelanggans,
         created_at,
     } = detailData;
 
@@ -170,80 +169,6 @@ export default function DetailPraAnalisaTable({ detailData }) {
                     </tr>
                 </tbody>
             </table>
-
-            <details className="collapse collapse-arrow bg-gray-100 mt-2">
-                <summary className="collapse-title font-semibold">
-                    Data Pelanggan
-                </summary>
-                <table className="table-auto mx-4 mb-4">
-                    <tbody>
-                        <tr>
-                            <td className="font-bold">Kode Pelanggan</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">{lab_pelanggans.kode}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">Instansi</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">{lab_pelanggans.instansi}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">Nama Instansi</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">
-                                {lab_pelanggans.nama_instansi}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">Nama Pelanggan</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">
-                                {lab_pelanggans.nama_pelanggan}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">Jenis Kelamin</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">
-                                {lab_pelanggans.jenis_kelamin}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">Tanggal Lahir</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">
-                                {moment(lab_pelanggans.tgl_lahir).format(
-                                    "D/MM/YYYY"
-                                )}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">No. Telp</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">{lab_pelanggans.telp}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">Email</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">{lab_pelanggans.email}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">Alamat</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">{lab_pelanggans.alamat}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-bold">Tanggal Registrasi</td>
-                            <td className="p-2">:</td>
-                            <td className="p-2">
-                                {moment(lab_pelanggans.created_at).format(
-                                    "D/MM/YYYY"
-                                )}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </details>
         </div>
     );
 }
