@@ -10,7 +10,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import HeaderLabTable from "@/Components/HeaderLabTable";
 import moment from "moment";
 
-export default function SppcTable({ sppc }) {
+export default function SppcTable({ sppc, kodeLab }) {
     const [dataSppc, setDataSppc] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
     const [selectedDatas, setSelectedDatas] = useState(null);
@@ -26,13 +26,13 @@ export default function SppcTable({ sppc }) {
     };
 
     const { setData, post, processing } = useForm({
-        codes: [],
+        ids: [],
     });
 
-    const deleteTender = (e) => {
+    const deleteSppc = (e) => {
         e.preventDefault();
 
-        post(route("lab.pra-analisa.lab-tender.multipleDelete"), {
+        post(route("lab.pra-analisa.lab-sppc.multipleDelete", kodeLab), {
             preserveScroll: true,
             onSuccess: () => setDeleteModal(false),
             onFinish: () => {
@@ -91,8 +91,8 @@ export default function SppcTable({ sppc }) {
     const onSelectionChange = (e) => {
         setSelectedDatas(e.value);
         setData(
-            "codes",
-            e.value.map((item) => item.kode)
+            "ids",
+            e.value.map((item) => item.id)
         );
     };
 
@@ -113,7 +113,13 @@ export default function SppcTable({ sppc }) {
             <Toast ref={toast} />
 
             <div className="form-card shadow-lg mt-6">
-                <HeaderLabTable title="Surat Permohonan Pemeriksaan Contoh" />
+                <HeaderLabTable
+                    title="Surat Permohonan Pemeriksaan Contoh"
+                    inputLink={route(
+                        "lab.pra-analisa.lab-sppc.create",
+                        kodeLab
+                    )}
+                />
 
                 <DataTable
                     className="mt-4"
@@ -196,7 +202,7 @@ export default function SppcTable({ sppc }) {
                         <PrimaryButton
                             className="mt-2 px-4 py-2 btn-danger"
                             disabled={processing}
-                            onClick={deleteTender}
+                            onClick={deleteSppc}
                         >
                             Ya, Hapus
                             <Spinner isLoading={processing} />

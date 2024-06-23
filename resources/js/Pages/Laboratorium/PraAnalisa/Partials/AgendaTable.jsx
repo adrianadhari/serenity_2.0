@@ -10,7 +10,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import HeaderLabTable from "@/Components/HeaderLabTable";
 import moment from "moment";
 
-export default function AgendaTable({ agenda }) {
+export default function AgendaTable({ agenda, kodeLab }) {
     const [dataAgenda, setDataAgenda] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
     const [selectedDatas, setSelectedDatas] = useState(null);
@@ -26,13 +26,13 @@ export default function AgendaTable({ agenda }) {
     };
 
     const { setData, post, processing } = useForm({
-        codes: [],
+        ids: [],
     });
 
-    const deleteTender = (e) => {
+    const deleteAgenda = (e) => {
         e.preventDefault();
 
-        post(route("lab.pra-analisa.lab-tender.multipleDelete"), {
+        post(route("lab.pra-analisa.lab-agenda.multipleDelete", kodeLab), {
             preserveScroll: true,
             onSuccess: () => setDeleteModal(false),
             onFinish: () => {
@@ -91,8 +91,8 @@ export default function AgendaTable({ agenda }) {
     const onSelectionChange = (e) => {
         setSelectedDatas(e.value);
         setData(
-            "codes",
-            e.value.map((item) => item.kode)
+            "ids",
+            e.value.map((item) => item.id)
         );
     };
 
@@ -150,7 +150,13 @@ export default function AgendaTable({ agenda }) {
             <Toast ref={toast} />
 
             <div className="form-card shadow-lg mt-6">
-                <HeaderLabTable title="Buku Agenda Penerimaan Contoh" />
+                <HeaderLabTable
+                    title="Buku Agenda Penerimaan Contoh"
+                    inputLink={route(
+                        "lab.pra-analisa.lab-agenda.create",
+                        kodeLab
+                    )}
+                />
 
                 <DataTable
                     className="mt-4"
@@ -268,7 +274,7 @@ export default function AgendaTable({ agenda }) {
                         <PrimaryButton
                             className="mt-2 px-4 py-2 btn-danger"
                             disabled={processing}
-                            onClick={deleteTender}
+                            onClick={deleteAgenda}
                         >
                             Ya, Hapus
                             <Spinner isLoading={processing} />

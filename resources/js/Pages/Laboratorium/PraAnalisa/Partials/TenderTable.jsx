@@ -12,7 +12,7 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import HeaderLabTable from "@/Components/HeaderLabTable";
 
-export default function TenderTable({ tenders }) {
+export default function TenderTable({ tenders, kodeLab }) {
     const [dataTenders, setDataTenders] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
     const [selectedDatas, setSelectedDatas] = useState(null);
@@ -28,13 +28,13 @@ export default function TenderTable({ tenders }) {
     };
 
     const { setData, post, processing } = useForm({
-        codes: [],
+        ids: [],
     });
 
     const deleteTender = (e) => {
         e.preventDefault();
 
-        post(route("lab.pra-analisa.lab-tender.multipleDelete"), {
+        post(route("lab.pra-analisa.lab-tender.multipleDelete", kodeLab), {
             preserveScroll: true,
             onSuccess: () => setDeleteModal(false),
             onFinish: () => {
@@ -93,8 +93,8 @@ export default function TenderTable({ tenders }) {
     const onSelectionChange = (e) => {
         setSelectedDatas(e.value);
         setData(
-            "codes",
-            e.value.map((item) => item.kode)
+            "ids",
+            e.value.map((item) => item.id)
         );
     };
 
@@ -136,7 +136,13 @@ export default function TenderTable({ tenders }) {
             <Toast ref={toast} />
 
             <div className="form-card shadow-lg mt-6">
-                <HeaderLabTable title="Kaji Ulang Permintaan, Tender, dan Kontrak" />
+                <HeaderLabTable
+                    title="Kaji Ulang Permintaan, Tender, dan Kontrak"
+                    inputLink={route(
+                        "lab.pra-analisa.lab-tender.create",
+                        kodeLab
+                    )}
+                />
 
                 <EditNomorSurat />
 

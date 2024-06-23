@@ -7,7 +7,7 @@ export default function HeaderLabTable({ title, inputLink, printLink }) {
 
             <div className="flex md:items-center gap-2 flex-col md:flex-row">
                 <Link
-                    href=""
+                    href={inputLink}
                     className="justify-center flex items-center btn-success px-4"
                 >
                     <svg

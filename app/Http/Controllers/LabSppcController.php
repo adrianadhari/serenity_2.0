@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LabSppc;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class LabSppcController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return Inertia::render('Laboratorium/PraAnalisa/CreateSppc');
     }
 
     /**
@@ -31,34 +25,15 @@ class LabSppcController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function multipleDelete(Request $request)
     {
-        //
+        $ids = $request->input('ids');
+        if (is_array($ids) && count($ids) > 0) {
+            LabSppc::whereIn('id', $ids)->delete();
+            return redirect()->back();
+        }
+        return redirect()->back();
     }
 }

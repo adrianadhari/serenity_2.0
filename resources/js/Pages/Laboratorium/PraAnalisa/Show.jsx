@@ -25,9 +25,18 @@ export default function ShowPraAnalisa({ auth, detailData }) {
                         <DetailPelanggan
                             pelanggan={detailData.lab_pelanggans}
                         />
-                        <TenderTable tenders={detailData.lab_tenders} />
-                        <SppcTable sppc={detailData.lab_sppcs} />
-                        <AgendaTable agenda={detailData.lab_agendas} />
+                        <TenderTable
+                            tenders={detailData.lab_tenders}
+                            kodeLab={detailData.kode}
+                        />
+                        <SppcTable
+                            sppc={detailData.lab_sppcs}
+                            kodeLab={detailData.kode}
+                        />
+                        <AgendaTable
+                            agenda={detailData.lab_agendas}
+                            kodeLab={detailData.kode}
+                        />
                     </div>
                 </div>
             </div>

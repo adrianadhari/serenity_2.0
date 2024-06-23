@@ -2,46 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LabTender;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class LabTenderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return Inertia::render('Laboratorium/PraAnalisa/CreateTender');
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
     }
@@ -57,8 +35,13 @@ class LabTenderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function multipleDelete(Request $request)
     {
-        //
+        $ids = $request->input('ids');
+        if (is_array($ids) && count($ids) > 0) {
+            LabTender::whereIn('id', $ids)->delete();
+            return redirect()->back();
+        }
+        return redirect()->back();
     }
 }
