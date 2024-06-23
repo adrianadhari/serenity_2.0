@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('kode')->unique();
             $table->date('tanggal_pasca_analisa');
-            $table->string('invoice_pelunasan');
-            $table->string('bukti_pembayaran');
-            $table->string('lembar_hasil_uji');
+            $table->string('invoice_pelunasan')->nullable();
+            $table->string('bukti_pembayaran')->nullable();
+            $table->string('lembar_hasil_uji')->nullable();
             $table->foreignId('lab_pra_analisa_id');
             $table->timestamps();
         });
