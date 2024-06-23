@@ -66,42 +66,42 @@ class PeminjamanAlatController extends Controller
 
         $suratMasuk = $request->file('surat_masuk');
         if ($suratMasuk) {
-            $fileName = $suratMasuk->getClientOriginalName();
+            $fileName = time() . $suratMasuk->getClientOriginalName();
             $suratMasuk->storeAs('public/peminjaman-alat', $fileName);
             $peminjaman['surat_masuk'] = $fileName;
         }
 
         $suratBalasan = $request->file('surat_balasan');
         if ($suratBalasan) {
-            $fileName = $suratBalasan->getClientOriginalName();
+            $fileName = time() . $suratBalasan->getClientOriginalName();
             $suratBalasan->storeAs('public/peminjaman-alat', $fileName);
             $peminjaman['surat_balasan'] = $fileName;
         }
 
         $invoicePelunasan = $request->file('invoice_pelunasan');
         if ($invoicePelunasan) {
-            $fileName = $invoicePelunasan->getClientOriginalName();
+            $fileName = time() . $invoicePelunasan->getClientOriginalName();
             $invoicePelunasan->storeAs('public/peminjaman-alat', $fileName);
             $peminjaman['invoice_pelunasan'] = $fileName;
         }
 
         $buktiPembayaran = $request->file('bukti_pembayaran');
         if ($buktiPembayaran) {
-            $fileName = $buktiPembayaran->getClientOriginalName();
+            $fileName = time() . $buktiPembayaran->getClientOriginalName();
             $buktiPembayaran->storeAs('public/peminjaman-alat', $fileName);
             $peminjaman['bukti_pembayaran'] = $fileName;
         }
 
         $kontrak_peminjaman_alat = $request->file('kontrak_peminjaman_alat');
         if ($kontrak_peminjaman_alat) {
-            $fileName = $kontrak_peminjaman_alat->getClientOriginalName();
+            $fileName = time() . $kontrak_peminjaman_alat->getClientOriginalName();
             $kontrak_peminjaman_alat->storeAs('public/peminjaman-alat', $fileName);
             $peminjaman['kontrak_peminjaman_alat'] = $fileName;
         }
 
         $form_serah_terima_alat = $request->file('form_serah_terima_alat');
         if ($form_serah_terima_alat) {
-            $fileName = $form_serah_terima_alat->getClientOriginalName();
+            $fileName = time() . $form_serah_terima_alat->getClientOriginalName();
             $form_serah_terima_alat->storeAs('public/peminjaman-alat', $fileName);
             $peminjaman['form_serah_terima_alat'] = $fileName;
         }
@@ -154,60 +154,49 @@ class PeminjamanAlatController extends Controller
             $request['tanggal_pengembalian'] = now();
         }
 
-        $suratMasuk = $request->file('surat_masuk');
-        $suratMasukFileName = $peminjaman->surat_masuk;
-        if ($suratMasuk) {
-            Storage::delete('public/peminjaman-alat/' . $suratMasukFileName);
-            $fileName = $suratMasuk->getClientOriginalName();
-            $suratMasuk->storeAs('public/peminjaman-alat', $fileName);
-            $peminjaman['surat_masuk'] = $fileName;
+        if ($request->hasFile('surat_masuk')) {
+            Storage::delete('public/peminjaman-alat/' . $peminjaman->surat_masuk);
+            $fileName = time() . $request->file('surat_masuk')->getClientOriginalName();
+            $request->file('surat_masuk')->storeAs('public/peminjaman-alat', $fileName);
+            $peminjaman->surat_masuk = $fileName;
         }
 
-        $suratBalasan = $request->file('surat_balasan');
-        $suratBalasanFileName = $peminjaman->surat_balasan;
-        if ($suratBalasan) {
-            Storage::delete('public/peminjaman-alat/' . $suratBalasanFileName);
-            $fileName = $suratBalasan->getClientOriginalName();
-            $suratBalasan->storeAs('public/peminjaman-alat', $fileName);
-            $peminjaman['surat_balasan'] = $fileName;
+        if ($request->hasFile('surat_balasan')) {
+            Storage::delete('public/peminjaman-alat/' . $peminjaman->surat_balasan);
+            $fileName = time() . $request->file('surat_balasan')->getClientOriginalName();
+            $request->file('surat_balasan')->storeAs('public/peminjaman-alat', $fileName);
+            $peminjaman->surat_balasan = $fileName;
         }
 
-        $invoicePelunasan = $request->file('invoice_pelunasan');
-        $invoicePelunasanFileName = $peminjaman->invoice_pelunasan;
-        if ($invoicePelunasan) {
-            Storage::delete('public/peminjaman-alat/' . $invoicePelunasanFileName);
-            $fileName = $invoicePelunasan->getClientOriginalName();
-            $invoicePelunasan->storeAs('public/peminjaman-alat', $fileName);
-            $peminjaman['invoice_pelunasan'] = $fileName;
+        if ($request->hasFile('invoice_pelunasan')) {
+            Storage::delete('public/peminjaman-alat/' . $peminjaman->invoice_pelunasan);
+            $fileName = time() . $request->file('invoice_pelunasan')->getClientOriginalName();
+            $request->file('invoice_pelunasan')->storeAs('public/peminjaman-alat', $fileName);
+            $peminjaman->invoice_pelunasan = $fileName;
         }
 
-        $buktiPembayaran = $request->file('bukti_pembayaran');
-        $buktiPembayaranFileName = $peminjaman->bukti_pembayaran;
-        if ($buktiPembayaran) {
-            Storage::delete('public/peminjaman-alat/' . $buktiPembayaranFileName);
-            $fileName = $buktiPembayaran->getClientOriginalName();
-            $buktiPembayaran->storeAs('public/peminjaman-alat', $fileName);
-            $peminjaman['bukti_pembayaran'] = $fileName;
+        if ($request->hasFile('bukti_pembayaran')) {
+            Storage::delete('public/peminjaman-alat/' . $peminjaman->bukti_pembayaran);
+            $fileName = time() . $request->file('bukti_pembayaran')->getClientOriginalName();
+            $request->file('bukti_pembayaran')->storeAs('public/peminjaman-alat', $fileName);
+            $peminjaman->bukti_pembayaran = $fileName;
         }
 
-        $kontrak_peminjaman_alat = $request->file('kontrak_peminjaman_alat');
-        $kontrak_peminjaman_alat_filename = $peminjaman->kontrak_peminjaman_alat;
-        if ($kontrak_peminjaman_alat) {
-            Storage::delete('public/peminjaman-alat/' . $kontrak_peminjaman_alat_filename);
-            $fileName = $kontrak_peminjaman_alat->getClientOriginalName();
-            $kontrak_peminjaman_alat->storeAs('public/peminjaman-alat', $fileName);
-            $peminjaman['kontrak_peminjaman_alat'] = $fileName;
+        if ($request->hasFile('kontrak_peminjaman_alat')) {
+            Storage::delete('public/peminjaman-alat/' . $peminjaman->kontrak_peminjaman_alat);
+            $fileName = time() . $request->file('kontrak_peminjaman_alat')->getClientOriginalName();
+            $request->file('kontrak_peminjaman_alat')->storeAs('public/peminjaman-alat', $fileName);
+            $peminjaman->kontrak_peminjaman_alat = $fileName;
         }
 
-        $form_serah_terima_alat = $request->file('form_serah_terima_alat');
-        $formSerahTerimaAlatFileName = $peminjaman->form_serah_terima_alat;
-        if ($form_serah_terima_alat) {
-            Storage::delete('public/peminjaman-alat/' . $formSerahTerimaAlatFileName);
-            $fileName = $form_serah_terima_alat->getClientOriginalName();
-            $form_serah_terima_alat->storeAs('public/peminjaman-alat', $fileName);
-            $peminjaman['form_serah_terima_alat'] = $fileName;
+        if ($request->hasFile('form_serah_terima_alat')) {
+            Storage::delete('public/peminjaman-alat/' . $peminjaman->form_serah_terima_alat);
+            $fileName = time() . $request->file('form_serah_terima_alat')->getClientOriginalName();
+            $request->file('form_serah_terima_alat')->storeAs('public/peminjaman-alat', $fileName);
+            $peminjaman->form_serah_terima_alat = $fileName;
         }
-        $peminjaman->update($request->except(['nama_alat', 'nama_pelanggan']));
+        $peminjaman->fill($request->except(['nama_alat', 'nama_pelanggan', 'surat_masuk', 'surat_balasan', 'invoice_pelunasan', 'bukti_pembayaran', 'kontrak_peminjaman_alat', 'form_serah_terima_alat']));
+        $peminjaman->save();
         return redirect()->route('lab.peminjaman.index')->with('message', 'Peminjaman Alat Berhasil Diperbarui!');
     }
 

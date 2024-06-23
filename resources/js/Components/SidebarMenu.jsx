@@ -200,11 +200,21 @@ export default function SidebarMenu({ user }) {
                                 >
                                     Data Pra Analisa
                                 </Dropdown.Link>
-                                <Dropdown.Link>Data Analisis</Dropdown.Link>
-                                <Dropdown.Link>
+                                <Dropdown.Link
+                                    href={route("lab.analisa.index")}
+                                >
+                                    Data Analisa
+                                </Dropdown.Link>
+                                <Dropdown.Link
+                                    href={route("lab.pasca-analisa.index")}
+                                >
                                     Data Pasca Analisa
                                 </Dropdown.Link>
-                                <Dropdown.Link href={route("lab.peminjaman.index")}>Peminjaman Alat</Dropdown.Link>
+                                <Dropdown.Link
+                                    href={route("lab.peminjaman.index")}
+                                >
+                                    Peminjaman Alat
+                                </Dropdown.Link>
                             </Dropdown.Content>
                         </Dropdown>
                     )}
