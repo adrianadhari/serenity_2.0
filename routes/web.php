@@ -5,6 +5,8 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\LabAnalisaController;
+use App\Http\Controllers\LabPascaAnalisaController;
 use App\Http\Controllers\LabAgendaController;
 use App\Http\Controllers\LabPegawaiController;
 use App\Http\Controllers\LabPelangganController;
@@ -159,8 +161,18 @@ Route::middleware('auth')->group(function () {
                     Route::post('/multiple-delete', [LabAgendaController::class, 'multipleDelete'])->name('multipleDelete');
                 });
             });
-          
-          Route::resource('/alat', AlatController::class)->except([
+
+            Route::resource('/analisa', LabAnalisaController::class)->except(['destroy']);
+            Route::prefix('analisa')->name('analisa.')->group(function () {
+                Route::post('/multiple-delete', [LabAnalisaController::class, 'multipleDelete'])->name('multipleDelete');
+            });
+
+            Route::resource('/pasca-analisa', LabPascaAnalisaController::class)->except(['destroy']);
+            Route::prefix('pasca-analisa')->name('pasca-analisa.')->group(function () {
+                Route::post('/multiple-delete', [LabPascaAnalisaController::class, 'multipleDelete'])->name('multipleDelete');
+            });
+
+            Route::resource('/alat', AlatController::class)->except([
                 'show', 'destroy'
             ]);
             Route::post('/alat/multiple-delete', [AlatController::class, 'multipleDelete'])->name('alat.multipleDelete');
