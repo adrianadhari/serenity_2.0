@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('sppc')->nullable();
             $table->string('buku_agenda')->nullable();
             $table->string('contoh_uji')->nullable();
+            $table->string('no_surat')->nullable()->unique();
             $table->foreignId('pelanggan_id')->constrained('lab_pelanggans')->onDelete('cascade');
             $table->timestamps();
         });

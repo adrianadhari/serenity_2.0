@@ -86,7 +86,7 @@ class LabPraAnalisaController extends Controller
      */
     public function show(string $id): Response
     {
-        $detailData = LabPraAnalisa::where('kode', $id)->with('labPelanggans')->first();
+        $detailData = LabPraAnalisa::where('kode', $id)->with('labPelanggans', 'labSppcs', 'labTenders', 'labAgendas')->first();
 
         if (!$detailData) {
             abort(404);
@@ -166,5 +166,19 @@ class LabPraAnalisaController extends Controller
             return redirect()->route('lab.pra-analisa.index');
         }
         return redirect()->route('lab.pra-analisa.index');
+    }
+
+    public function updateNoSurat(Request $request, $id)
+    {
+        $request->validate([
+            'no_surat' => ['required', 'string', 'max:255'],
+        ]);
+
+        $praAnalisa = LabPraAnalisa::where('kode', $id)->first();
+        $praAnalisa->update([
+            'no_surat' => $request->no_surat
+        ]);
+
+        return redirect()->back();
     }
 }
