@@ -30,7 +30,7 @@ return new class extends Migration
             $table->boolean('cup_gelap');
             $table->string('f80');
             $table->string('f20');
-            $table->text('keterangan');
+            $table->string('keterangan');
             $table->foreignId('lab_pra_analisa_id')->constrained('lab_pra_analisas')->onDelete('cascade');
             $table->timestamps();
         });

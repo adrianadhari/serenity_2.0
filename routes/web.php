@@ -7,9 +7,12 @@ use App\Http\Controllers\InstitusiController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LabAnalisaController;
 use App\Http\Controllers\LabPascaAnalisaController;
+use App\Http\Controllers\LabAgendaController;
 use App\Http\Controllers\LabPegawaiController;
 use App\Http\Controllers\LabPelangganController;
 use App\Http\Controllers\LabPraAnalisaController;
+use App\Http\Controllers\LabSppcController;
+use App\Http\Controllers\LabTenderController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\PeminjamanAlatController;
 use App\Http\Controllers\PartnershipController;
@@ -138,6 +141,25 @@ Route::middleware('auth')->group(function () {
             Route::resource('/pra-analisa', LabPraAnalisaController::class)->except(['destroy']);
             Route::prefix('pra-analisa')->name('pra-analisa.')->group(function () {
                 Route::post('/multiple-delete', [LabPraAnalisaController::class, 'multipleDelete'])->name('multipleDelete');
+                Route::post('/{id}/update-no-surat', [LabPraAnalisaController::class, 'updateNoSurat'])->name('updateNoSurat');
+
+                Route::prefix('{id}/lab-tender')->name('lab-tender.')->group(function () {
+                    Route::get('/store', [LabTenderController::class, 'create'])->name('create');
+                    Route::post('/store', [LabTenderController::class, 'store'])->name('store');
+                    Route::post('/multiple-delete', [LabTenderController::class, 'multipleDelete'])->name('multipleDelete');
+                });
+
+                Route::prefix('{id}/lab-sppc')->name('lab-sppc.')->group(function () {
+                    Route::get('/store', [LabSppcController::class, 'create'])->name('create');
+                    Route::post('/store', [LabSppcController::class, 'store'])->name('store');
+                    Route::post('/multiple-delete', [LabSppcController::class, 'multipleDelete'])->name('multipleDelete');
+                });
+
+                Route::prefix('{id}/lab-agenda')->name('lab-agenda.')->group(function () {
+                    Route::get('/store', [LabAgendaController::class, 'create'])->name('create');
+                    Route::post('/store', [LabAgendaController::class, 'store'])->name('store');
+                    Route::post('/multiple-delete', [LabAgendaController::class, 'multipleDelete'])->name('multipleDelete');
+                });
             });
 
             Route::resource('/analisa', LabAnalisaController::class)->except(['destroy']);
