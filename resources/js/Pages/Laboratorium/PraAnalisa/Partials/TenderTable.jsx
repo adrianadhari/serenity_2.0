@@ -12,7 +12,7 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import HeaderLabTable from "@/Components/HeaderLabTable";
 
-export default function TenderTable({ tenders, kodeLab }) {
+export default function TenderTable({ tenders, kodeLab, noSurat }) {
     const [dataTenders, setDataTenders] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
     const [selectedDatas, setSelectedDatas] = useState(null);
@@ -144,7 +144,7 @@ export default function TenderTable({ tenders, kodeLab }) {
                     )}
                 />
 
-                <EditNomorSurat />
+                <EditNomorSurat kodeLab={kodeLab} no_surat={noSurat} />
 
                 <DataTable
                     value={dataTenders}
@@ -236,18 +236,41 @@ export default function TenderTable({ tenders, kodeLab }) {
     );
 }
 
-const EditNomorSurat = () => {
+const EditNomorSurat = ({ kodeLab, no_surat }) => {
+    const toast = useRef(null);
+    const { data, setData, post, processing, errors } = useForm({
+        no_surat,
+    });
+
+    const handleBlur = () => {
+        post(route("lab.pra-analisa.updateNoSurat", kodeLab), {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.current.show({
+                    severity: "success",
+                    summary: "No. Surat Permohonan berhasil diupdate",
+                });
+            },
+        });
+    };
+
     return (
         <div className="my-4 md:mt-0">
+            <Toast ref={toast} />
+
             <InputLabel value="No. Surat Permohonan" />
 
             <TextInput
+                value={data.no_surat}
+                onChange={(e) => setData("no_surat", e.target.value)}
+                onBlur={handleBlur}
+                disabled={processing}
                 className="md:w-1/3"
                 type="text"
                 placeholder="Masukkan nomor surat permohonan"
             />
 
-            <InputError />
+            <InputError message={errors.no_surat} />
         </div>
     );
 };

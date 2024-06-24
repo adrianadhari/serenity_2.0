@@ -125,8 +125,8 @@ export default function AgendaTable({ agenda, kodeLab }) {
         return checkTemplate(rowData.lipemik);
     };
 
-    const iketrusTemplate = (rowData) => {
-        return checkTemplate(rowData.iketrus);
+    const ikterusTemplate = (rowData) => {
+        return checkTemplate(rowData.ikterus);
     };
 
     const cupAsamTemplate = (rowData) => {
@@ -218,7 +218,7 @@ export default function AgendaTable({ agenda, kodeLab }) {
                         field="ikterus"
                         header="Ikterus"
                         dataType="boolean"
-                        body={iketrusTemplate}
+                        body={ikterusTemplate}
                     />
                     <Column sortable field="volume" header="Volume" />
                     <Column

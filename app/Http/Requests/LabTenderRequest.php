@@ -11,7 +11,7 @@ class LabTenderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class LabTenderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'parameter_uji' => ['required', 'max:255', 'string'],
+            'jenis_sampel' => ['required', 'max:255', 'string'],
+            'metode' => ['required', 'max:255', 'string'],
+            'peralatan' => ['required', 'max:255', 'string'],
+            'personel' => ['required', 'boolean'],
+            'bahan' => ['required', 'boolean'],
+            'qc' => ['required', 'boolean'],
+            'kondisi_akomodasi' => ['required', 'boolean'],
+            'kesimpulan' => ['required', 'max:255', 'string'],
         ];
     }
 }

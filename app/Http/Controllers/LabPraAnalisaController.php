@@ -167,4 +167,18 @@ class LabPraAnalisaController extends Controller
         }
         return redirect()->route('lab.pra-analisa.index');
     }
+
+    public function updateNoSurat(Request $request, $id)
+    {
+        $request->validate([
+            'no_surat' => ['required', 'string', 'max:255'],
+        ]);
+
+        $praAnalisa = LabPraAnalisa::where('kode', $id)->first();
+        $praAnalisa->update([
+            'no_surat' => $request->no_surat
+        ]);
+
+        return redirect()->back();
+    }
 }

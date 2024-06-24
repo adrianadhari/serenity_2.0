@@ -11,7 +11,7 @@ class LabSppcRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class LabSppcRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'kode' => ['required', 'max:255', 'string'],
+            'jenis_sampel' => ['required', 'max:255', 'string'],
+            'unit_kemasan' => ['required', 'max:255', 'string'],
+            'jumlah_sampel' => ['required', 'integer'],
+            'parameter_uji' => ['required', 'max:255', 'string'],
+            'metode_pengujian' => ['required', 'max:255', 'string'],
+            'no_analisis' => ['required', 'integer'],
+            'tgl_penerimaan' => ['required', 'date'],
+            'tgl_selesai_pengujian' => ['required', 'date'],
         ];
     }
 }

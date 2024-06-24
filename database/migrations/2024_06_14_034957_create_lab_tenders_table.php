@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('lab_tenders', function (Blueprint $table) {
             $table->id();
-            $table->string('no_surat')->nullable()->unique();
             $table->string('parameter_uji');
             $table->string('jenis_sampel');
             $table->string('metode');
