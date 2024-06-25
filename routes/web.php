@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlatController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\InstitusiController;
@@ -25,16 +26,13 @@ use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TrainingController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
     return redirect('login');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -97,9 +95,7 @@ Route::middleware('auth')->group(function () {
             'show', 'destroy'
         ]);
         Route::post('/publikasi/multiple-delete', [PublikasiController::class, 'multipleDelete'])->name('publikasi.multipleDelete');
-    });
 
-    Route::middleware('admin')->group(function () {
         Route::resource('/kegiatan', KegiatanController::class)->except(['destroy']);
         Route::name('kegiatan.')->group(function () {
             Route::post('kegiatan/multiple-delete', [KegiatanController::class, 'multipleDelete'])->name('multipleDelete');
@@ -127,6 +123,20 @@ Route::middleware('auth')->group(function () {
             Route::post('/multiple-delete', [PartnershipController::class, 'multipleDelete'])->name('multipleDelete');
         });
 
+        Route::resource('/pelatihan', TrainingController::class)->except([
+            'show', 'destroy'
+        ]);
+        Route::prefix('pelatihan')->name('pelatihan.')->group(function () {
+            Route::post('/multiple-delete', [TrainingController::class, 'multipleDelete'])->name('multipleDelete');
+        });
+
+        Route::resource('/pegawai', EmployeeController::class)->except(['destroy']);
+        Route::prefix('pegawai')->name('pegawai.')->group(function () {
+            Route::post('/multiple-delete', [EmployeeController::class, 'multipleDelete'])->name('multipleDelete');
+        });
+    });
+
+    Route::middleware('labOrAdmin')->group(function () {
         Route::prefix('lab')->name('lab.')->group(function () {
             Route::resource('/pelanggan', LabPelangganController::class)->except([
                 'show', 'destroy'
@@ -182,18 +192,6 @@ Route::middleware('auth')->group(function () {
             ]);
             Route::post('/peminjaman/multiple-delete', [PeminjamanAlatController::class, 'multipleDelete'])->name('peminjaman.multipleDelete');
         });
-
-        Route::resource('/pelatihan', TrainingController::class)->except([
-            'show', 'destroy'
-        ]);
-        Route::prefix('pelatihan')->name('pelatihan.')->group(function () {
-            Route::post('/multiple-delete', [TrainingController::class, 'multipleDelete'])->name('multipleDelete');
-        });
-
-        Route::resource('/pegawai', EmployeeController::class)->except(['destroy']);
-        Route::prefix('pegawai')->name('pegawai.')->group(function () {
-            Route::post('/multiple-delete', [EmployeeController::class, 'multipleDelete'])->name('multipleDelete');
-        });
     });
 });
 
@@ -201,6 +199,12 @@ Route::prefix('api')->group(function () {
     Route::get('/get-sekolah', [PesertaKegiatanController::class, 'getSekolah']);
     Route::get('/get-peserta', [PesertaKegiatanController::class, 'getPeserta']);
     Route::get('/jumlah-peserta', [PesertaKegiatanController::class, 'jumlahPeserta']);
+
+    Route::prefix('search')->group(function () {
+        Route::get('/dokumen', [DashboardController::class, 'searchDocument']);
+        Route::get('/penelitian', [DashboardController::class, 'searchResearch']);
+        Route::get('/peserta', [DashboardController::class, 'searchParticipant']);
+    });
 });
 
 require __DIR__ . '/auth.php';
