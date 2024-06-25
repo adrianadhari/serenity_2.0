@@ -13,7 +13,7 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    private $roleData = ['admin', 'unit'];
+    private $roleData = ['admin', 'unit', 'laboratorium'];
 
     public function index(): Response
     {
