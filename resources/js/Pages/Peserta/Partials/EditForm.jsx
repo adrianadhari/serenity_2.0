@@ -51,8 +51,6 @@ export default function EditForm({
         institusi: participantDetail.institution.nama,
     });
 
-    console.log(data);
-
     const updateParticipant = async (e) => {
         e.preventDefault();
 
