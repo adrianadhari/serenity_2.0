@@ -51,8 +51,7 @@ class DashboardController extends Controller
                     $query->where('tgl_awal', '<=', $start_date)
                         ->where('tgl_akhir', '>=', $end_date);
                 });
-        })->get();
-
+        })->with('institutions')->get();
 
         return response()->json($selectedData);
     }
